@@ -11,24 +11,34 @@ return {
     enabled = false,
   },
   {
+    "catppuccin/nvim",
+    enabled = false,
+  },
+  {
+    "echasnovski/mini.pairs",
+    enabled = false,
+  },
+  {
+    "echasnovski/mini.bufremove",
+    enabled = false,
+  },
+
+  {
+    "windwp/nvim-autopairs",
+    opts = {
+      map_bs = true,
+      map_cr = true,
+      map_c_h = true,
+      disable_in_macro = true,
+    },
+  },
+
+  {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = false,
   },
 
-  -- Disable builtin map so supertab works
-  {
-    "L3MON4D3/LuaSnip",
-    keys = function()
-      return {}
-    end,
-  },
-
   "nvim-lua/plenary.nvim",
-
-  -- {
-  --   "monkoose/matchparen.nvim",
-  --   config = true,
-  -- },
 
   {
     "rcarriga/nvim-notify",
@@ -131,8 +141,6 @@ return {
     config = true,
   },
 
-  "simeji/winresizer",
-
   {
     "nvim-tree/nvim-tree.lua",
     dependencies = {
@@ -145,7 +153,7 @@ return {
       local nvim_tree = require("nvim-tree")
       local tree_cb = require("nvim-tree.config").nvim_tree_callback
       return {
-        disable_netrw = false,
+        disable_netrw = true,
         hijack_netrw = false,
         respect_buf_cwd = true,
         sync_root_with_cwd = true,
@@ -205,8 +213,6 @@ return {
     },
   },
 
-  "kassio/neoterm",
-
   {
     "akinsho/toggleterm.nvim",
     opts = {
@@ -220,6 +226,7 @@ return {
       persist_size = true,
       direction = "float",
       close_on_exit = true,
+      autochdir = true,
       shell = vim.o.shell,
       float_opts = { border = "curved" },
     },

@@ -6,13 +6,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
-require("config.statuscolumn")
+-- require("config.statuscolumn")
 
 require("lazy").setup({
   spec = {
-    { "LazyVim/LazyVim" },
-    { import = "lazyvim.plugins" },
+    {
+      "LazyVim/LazyVim",
+      import = "lazyvim.plugins",
+    },
     { import = "plugins" },
+    { import = "plugins.lsp" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -24,7 +27,13 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   install = { colorscheme = { "launch_scout", "tokyonight" } },
-  checker = { enabled = true }, -- automatically check for plugin updates
+  checker = {
+    -- automatically check for plugin updates
+    enabled = true,
+    concurrency = nil, ---@type number? set to 1 to check for updates very slowly
+    notify = false, -- get a notification when new updates are found
+    frequency = 3600, -- check for updates every hour
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -32,7 +41,7 @@ require("lazy").setup({
         "gzip",
         -- "matchit",
         -- "matchparen",
-        -- "netrwPlugin",
+        "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",

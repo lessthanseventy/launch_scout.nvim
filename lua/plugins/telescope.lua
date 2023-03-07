@@ -31,8 +31,9 @@ return {
       "nvim-telescope/telescope-symbols.nvim",
     },
     keys = {
+      { "<leader>,", false },
+      { "<leader>:", false },
       { "<leader>b", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
-      { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
       { "<leader><space>", "<cmd>Telescope commands<cr>", desc = "Commands" },
       -- find
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
@@ -129,7 +130,7 @@ return {
               ["<C-l>"] = actions.complete_tag,
               ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
               ["<c-t>"] = trouble.open_with_trouble,
-              ["<esc><esc>"] = actions.close,
+              ["qq"] = actions.close,
             },
             n = {
               ["q"] = actions.close,

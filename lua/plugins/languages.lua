@@ -1,5 +1,16 @@
 return {
 
+  --ChatGPT
+  {
+    "jackMort/ChatGPT.nvim",
+    dependenciecs = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = true,
+  },
+
   --Markdown
   {
     "toppair/peek.nvim",
@@ -35,6 +46,7 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
+    event = "VeryLazy",
     config = function()
       require("obsidian").setup({
         dir = "~/.vault",
@@ -45,6 +57,15 @@ return {
         },
       })
     end,
+  },
+
+  --Elixir
+  {
+    "mhanberg/elixir.nvim",
+    keys = {
+      { "<leader>tl", vim.lsp.codelens.run, desc = "Test lens" },
+    },
+    ft = { "elixir", "eex", "heex", "surface" },
   },
 
   --Ruby on Rails
@@ -79,48 +100,48 @@ return {
   },
 
   --Databases
-  {
-    "tpope/vim-dadbod",
-    lazy = true,
-    dependencies = {
-      "kristijanhusak/vim-dadbod-ui",
-      "kristijanhusak/vim-dadbod-completion",
-      "abenz1267/nvim-databasehelper",
-    },
-    config = function()
-      local function db_completion()
-        require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
-      end
-
-      vim.g.db_ui_save_location = vim.fn.stdpath("config") .. require("plenary.path").path.sep .. "db_ui"
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = {
-          "sql",
-        },
-        command = [[setlocal omnifunc=vim_dadbod_completion#omni]],
-      })
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = {
-          "sql",
-          "mysql",
-          "plsql",
-        },
-        callback = function()
-          vim.schedule(db_completion)
-        end,
-      })
-    end,
-    cmd = {
-      "DBUIToggle",
-      "DBUI",
-      "DBUIAddConnection",
-      "DBUIFindBuffer",
-      "DBUIRenameBuffer",
-      "DBUILastQueryInfo",
-    },
-  },
+  -- {
+  --   "tpope/vim-dadbod",
+  --   lazy = true,
+  --   dependencies = {
+  --     "kristijanhusak/vim-dadbod-ui",
+  --     "kristijanhusak/vim-dadbod-completion",
+  --     "abenz1267/nvim-databasehelper",
+  --   },
+  --   config = function()
+  --     local function db_completion()
+  --       require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
+  --     end
+  --
+  --     vim.g.db_ui_save_location = vim.fn.stdpath("config") .. require("plenary.path").path.sep .. "db_ui"
+  --
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = {
+  --         "sql",
+  --       },
+  --       command = [[setlocal omnifunc=vim_dadbod_completion#omni]],
+  --     })
+  --
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = {
+  --         "sql",
+  --         "mysql",
+  --         "plsql",
+  --       },
+  --       callback = function()
+  --         vim.schedule(db_completion)
+  --       end,
+  --     })
+  --   end,
+  --   cmd = {
+  --     "DBUIToggle",
+  --     "DBUI",
+  --     "DBUIAddConnection",
+  --     "DBUIFindBuffer",
+  --     "DBUIRenameBuffer",
+  --     "DBUILastQueryInfo",
+  --   },
+  -- },
 
   {
     "nanotee/sqls.nvim",
@@ -146,24 +167,54 @@ return {
       local view = require("iron.view")
       require("iron.core").setup({
         config = {
+          repl_definition = {
+            -- custom repl that loads the current file
+            elixir = {
+              command = { "iex", "-S", "mix" },
+            },
+            sh = { command = { "zsh" } },
+          },
           should_map_plug = false,
           scratch_repl = true,
-          repl_definition = { sh = { command = { "zsh" } } },
           repl_open_cmd = view.split("40%"),
         },
         keymaps = {
-          send_motion = "<space>sc",
-          visual_send = "<space>sc",
-          send_file = "<space>sf",
-          send_line = "<space>sl",
-          send_mark = "<space>sm",
-          cr = "<space>s<cr>",
-          interrupt = "<space>s<space>",
-          exit = "<space>sq",
-          clear = "<space>cl",
+          send_motion = "<space>rc",
+          visual_send = "<space>rc",
+          send_file = "<space>rf",
+          send_line = "<space>rl",
+          send_mark = "<space>rm",
+          cr = "<space>r<cr>",
+          interrupt = "<space>r<space>",
+          exit = "<space>rq",
+          clear = "<space>rl",
         },
       })
     end,
+  },
+
+  -- Lua
+  {
+    "folke/neodev.nvim",
+    enabled = true,
+    config = true,
+  },
+
+  {
+    "folke/neoconf.nvim",
+    enabled = true,
+    config = true,
+  },
+
+  -- Live Server
+  {
+    "ray-x/web-tools.nvim",
+    config = true,
+  },
+
+  -- Live scratchpad
+  {
+    "metakirby5/codi.vim",
   },
 
   --VSCode Tasks

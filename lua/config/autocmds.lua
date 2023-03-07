@@ -24,3 +24,20 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 vim.cmd("autocmd FileType dbui nmap <buffer> <c-j> <C-w>j")
 vim.cmd("autocmd FileType dbui nmap <buffer> <c-k> <C-w>k")
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "alpha" },
+  callback = function()
+    vim.cmd([[
+      set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
+      set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
+    ]])
+  end,
+})
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "*",
+  callback = function()
+    require("utils").leave_snippet()
+  end,
+})

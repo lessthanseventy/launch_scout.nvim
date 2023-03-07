@@ -24,8 +24,8 @@ return {
       textobjects = {
         swap = {
           enable = true,
-          swap_next = { ["<leader>lsl"] = "@parameter.inner" },
-          swap_previous = { ["<leader>lsh"] = "@parameter.inner" },
+          swap_next = { ["<leader>cL"] = "@parameter.inner" },
+          swap_previous = { ["<leader>cH"] = "@parameter.inner" },
         },
         select = {
           enable = true,

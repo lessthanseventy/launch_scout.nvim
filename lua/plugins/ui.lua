@@ -2,6 +2,7 @@ return {
 
   "romainl/vim-cool",
   "mechatroner/rainbow_csv",
+  "simeji/winresizer",
 
   {
     dir = "/home/andrew/projects/launch_scout.nvim",
@@ -275,7 +276,7 @@ return {
       dashboard.section.buttons.opts.hl = "AlphaButtons"
 
       dashboard.opts.opts.noautocmd = true
-      -- vim.cmd([[autocmd User AlphaReady echo 'ready']])
+
       local opts = dashboard.opts
 
       require("alpha").setup(opts)
@@ -285,9 +286,9 @@ return {
         pattern = { "VeryLazy" },
         callback = function()
           vim.cmd([[
-            set showtabline=0
-            set laststatus=0
-          ]])
+              set showtabline=0
+              set laststatus=0
+            ]])
         end,
       })
 
@@ -295,9 +296,19 @@ return {
         pattern = { "AlphaClosed" },
         callback = function()
           vim.cmd([[
-            set showtabline=2
-            set laststatus=3
-          ]])
+              set showtabline=2
+              set laststatus=3
+            ]])
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        pattern = { "alpha" },
+        callback = function()
+          vim.cmd([[
+      set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
+      set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
+    ]])
         end,
       })
     end,
