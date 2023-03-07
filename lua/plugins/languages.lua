@@ -1,7 +1,6 @@
 return {
 
-  "tpope/vim-rails",
-
+  --Markdown
   {
     "toppair/peek.nvim",
     build = "deno task --quiet build:fast",
@@ -48,6 +47,10 @@ return {
     end,
   },
 
+  --Ruby on Rails
+  "tpope/vim-rails",
+
+  -- Go
   {
     "ray-x/go.nvim",
     ft = { "go" },
@@ -56,6 +59,7 @@ return {
     end,
   },
 
+  --Rust
   {
     "saecki/crates.nvim",
     ft = { "rust" },
@@ -74,6 +78,7 @@ return {
     ft = { "rust" },
   },
 
+  --Databases
   {
     "tpope/vim-dadbod",
     lazy = true,
@@ -83,7 +88,29 @@ return {
       "abenz1267/nvim-databasehelper",
     },
     config = function()
-      require("config.plugins.dadbod").setup()
+      local function db_completion()
+        require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
+      end
+
+      vim.g.db_ui_save_location = vim.fn.stdpath("config") .. require("plenary.path").path.sep .. "db_ui"
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "sql",
+        },
+        command = [[setlocal omnifunc=vim_dadbod_completion#omni]],
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "sql",
+          "mysql",
+          "plsql",
+        },
+        callback = function()
+          vim.schedule(db_completion)
+        end,
+      })
     end,
     cmd = {
       "DBUIToggle",
@@ -112,12 +139,34 @@ return {
     cmd = { "VDToggleDatabase", "VDToggleQuery", "VimDatabaseListTablesFzf" },
   },
 
+  --REPL
   {
     "hkupty/iron.nvim",
     config = function()
-      require("config.plugins.iron").setup()
+      local view = require("iron.view")
+      require("iron.core").setup({
+        config = {
+          should_map_plug = false,
+          scratch_repl = true,
+          repl_definition = { sh = { command = { "zsh" } } },
+          repl_open_cmd = view.split("40%"),
+        },
+        keymaps = {
+          send_motion = "<space>sc",
+          visual_send = "<space>sc",
+          send_file = "<space>sf",
+          send_line = "<space>sl",
+          send_mark = "<space>sm",
+          cr = "<space>s<cr>",
+          interrupt = "<space>s<space>",
+          exit = "<space>sq",
+          clear = "<space>cl",
+        },
+      })
     end,
   },
+
+  --VSCode Tasks
   {
     "stevearc/overseer.nvim",
     lazy = true,

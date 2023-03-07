@@ -8,22 +8,12 @@ local opts = { silent = true }
 keymap("n", "<S-l>", ":tabn<CR>", opts)
 keymap("n", "<S-h>", ":tabp<CR>", opts)
 
--- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
-
--- Pounce fuzzy navigation
-keymap("n", "s", "<cmd>Pounce<CR>", opts)
-keymap("v", "s", "<cmd>Pounce<CR>", opts)
-keymap("o", "gs", "<cmd>Pounce<CR>", opts)
-
-keymap("n", "<leader><leader>", "<cmd>lua vim.api.nvim_feedkeys(':', 'n', true)<cr>", opts)
-
+keymap("n", "<leader>ww", "<cmd>w! %<cr>", opts)
+keymap("n", "<leader>qq", "<cmd>qa!<cr>", opts)
 keymap("n", "<F9>", ":Ttoggle<cr>", opts)
 keymap("t", "<F9>", "<C-\\><C-n>:Tclose<cr>", opts)
-keymap("t", "jk", "<C-\\><C-n>", opts)
+keymap("t", "<C-j>", "<C-\\><C-n><C-w>j", opts)
+keymap("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
 
 keymap("n", "<F1>", "<cmd>Telescope help_tags<CR>", opts)
 
@@ -36,12 +26,19 @@ keymap("n", "<F8>", ":NvimTreeToggle<CR>", opts)
 
 -- Glance
 keymap("n", "gr", "<cmd>Glance references<cr>", opts)
+keymap("n", "<C-a>", require("dial.map").inc_normal(), { noremap = true })
+keymap("n", "<C-x>", require("dial.map").dec_normal(), { noremap = true })
+keymap("v", "<C-a>", require("dial.map").inc_visual(), { noremap = true })
+keymap("v", "<C-x>", require("dial.map").dec_visual(), { noremap = true })
+keymap("v", "g<C-a>", require("dial.map").inc_gvisual(), { noremap = true })
+keymap("v", "g<C-x>", require("dial.map").dec_gvisual(), { noremap = true })
+keymap("n", "<leader>a", "<cmd>Alpha<cr>", opts)
 
 -- Yanky
-vim.keymap.set({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
-vim.keymap.set({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
-vim.keymap.set("n", "<c-y>n", "<Plug>(YankyCycleForward)")
-vim.keymap.set("n", "<c-y>p", "<Plug>(YankyCycleBackward)")
+keymap({ "n", "x" }, "p", "<Plug>(YankyPutAfter)")
+keymap({ "n", "x" }, "P", "<Plug>(YankyPutBefore)")
+keymap("n", "<c-y>n", "<Plug>(YankyCycleForward)")
+keymap("n", "<c-y>p", "<Plug>(YankyCycleBackward)")
 
 keymap(
   "n",
@@ -56,3 +53,33 @@ keymap(
   "<cmd>lua require('telescope').extensions.file_browser.file_browser({path = '%:p:h', grouped = true})<cr>",
   opts
 )
+
+keymap("i", "<C-j>", "<NOP>", opts)
+keymap("i", "<C-k>", "<NOP>", opts)
+
+--deal with lazyvim defaults
+keymap("n", "<leader>ww", "<cmd>w %<cr>", { desc = "Save current file" })
+keymap("n", "<leader>qq", "<cmd>qa!<cr>", opts)
+keymap("n", "<leader>ws", "<C-W>s", { desc = "Split window horizontally" })
+keymap("n", "<leader>wv", "<C-W>v", { desc = "Split window vertically" })
+keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New Tab" })
+
+vim.keymap.del("n", "<leader>wd")
+keymap("n", "<leader>wd", "<cmd>bd<cr>", { desc = "Close current buffer" })
+
+vim.keymap.del({ "n", "i" }, "<esc>")
+vim.keymap.del("n", "<leader>bb")
+vim.keymap.del("n", "<leader>`")
+vim.keymap.del("n", "<leader>fn")
+vim.keymap.del("n", "<leader>ft")
+vim.keymap.del("n", "<leader>fT")
+vim.keymap.del("n", "<leader>w-")
+vim.keymap.del("n", "<leader>w|")
+vim.keymap.del("n", "<leader>-")
+vim.keymap.del("n", "<leader>|")
+vim.keymap.del("n", "<leader><tab>l")
+vim.keymap.del("n", "<leader><tab>f")
+vim.keymap.del("n", "<leader><tab><tab>")
+vim.keymap.del("n", "<leader><tab>]")
+vim.keymap.del("n", "<leader><tab>d")
+vim.keymap.del("n", "<leader><tab>[")

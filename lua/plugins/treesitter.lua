@@ -29,10 +29,8 @@ return {
         },
         select = {
           enable = true,
-
           -- Automatically jump forward to textobj, similar to targets.vim
           lookahead = true,
-
           keymaps = {
             -- You can use the capture groups defined in textobjects.scm
             ["af"] = {
@@ -122,6 +120,20 @@ return {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "RRethy/nvim-treesitter-textsubjects",
       "RRethy/nvim-treesitter-endwise",
+
+      {
+        "mfussenegger/nvim-treehopper",
+        config = function()
+          local keymap = vim.keymap.set
+          local kopts = { noremap = true, silent = true }
+          keymap("v", "m", ":lua require('tsht').nodes()<CR>", kopts)
+        end,
+      },
     },
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    config = true,
   },
 }
