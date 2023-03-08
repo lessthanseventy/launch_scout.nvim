@@ -35,6 +35,7 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
+    event = "VeryLazy",
     config = function()
       require("obsidian").setup({
         dir = "~/.vault",

@@ -11,16 +11,23 @@ return {
     enabled = false,
   },
   {
-    "nvim-neo-tree/neo-tree.nvim",
+    "catppuccin/nvim",
     enabled = false,
   },
-
-  -- Disable builtin map so supertab works
   {
-    "L3MON4D3/LuaSnip",
-    keys = function()
-      return {}
-    end,
+    "folke/neodev.nvim",
+    enabled = false,
+  },
+  { "echasnovski/mini.pairs", version = false, enabled = false },
+  {
+    "windwp/nvim-autopairs",
+    opts = {
+      disable_in_macro = true,
+    },
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    enabled = false,
   },
 
   "nvim-lua/plenary.nvim",

@@ -54,9 +54,6 @@ keymap(
   opts
 )
 
-keymap("i", "<C-j>", "<NOP>", opts)
-keymap("i", "<C-k>", "<NOP>", opts)
-
 --deal with lazyvim defaults
 keymap("n", "<leader>ww", "<cmd>w %<cr>", { desc = "Save current file" })
 keymap("n", "<leader>qq", "<cmd>qa!<cr>", opts)
@@ -65,7 +62,7 @@ keymap("n", "<leader>wv", "<C-W>v", { desc = "Split window vertically" })
 keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New Tab" })
 
 vim.keymap.del("n", "<leader>wd")
-keymap("n", "<leader>wd", "<cmd>bd<cr>", { desc = "Close current buffer" })
+keymap("n", "<leader>wd", "<cmd>bd!<cr>", { desc = "Close current buffer" })
 
 vim.keymap.del({ "n", "i" }, "<esc>")
 vim.keymap.del("n", "<leader>bb")
