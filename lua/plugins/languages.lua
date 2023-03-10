@@ -44,20 +44,20 @@ return {
     end,
   },
 
-  -- {
-  --   "epwalsh/obsidian.nvim",
-  --   event = "VeryLazy",
-  --   config = function()
-  --     require("obsidian").setup({
-  --       dir = "~/.vault",
-  --       notes_subdir = "notes",
-  --       daily_notes = { folder = "dailies" },
-  --       completion = {
-  --         nvim_cmp = false, -- if using nvim-cmp, otherwise set to false
-  --       },
-  --     })
-  --   end,
-  -- },
+  {
+    "epwalsh/obsidian.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("obsidian").setup({
+        dir = "~/.vault",
+        notes_subdir = "notes",
+        daily_notes = { folder = "dailies" },
+        completion = {
+          nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+        },
+      })
+    end,
+  },
 
   --Elixir
   {
@@ -65,6 +65,7 @@ return {
     keys = {
       { "<leader>tt", vim.lsp.codelens.run, desc = "Test nearest" },
     },
+    ft = { "elixir", "eex", "heex", "surface" },
   },
 
   --Ruby on Rails

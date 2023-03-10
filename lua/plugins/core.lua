@@ -28,9 +28,9 @@ return {
   {
     "windwp/nvim-autopairs",
     opts = {
-      map_bs = false,
+      map_bs = true,
       map_cr = false,
-      map_c_h = false,
+      map_c_h = true,
       disable_in_macro = true,
     },
   },
@@ -220,8 +220,6 @@ return {
       dapSharedKeymaps = false,
     },
   },
-
-  "kassio/neoterm",
 
   {
     "akinsho/toggleterm.nvim",

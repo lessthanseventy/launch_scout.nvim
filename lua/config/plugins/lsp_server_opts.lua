@@ -138,7 +138,6 @@ return {
   graphql = {},
   bashls = {},
   omnisharp = {},
-  elixirls = {},
   kotlin_language_server = {},
   emmet_ls = {},
   marksman = {},

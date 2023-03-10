@@ -66,13 +66,6 @@ keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New Tab" })
 vim.keymap.del("n", "<leader>wd")
 keymap("n", "<leader>wd", "<cmd>bd!<cr>", { desc = "Close current buffer" })
 
-vim.keymap.del({ "n", "i" }, "<esc>")
-keymap("i", "<Esc>", LSPMaps.Esc, {
-  expr = true,
-  silent = true,
-  remap = false,
-})
-
 vim.keymap.del({ "n", "i" }, "<M-j>")
 vim.keymap.del({ "n", "i" }, "<M-k>")
 vim.keymap.del("n", "<leader>bb")

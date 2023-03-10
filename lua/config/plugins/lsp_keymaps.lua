@@ -1,52 +1,81 @@
-local LSPMaps = {}
-local npairs = require("nvim-autopairs")
+local cmp = require("cmp")
+local luasnip = require("luasnip")
 
-LSPMaps.BS = function()
-  return vim.fn.pumvisible() == 1 and "<C-e><BS>" or "<BS>"
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-LSPMaps.CR = function()
-  if vim.fn.pumvisible() ~= 0 then
-    if vim.fn.complete_info({ "selected" }).selected ~= -1 then
-      return npairs.esc("<c-y>")
+return {
+  ["<C-j>"] = cmp.mapping({
+    i = cmp.mapping.select_next_item(),
+    s = cmp.mapping.select_next_item(),
+    c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+  }),
+
+  ["<C-k>"] = cmp.mapping({
+    i = cmp.mapping.select_prev_item(),
+    s = cmp.mapping.select_prev_item(),
+    c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+  }),
+
+  ["<Tab>"] = cmp.mapping({
+    i = function(fallback)
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      else
+        fallback()
+      end
+    end,
+    s = function(fallback)
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      else
+        fallback()
+      end
+    end,
+    c = cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+  }),
+
+  ["<S-Tab>"] = cmp.mapping(function(fallback)
+    if luasnip.jumpable(-1) then
+      luasnip.jump(-1)
     else
-      return npairs.esc("<c-e>") .. npairs.esc("<c-y>")
+      fallback()
     end
-  else
-    return npairs.autopairs_cr()
-  end
-end
+  end, { "i", "s" }),
 
-LSPMaps.Esc = function()
-  return vim.fn.pumvisible() == 1 and "<C-e><Esc>" or "<Esc>"
-end
+  ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 
-LSPMaps.C_c = function()
-  return vim.fn.pumvisible() == 1 and "<C-e><C-c>" or "<C-c>"
-end
+  ["<C-A-Space>"] = cmp.mapping(
+    cmp.mapping.complete({
+      config = {
+        sources = {
+          { name = "luasnip" },
+        },
+      },
+    }),
+    { "i" }
+  ),
 
-LSPMaps.C_j = function()
-  return vim.fn.pumvisible() == 1 and "<C-n>" or "<C-w>j"
-end
+  ["<C-e>"] = cmp.mapping(cmp.mapping.abort(), { "i", "c" }),
 
-LSPMaps.C_k = function()
-  return vim.fn.pumvisible() == 1 and "<C-p>" or "<C-w>k"
-end
-
-LSPMaps.Tab = function()
-  if vim.fn.pumvisible() == 1 then
-    if vim.fn.complete_info().selected == -1 then
-      return "<C-n><C-y>"
-    else
-      return "<C-y>"
-    end
-  else
-    return "<Tab>"
-  end
-end
-
-LSPMaps.S_Tab = function()
-  return vim.fn.pumvisible() == 1 and "<C-p>" or "<BS>"
-end
-
-return LSPMaps
+  ["<CR>"] = cmp.mapping({
+    i = function(fallback)
+      if cmp.visible() then
+        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      else
+        fallback()
+      end
+    end,
+    s = function()
+      cmp.confirm({ select = true })
+    end,
+    c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+  }),
+}

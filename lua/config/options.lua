@@ -6,7 +6,6 @@ vim.opt.autowrite = false
 vim.opt.backup = false -- creates a backup file
 vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 0 -- more space in the neovim command line for displaying messages
-vim.opt.completeopt = "longest,menuone,preview"
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 vim.opt.confirm = false
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
@@ -39,8 +38,6 @@ vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.wildmenu = false
 vim.opt.wrap = true -- display lines as one long line
 vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
--- Requires nightly
-vim.opt.splitkeep = "screen"
 
 vim.g.do_filetype_lua = 1
 

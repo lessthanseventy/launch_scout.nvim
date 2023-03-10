@@ -43,6 +43,7 @@ return {
           elixirls = function(_, opts)
             local elixir = require("elixir")
             elixir.setup({
+              cmd = "/home/andrew/.local/share/nvim/mason/bin/elixir-ls",
               settings = elixir.settings({
                 dialyzerEnabled = true,
                 fetchDeps = false,
@@ -51,6 +52,7 @@ return {
               }),
               on_attach = require("lazyvim.util").on_attach(function(client, buffer)
                 require("lazyvim.plugins.lsp.format").on_attach(client, buffer)
+                require("cmp_nvim_lsp").default_capabilities(opts.capabilities)
               end),
             })
             return true
@@ -78,12 +80,11 @@ return {
       vim.diagnostic.config(opts.diagnostics)
 
       local servers = opts.servers
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       local function setup(server)
-        local coq = require("coq") -- add this
         local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = coq.lsp_ensure_capabilities(vim.deepcopy(capabilities)),
+          capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
 
         if opts.setup[server] then

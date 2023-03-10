@@ -34,3 +34,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     ]])
   end,
 })
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "*",
+  callback = function()
+    require("utils").leave_snippet()
+  end,
+})
