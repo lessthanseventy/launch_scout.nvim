@@ -1,5 +1,16 @@
 return {
 
+  --ChatGPT
+  {
+    "jackMort/ChatGPT.nvim",
+    dependenciecs = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = true,
+  },
+
   --Markdown
   {
     "toppair/peek.nvim",
@@ -33,19 +44,27 @@ return {
     end,
   },
 
+  -- {
+  --   "epwalsh/obsidian.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("obsidian").setup({
+  --       dir = "~/.vault",
+  --       notes_subdir = "notes",
+  --       daily_notes = { folder = "dailies" },
+  --       completion = {
+  --         nvim_cmp = false, -- if using nvim-cmp, otherwise set to false
+  --       },
+  --     })
+  --   end,
+  -- },
+
+  --Elixir
   {
-    "epwalsh/obsidian.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("obsidian").setup({
-        dir = "~/.vault",
-        notes_subdir = "notes",
-        daily_notes = { folder = "dailies" },
-        completion = {
-          nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
-        },
-      })
-    end,
+    "mhanberg/elixir.nvim",
+    keys = {
+      { "<leader>tt", vim.lsp.codelens.run, desc = "Test nearest" },
+    },
   },
 
   --Ruby on Rails
@@ -80,48 +99,48 @@ return {
   },
 
   --Databases
-  {
-    "tpope/vim-dadbod",
-    lazy = true,
-    dependencies = {
-      "kristijanhusak/vim-dadbod-ui",
-      "kristijanhusak/vim-dadbod-completion",
-      "abenz1267/nvim-databasehelper",
-    },
-    config = function()
-      local function db_completion()
-        require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
-      end
-
-      vim.g.db_ui_save_location = vim.fn.stdpath("config") .. require("plenary.path").path.sep .. "db_ui"
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = {
-          "sql",
-        },
-        command = [[setlocal omnifunc=vim_dadbod_completion#omni]],
-      })
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = {
-          "sql",
-          "mysql",
-          "plsql",
-        },
-        callback = function()
-          vim.schedule(db_completion)
-        end,
-      })
-    end,
-    cmd = {
-      "DBUIToggle",
-      "DBUI",
-      "DBUIAddConnection",
-      "DBUIFindBuffer",
-      "DBUIRenameBuffer",
-      "DBUILastQueryInfo",
-    },
-  },
+  -- {
+  --   "tpope/vim-dadbod",
+  --   lazy = true,
+  --   dependencies = {
+  --     "kristijanhusak/vim-dadbod-ui",
+  --     "kristijanhusak/vim-dadbod-completion",
+  --     "abenz1267/nvim-databasehelper",
+  --   },
+  --   config = function()
+  --     local function db_completion()
+  --       require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
+  --     end
+  --
+  --     vim.g.db_ui_save_location = vim.fn.stdpath("config") .. require("plenary.path").path.sep .. "db_ui"
+  --
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = {
+  --         "sql",
+  --       },
+  --       command = [[setlocal omnifunc=vim_dadbod_completion#omni]],
+  --     })
+  --
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = {
+  --         "sql",
+  --         "mysql",
+  --         "plsql",
+  --       },
+  --       callback = function()
+  --         vim.schedule(db_completion)
+  --       end,
+  --     })
+  --   end,
+  --   cmd = {
+  --     "DBUIToggle",
+  --     "DBUI",
+  --     "DBUIAddConnection",
+  --     "DBUIFindBuffer",
+  --     "DBUIRenameBuffer",
+  --     "DBUILastQueryInfo",
+  --   },
+  -- },
 
   {
     "nanotee/sqls.nvim",

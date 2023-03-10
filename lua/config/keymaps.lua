@@ -3,6 +3,8 @@
 -- Add any additional keymaps here
 -- Shorten function name
 local keymap = vim.keymap.set
+local LSPMaps = require("config.plugins.lsp_keymaps")
+
 -- Silent keymap option
 local opts = { silent = true }
 keymap("n", "<S-l>", ":tabn<CR>", opts)
@@ -65,6 +67,14 @@ vim.keymap.del("n", "<leader>wd")
 keymap("n", "<leader>wd", "<cmd>bd!<cr>", { desc = "Close current buffer" })
 
 vim.keymap.del({ "n", "i" }, "<esc>")
+keymap("i", "<Esc>", LSPMaps.Esc, {
+  expr = true,
+  silent = true,
+  remap = false,
+})
+
+vim.keymap.del({ "n", "i" }, "<M-j>")
+vim.keymap.del({ "n", "i" }, "<M-k>")
 vim.keymap.del("n", "<leader>bb")
 vim.keymap.del("n", "<leader>`")
 vim.keymap.del("n", "<leader>fn")

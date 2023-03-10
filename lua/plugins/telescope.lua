@@ -129,7 +129,7 @@ return {
               ["<C-l>"] = actions.complete_tag,
               ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
               ["<c-t>"] = trouble.open_with_trouble,
-              ["<esc><esc>"] = actions.close,
+              ["qq"] = actions.close,
             },
             n = {
               ["q"] = actions.close,

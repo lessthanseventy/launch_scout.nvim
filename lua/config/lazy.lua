@@ -12,10 +12,12 @@ require("lazy").setup({
   spec = {
     {
       "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
       keys = {
-        { "<c-k>", false },
+        { "<Esc>", false, mode = "i" },
+        { "<M-j>", false },
+        { "<M-k>", false },
       },
+      import = "lazyvim.plugins",
     },
     { import = "plugins" },
     { import = "plugins.lsp" },

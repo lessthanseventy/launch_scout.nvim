@@ -3,20 +3,25 @@ return {
     "neovim/nvim-lspconfig",
     init = function()
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
-      keys[#keys + 1] = { "<C-k>", false }
+      keys[#keys + 1] = { "<c-k>", false, mode = "i" }
     end,
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
       "jay-babu/mason-null-ls.nvim",
       "b0o/schemastore.nvim",
+      { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
+      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
+      "mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
     },
     opts = function()
       local util = require("lspconfig/util")
+      local servers = require("config.plugins.lsp_server_opts")
       return {
         -- options for vim.diagnostic.config()
         diagnostics = {
           underline = true,
-          virtual_text = { spacing = 4, prefix = "●" },
+          virtual_text = false,
+          virtual_lines = { only_current_line = true },
           severity_sort = true,
         },
         -- Automatically format on save
@@ -30,154 +35,29 @@ return {
         },
         -- LSP Server Settings
         ---@type lspconfig.options
-        servers = {
-          gopls = {},
-          html = { filetypes = { "html", "eruby" } },
-          cssls = {},
-          jsonls = {
-            settings = {
-              json = {
-                schemas = require("schemastore").json.schemas(),
-                validate = { enable = true },
-              },
-            },
-          },
-          pyright = { analysis = { typeCheckingMode = "off" } },
-          -- pylsp = {}, -- Integration with rope for refactoring - https://github.com/python-rope/pylsp-rope
-          rust_analyzer = {
-            settings = {
-              ["rust-analyzer"] = {
-                cargo = { allFeatures = true },
-                checkOnSave = { command = "clippy", extraArgs = { "--no-deps" } },
-              },
-            },
-          },
-          tsserver = {
-            disable_formatting = true,
-            filetyptes = {
-              "javascript",
-              "javascriptreact",
-              "javascript.jsx",
-              "typescript",
-              "typescriptreact",
-              "typescript.tsx",
-            },
-          },
-          vimls = {},
-          yamlls = {
-            schemastore = { enable = true },
-            settings = {
-              yaml = {
-                hover = true,
-                completion = true,
-                validate = true,
-                schemas = require("schemastore").json.schemas(),
-              },
-            },
-          },
-          sqls = {
-            settings = {
-              sqls = {
-                connections = {
-                  {
-                    driver = "postgresql",
-                    dataSourceName = "host=127.0.0.1 port=5432 user=postgres password=postgres dbname=coa_opal_dev",
-                  },
-                },
-              },
-            },
-          },
-          tailwindcss = {
-            init_options = { userLanguages = { heex = "html", elixir = "html" } },
-            settings = {
-              tailwindCSS = {
-                hovers = true,
-                suggestions = true,
-                codeActions = true,
-              },
-            },
-            root_dir = function(fname)
-              return util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
-                or util.root_pattern("postcss.config.js", "postcss.config.ts")(fname)
-                or M.find_package_assets_ancestor(fname)
-                or util.find_node_modules_ancestor(fname)
-                or util.find_git_ancestor(fname)
-                or util.find_package_json_ancestor(fname)
-            end,
-          },
-          lua_ls = {
-            -- cmd = { "/home/folke/projects/lua-language-server/bin/lua-language-server" },
-            single_file_support = true,
-            settings = {
-              Lua = {
-                workspace = {
-                  checkThirdParty = false,
-                },
-                completion = {
-                  workspaceWord = true,
-                  callSnippet = "Both",
-                },
-                misc = {
-                  parameters = {
-                    "--log-level=trace",
-                  },
-                },
-                diagnostics = {
-                  -- enable = false,
-                  globals = { "vim" },
-                  groupSeverity = {
-                    strong = "Warning",
-                    strict = "Warning",
-                  },
-                  groupFileStatus = {
-                    ["ambiguity"] = "Opened",
-                    ["await"] = "Opened",
-                    ["codestyle"] = "None",
-                    ["duplicate"] = "Opened",
-                    ["global"] = "Opened",
-                    ["luadoc"] = "Opened",
-                    ["redefined"] = "Opened",
-                    ["strict"] = "Opened",
-                    ["strong"] = "Opened",
-                    ["type-check"] = "Opened",
-                    ["unbalanced"] = "Opened",
-                    ["unused"] = "Opened",
-                  },
-                  unusedLocalExclude = { "_*" },
-                },
-                format = {
-                  enable = false,
-                  defaultConfig = {
-                    indent_style = "space",
-                    indent_size = "2",
-                    continuation_indent_size = "2",
-                  },
-                },
-              },
-            },
-          },
-          jdtls = {},
-          dockerls = {},
-          graphql = {},
-          bashls = {},
-          omnisharp = {},
-          elixirls = {},
-          kotlin_language_server = {},
-          emmet_ls = {},
-          marksman = {},
-          angularls = {},
-        },
+        servers = servers,
         -- you can do any additional lsp server setup here
         -- return true if you don't want this server to be setup with lspconfig
         ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
         setup = {
-          -- example to setup with typescript.nvim
-          -- tsserver = function(_, opts)
-          --   require("typescript").setup({ server = opts })
-          --   return true
-          -- end,
+          elixirls = function(_, opts)
+            local elixir = require("elixir")
+            elixir.setup({
+              settings = elixir.settings({
+                dialyzerEnabled = true,
+                fetchDeps = false,
+                enableTestLenses = true,
+                suggestSpecs = false,
+              }),
+              on_attach = require("lazyvim.util").on_attach(function(client, buffer)
+                require("lazyvim.plugins.lsp.format").on_attach(client, buffer)
+              end),
+            })
+            return true
+          end,
           -- Specify * to use this function as a fallback for any server
           -- ["*"] = function(server, opts) end,
+          --
         },
       }
     end,
@@ -198,11 +78,12 @@ return {
       vim.diagnostic.config(opts.diagnostics)
 
       local servers = opts.servers
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       local function setup(server)
+        local coq = require("coq") -- add this
         local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
+          capabilities = coq.lsp_ensure_capabilities(vim.deepcopy(capabilities)),
         }, servers[server] or {})
 
         if opts.setup[server] then

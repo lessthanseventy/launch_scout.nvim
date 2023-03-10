@@ -16,12 +16,21 @@ return {
   },
   {
     "folke/neodev.nvim",
-    enabled = false,
+    enabled = true,
+    config = true,
+  },
+  {
+    "folke/neoconf.nvim",
+    enabled = true,
+    config = true,
   },
   { "echasnovski/mini.pairs", version = false, enabled = false },
   {
     "windwp/nvim-autopairs",
     opts = {
+      map_bs = false,
+      map_cr = false,
+      map_c_h = false,
       disable_in_macro = true,
     },
   },

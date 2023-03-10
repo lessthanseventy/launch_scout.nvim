@@ -69,7 +69,7 @@ return {
           -- override the lsp markdown formatter with Noice
           ["vim.lsp.util.stylize_markdown"] = true,
           -- override cmp documentation with Noice (needs the other options to work)
-          ["cmp.entry.get_documentation"] = true,
+          ["cmp.entry.get_documentation"] = false,
         },
         hover = {
           enabled = true,
@@ -285,9 +285,9 @@ return {
         pattern = { "VeryLazy" },
         callback = function()
           vim.cmd([[
-            set showtabline=0
-            set laststatus=0
-          ]])
+              set showtabline=0
+              set laststatus=0
+            ]])
         end,
       })
 
@@ -295,9 +295,19 @@ return {
         pattern = { "AlphaClosed" },
         callback = function()
           vim.cmd([[
-            set showtabline=2
-            set laststatus=3
-          ]])
+              set showtabline=2
+              set laststatus=3
+            ]])
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        pattern = { "alpha" },
+        callback = function()
+          vim.cmd([[
+      set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
+      set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
+    ]])
         end,
       })
     end,
