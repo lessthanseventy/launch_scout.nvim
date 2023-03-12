@@ -56,7 +56,18 @@ keymap(
   opts
 )
 
+--Terminal stuff
+keymap("n", "<leader>ta", "<cmd>lua require('utils').MIX_TEST_ALL()<cr>", { desc = "Run test suite" })
+keymap("n", "<leader>tb", "<cmd>lua require('utils').BTOP_TOGGLE()<cr>", { desc = "Btop" })
+keymap("n", "<leader>td", "<cmd>lua require('utils').LAZYDOCKER_TOGGLE()<cr>", { desc = "Lazydocker" })
+keymap("n", "<leader>tf", "<cmd>lua require('utils').MIX_TEST_FILE()<cr>", { desc = "Run tests for filfe" })
+keymap("n", "<leader>tt", "<cmd>lua require('utils').MIX_TEST_LINE()<cr>", { desc = "Test current line" })
+keymap("n", "<leader>tw", "<cmd>lua require('utils').MIX_TEST_WATCH()<cr>", { desc = "Watch test for current line" })
+keymap("t", "qq", "<C-\\><C-n>", opts)
+
 --deal with lazyvim defaults
+keymap("n", "<leader>gg", "<cmd>lua require('utils').LAZYGIT_TOGGLE()<cr>", { desc = "LazyGit" })
+keymap("n", "<leader>gG", "<cmd>LazyGitFilterCurrentFile<cr>", { desc = "LazyGit current file" })
 keymap("n", "<leader>ww", "<cmd>w %<cr>", { desc = "Save current file" })
 keymap("n", "<leader>qq", "<cmd>qa!<cr>", opts)
 keymap("n", "<leader>ws", "<C-W>s", { desc = "Split window horizontally" })
@@ -66,6 +77,7 @@ keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New Tab" })
 vim.keymap.del("n", "<leader>wd")
 keymap("n", "<leader>wd", "<cmd>bd!<cr>", { desc = "Close current buffer" })
 
+vim.keymap.del({ "n", "i" }, "<Esc>")
 vim.keymap.del({ "n", "i" }, "<M-j>")
 vim.keymap.del({ "n", "i" }, "<M-k>")
 vim.keymap.del("n", "<leader>bb")

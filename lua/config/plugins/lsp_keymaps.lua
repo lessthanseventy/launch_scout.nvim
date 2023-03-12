@@ -52,6 +52,18 @@ return {
 
   ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 
+  ["<Esc>"] = cmp.mapping({
+    i = function(fallback)
+      if cmp.visible() and cmp.get_active_entry() then
+        cmp.abort()
+      -- elseif cmp.visible() then
+      --   cmp.close()
+      else
+        fallback()
+      end
+    end,
+  }),
+
   ["<C-A-Space>"] = cmp.mapping(
     cmp.mapping.complete({
       config = {
@@ -67,7 +79,7 @@ return {
 
   ["<CR>"] = cmp.mapping({
     i = function(fallback)
-      if cmp.visible() then
+      if cmp.visible() and cmp.get_active_entry() then
         cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
       else
         fallback()

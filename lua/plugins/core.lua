@@ -29,7 +29,7 @@ return {
     "windwp/nvim-autopairs",
     opts = {
       map_bs = true,
-      map_cr = false,
+      map_cr = true,
       map_c_h = true,
       disable_in_macro = true,
     },
@@ -234,6 +234,7 @@ return {
       persist_size = true,
       direction = "float",
       close_on_exit = true,
+      autochdir = true,
       shell = vim.o.shell,
       float_opts = { border = "curved" },
     },

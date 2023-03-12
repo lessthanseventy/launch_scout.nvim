@@ -63,7 +63,7 @@ return {
   {
     "mhanberg/elixir.nvim",
     keys = {
-      { "<leader>tt", vim.lsp.codelens.run, desc = "Test nearest" },
+      { "<leader>tl", vim.lsp.codelens.run, desc = "Test lens" },
     },
     ft = { "elixir", "eex", "heex", "surface" },
   },
@@ -167,21 +167,27 @@ return {
       local view = require("iron.view")
       require("iron.core").setup({
         config = {
+          repl_definition = {
+            -- custom repl that loads the current file
+            elixir = {
+              command = { "iex", "-S", "mix" },
+            },
+            sh = { command = { "zsh" } },
+          },
           should_map_plug = false,
           scratch_repl = true,
-          repl_definition = { sh = { command = { "zsh" } } },
           repl_open_cmd = view.split("40%"),
         },
         keymaps = {
-          send_motion = "<space>sc",
-          visual_send = "<space>sc",
-          send_file = "<space>sf",
-          send_line = "<space>sl",
-          send_mark = "<space>sm",
-          cr = "<space>s<cr>",
-          interrupt = "<space>s<space>",
-          exit = "<space>sq",
-          clear = "<space>cl",
+          send_motion = "<space>rc",
+          visual_send = "<space>rc",
+          send_file = "<space>rf",
+          send_line = "<space>rl",
+          send_mark = "<space>rm",
+          cr = "<space>r<cr>",
+          interrupt = "<space>r<space>",
+          exit = "<space>rq",
+          clear = "<space>rl",
         },
       })
     end,

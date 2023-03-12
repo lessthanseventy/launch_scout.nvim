@@ -12,11 +12,6 @@ require("lazy").setup({
   spec = {
     {
       "LazyVim/LazyVim",
-      keys = {
-        { "<Esc>", false, mode = "i" },
-        { "<M-j>", false },
-        { "<M-k>", false },
-      },
       import = "lazyvim.plugins",
     },
     { import = "plugins" },

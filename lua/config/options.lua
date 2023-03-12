@@ -39,22 +39,15 @@ vim.opt.wildmenu = false
 vim.opt.wrap = true -- display lines as one long line
 vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
+vim.g.python3_host_prog = "/usr/bin/python"
+vim.g.loaded_perl_provider = 0
 vim.g.do_filetype_lua = 1
-
-vim.g.context_add_mappings = 0 -- disable vim.context keybindings
-
-vim.g["test#neovim#start_normal"] = 1
-vim.g["test#neovim#term_position"] = "belowright"
-
-vim.cmd([[
-  let g:vsnip_filetypes = {}
-  let g:vsnip_filetypes.elixir = ['eelixir', 'heex']
-]])
 
 vim.g.db_ui_auto_execute_table_helpers = 1
 vim.g.db_ui_use_nerd_fonts = 1
 
-vim.g.neoterm_default_mod = "belowright"
-
-vim.g.python3_host_prog = "/usr/bin/python"
-vim.g.loaded_perl_provider = 0
+vim.cmd([[
+if has('nvim') && executable('nvr')
+  let $GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
+endif
+]])

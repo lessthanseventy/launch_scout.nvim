@@ -1,5 +1,4 @@
 return {
-  "kdheepak/lazygit.nvim",
   {
     "ruifm/gitlinker.nvim",
     dependencies = "nvim-lua/plenary.nvim",
