@@ -36,6 +36,7 @@ return {
         enabled = true, -- enables the Noice cmdline UI
         view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
         opts = { buf_options = { filetype = "vim" } },
+        presets = { inc_rename = true },
         icons = {
           ["?"] = { icon = "◀️ ", hl_group = "DiagnosticWarn" },
           [":"] = {
@@ -45,14 +46,6 @@ return {
           },
         },
       },
-      -- hacks = {
-      --   -- due to https://github.com/neovim/neovim/issues/20416
-      --   -- messages are resent during a redraw. Noice detects this in most cases, but
-      --   -- some plugins (mostly vim plugns), can still cause loops.
-      --   -- When a loop is detected, Noice exits.
-      --   -- Enable this option to simply skip duplicate messages instead.
-      --   skip_duplicate_messages = true,
-      -- },
       notify = { enabled = true },
       lsp = {
         progress = {
@@ -70,7 +63,7 @@ return {
           -- override the lsp markdown formatter with Noice
           ["vim.lsp.util.stylize_markdown"] = true,
           -- override cmp documentation with Noice (needs the other options to work)
-          ["cmp.entry.get_documentation"] = true,
+          ["cmp.entry.get_documentation"] = false,
         },
         hover = {
           enabled = true,
@@ -82,7 +75,7 @@ return {
           auto_open = {
             enabled = true,
             trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
-            throttle = 50, -- Debounce lsp signature help request by 50ms
+            throttle = 100, -- Debounce lsp signature help request by 50ms
           },
           view = nil, -- when nil, use defaults from documentation
           opts = {}, -- merged with defaults from documentation
@@ -163,7 +156,7 @@ return {
       },
       { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
       {
-        "<c-d>",
+        "<c-f>",
         function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,
         silent = true,
         expr = true,
@@ -173,7 +166,7 @@ return {
           "i", "n", "s" }
       },
       {
-        "<c-u>",
+        "<c-b>",
         function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end,
         silent = true,
         expr = true,
@@ -222,7 +215,9 @@ return {
     "goolord/alpha-nvim",
     lazy = false,
     priority = 100,
-    init = function() end,
+    dependencies = {
+      "nvim-lualine/lualine.nvim",
+    },
     config = function()
       local colors = require("launch_scout.colors").setup()
 
@@ -239,10 +234,8 @@ return {
         [[        / /_/_/ ___/\ / /_________/\ \ \  / / /___/ / // / /    / / // / /________  / / /   / / /      ]],
         [[       /_______/\__\// / /_       __\ \_\/ / /____\/ // / /    / / // / /_________\/ / /   / / /       ]],
         [[       \_______\/    \_\___\     /____/_/\/_________/ \/_/     \/_/ \/____________/\/_/    \/_/        ]],
-        [[                                                                                                       ]],
-        [[                                                                                                       ]],
         [[                           _            _              _      _                _                       ]],
-        [[                          / /\         /\ \           /\ \   /\_\             /\ \                     ]],
+
         [[                         / /  \       /  \ \         /  \ \ / / /         _   \_\ \                    ]],
         [[                        / / /\ \__   / /\ \ \       / /\ \ \\ \ \__      /\_\ /\__ \                   ]],
         [[                       / / /\ \___\ / / /\ \ \     / / /\ \ \\ \___\    / / // /_ \ \                  ]],
@@ -256,17 +249,22 @@ return {
 
       dashboard.section.buttons.val = {
         dashboard.button("p", "  Find project", ":Telescope projects <CR>"),
-        dashboard.button("o", "🎛️ Obsidian Today", ":ObsidianToday<CR>"),
-        dashboard.button("c", "🎚️ Configuration", ":e ~/.config/nvim/init.lua <CR>"),
-        dashboard.button("q", "👣 Quit Neovim", ":qa<CR>"),
+        dashboard.button(
+          "n",
+          "  Notes",
+          "<cmd>lua require('telescope.builtin').find_files({hidden=true, search_dirs={'~/.vault/'}})<cr>"
+        ),
+        dashboard.button("c", "🎚️ Nvim Configuration", ":e ~/.config/nvim/lua/config/lazy.lua <CR>"),
+        dashboard.button("z", "🎚️ Zsh Configuration", ":e ~/.zshrc <CR>"),
       }
 
       local function footer()
         -- NOTE: requires the fortune-mod package to work
-        local handle = io.popen("fortune -s | cowsay -n -f vader")
+        local handle = io.popen("fortune -s")
         local fortune = handle:read("*a")
         handle:close()
-        return fortune
+        local border = "------------------------------------------------------------------------------\n"
+        return border .. fortune .. border
       end
 
       dashboard.section.footer.val = footer()
@@ -275,40 +273,20 @@ return {
       dashboard.section.header.opts.hl = "AlphaHeader"
       dashboard.section.buttons.opts.hl = "AlphaButtons"
 
-      dashboard.opts.opts.noautocmd = true
+      dashboard.opts.opts.noautocmd = false
 
       local opts = dashboard.opts
 
       require("alpha").setup(opts)
 
       -- Remove statusline and tabline when in Alpha
-      vim.api.nvim_create_autocmd({ "User" }, {
-        pattern = { "VeryLazy" },
-        callback = function()
-          vim.cmd([[
-              set showtabline=0
-              set laststatus=0
-            ]])
-        end,
-      })
-
-      vim.api.nvim_create_autocmd({ "User" }, {
-        pattern = { "AlphaClosed" },
-        callback = function()
-          vim.cmd([[
-              set showtabline=2
-              set laststatus=3
-            ]])
-        end,
-      })
-
       vim.api.nvim_create_autocmd({ "FileType" }, {
         pattern = { "alpha" },
         callback = function()
           vim.cmd([[
-      set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
-      set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
-    ]])
+            set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
+            set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
+          ]])
         end,
       })
     end,
@@ -316,16 +294,45 @@ return {
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
     opts = {
-      -- char = "▏",
-      char = "│",
-      filetype_exclude = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
-      show_trailing_blankline_indent = false,
+      char_highlight_list = {
+        "IndentBlanklineIndent1",
+        "IndentBlanklineIndent2",
+        "IndentBlanklineIndent3",
+        "IndentBlanklineIndent4",
+        "IndentBlanklineIndent5",
+        "IndentBlanklineIndent6",
+      },
+      char = "⠅",
+      char_blankline = " ",
       space_char_blankline = " ",
+      context_char_blankline = "▍",
+      context_char = "▍",
       show_current_context = true,
       show_current_context_start = true,
+      show_current_context_start_on_current_line = true,
+      show_end_of_line = false,
+      use_treesitter = false,
+      use_treesitter_scope = false,
+      char_priority = 2,
+      show_trailing_blankline_indent = true,
+      show_first_indent_level = true,
+      buftype_exclude = { "terminal", "nofile" },
+      filetype_exclude = { "help", "lazy", "NvimTree", "alpha" },
     },
+    config = function(_, opts)
+      vim.cmd([[
+        highlight IndentBlanklineIndent1 guifg=#6042BC gui=nocombine
+        highlight IndentBlanklineIndent2 guifg=#9b74e8 gui=nocombine
+        highlight IndentBlanklineIndent3 guifg=#8ad3e3 gui=nocombine
+        highlight IndentBlanklineIndent4 guifg=#f7a006 gui=nocombine
+        highlight IndentBlanklineIndent5 guifg=#f90b66 gui=nocombine
+        highlight IndentBlanklineIndent6 guifg=#9ece6a gui=nocombine
+        highlight IndentBlanklineContextStart guisp=#9b74e8 gui=underline
+        highlight IndentBlanklineContextChar guifg=#9b74e8 gui=nocombine
+      ]])
+      require("indent_blankline").setup(opts)
+    end,
   },
 
   {
@@ -343,7 +350,15 @@ return {
   {
     "anuvyklack/windows.nvim",
     dependencies = "anuvyklack/middleclass",
-    config = true,
+    opts = {
+      autowidth = { --		       |windows.autowidth|
+        enable = true,
+        winwidth = 5, --		        |windows.winwidth|
+        filetype = { --	      |windows.autowidth.filetype|
+          calendar = 0.25,
+        },
+      },
+    },
   },
 
   {
@@ -361,6 +376,7 @@ return {
         },
         render = function(props)
           -- generate name
+          local filetype = vim.api.nvim_buf_get_option(props.buf, "ft")
           local bufname = vim.api.nvim_buf_get_name(props.buf)
           if bufname == "" then
             return "[No name]"
@@ -374,7 +390,7 @@ return {
               .. vim.fn.fnamemodify(bufname, ":t")
           end
 
-          local icon = require("nvim-web-devicons").get_icon(bufname, nil, { default = true })
+          local icon = require("nvim-web-devicons").get_icon(filetype, nil, { default = true })
 
           local max_len = vim.api.nvim_win_get_width(props.win) / 2
 
@@ -430,67 +446,28 @@ return {
   },
 
   {
-    "lukas-reineke/indent-blankline.nvim",
-    dependencies = "chrisgrieser/nvim-recorder",
-    opts = {
-      indent_blankline_char_list = { "|", "¦", "┆", "┊" },
-      char_highlight_list = {
-        "IndentBlanklineIndent1",
-        "IndentBlanklineIndent2",
-        "IndentBlanklineIndent3",
-        "IndentBlanklineIndent4",
-        "IndentBlanklineIndent5",
-        "IndentBlanklineIndent6",
-      },
-      char = "ᐧ",
-      context_char_blankline = "▍",
-      context_char = "▍",
-      show_trailing_blankline_indent = false,
-      show_first_indent_level = true,
-      use_treesitter = true,
-      use_treesitter_scope = true,
-      char_blankline = " ",
-      space_char_blankline = " ",
-      show_current_context = true,
-      show_current_context_start = false,
-      buftype_exclude = { "terminal", "nofile" },
-      filetype_exclude = { "help", "lazy", "NvimTree" },
-    },
-    config = function()
-      vim.cmd([[highlight IndentBlanklineIndent1 guifg=#6042BC gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent2 guifg=#9b74e8 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent3 guifg=#8ad3e3 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent4 guifg=#f7a006 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent5 guifg=#f90b66 gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineIndent6 guifg=#9ece6a gui=nocombine]])
-      vim.cmd([[highlight IndentBlanklineContextStart guisp=#9b74e8 gui=underline]])
-      vim.cmd([[highlight IndentBlanklineContextChar guifg=#9b74e8 gui=nocombine]])
-    end,
-  },
-
-  {
     "nvim-lualine/lualine.nvim",
+    priority = 100,
     opts = function()
       local colors = require("launch_scout.colors").setup() -- pass in any of the config options as explained above
       local navic = require("nvim-navic")
       local recorder = require("recorder")
-
-      local icons = require("nvim-nonicons")
-      local nonicons_extention = require("nvim-nonicons.extentions.lualine")
       return {
         options = {
+          globalstatus = true,
+          disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha" } },
           theme = "launch_scout",
           component_separators = "|",
           section_separators = { left = "", right = "" },
         },
         sections = {
-          lualine_a = { nonicons_extention.mode },
+          lualine_a = { "mode" },
           lualine_b = {
             { "filename", color = { fg = colors.orange, bg = colors.bg } },
             {
               "branch",
-              color = { fg = colors.orange, bg = colors.bg },
-              icon = icons.get("git-branch"),
+              color = { fg = colors.fg_dark, bg = colors.bg },
+              icon = "",
             },
           },
           lualine_c = {
@@ -536,6 +513,10 @@ return {
         },
       })
     end,
+  },
+
+  {
+    "inkarkat/vim-CursorLineCurrentWindow",
   },
 
   {
@@ -736,8 +717,9 @@ return {
           "noice",
           "guihua",
           "alpha",
+          "calendar",
         },
-        -- Symbols for separator lines, the order: horizontal, vertical, top left, top right, bottom left, bottom right.
+
         symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
       })
     end,
@@ -755,6 +737,16 @@ return {
 
   {
     "levouh/tint.nvim",
-    config = true,
+    opts = {
+      window_ignore_function = function(winid)
+        local bufid = vim.api.nvim_win_get_buf(winid)
+        local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
+        local filetype = vim.api.nvim_buf_get_option(bufid, "filetype")
+        local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+
+        -- Do not tint `terminal` or floating windows, tint everything else
+        return buftype == "terminal" or filetype == "NvimTree" or floating
+      end,
+    },
   },
 }

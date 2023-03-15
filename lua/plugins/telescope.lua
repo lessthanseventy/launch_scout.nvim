@@ -11,6 +11,13 @@ return {
       "nvim-telescope/telescope-project.nvim",
       "danielvolchek/tailiscope.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
+      "nvim-telescope/telescope-media-files.nvim",
+      {
+        "nvim-telescope/telescope-symbols.nvim",
+        keys = {
+          { "<leader>ss", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
+        },
+      },
       {
         "ahmedkhalf/project.nvim",
         config = function()
@@ -54,14 +61,25 @@ return {
       { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
       { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
     },
-    config = function()
+    config = function(_, opts)
       local actions = require("telescope.actions")
       local fb_actions = require("telescope").extensions.file_browser.actions
       local telescope = require("telescope")
+      local previewers = require("telescope.previewers")
       local trouble = require("trouble.providers.telescope")
       local icons = require("nvim-nonicons")
+      local telescopeConfig = require("telescope.config")
+
+      -- Clone the default Telescope configuration
+      local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+      -- I want to search in hidden/dot files.
+      table.insert(vimgrep_arguments, "--hidden")
+      -- I don't want to search in the `.git` directory.
+      table.insert(vimgrep_arguments, "--glob")
+      table.insert(vimgrep_arguments, "!**/.git/*")
       -- Custom previewer
-      local previewers = require("telescope.previewers")
+
       local Job = require("plenary.job")
       local preview_maker = function(filepath, bufnr, opts)
         filepath = vim.fn.expand(filepath)
@@ -93,10 +111,12 @@ return {
       end
       telescope.setup({
         defaults = {
-          -- layout_strategy = "bottom_pane",
+          prompt_position = "top",
+          -- `hidden = true` is not supported in text grep commands.
+          vimgrep_arguments = vimgrep_arguments,
           sorting_strategy = "ascending",
           dynamic_preview_titles = true,
-          layout_config = { bottom_pane = { height = 0.45 } },
+          layout_config = { prompt_position = "top" },
           buffer_previewer_maker = preview_maker,
           -- preview = {
           --   treesitter = false
@@ -105,105 +125,43 @@ return {
           selection_caret = " ❯ ",
           prompt_prefix = "  " .. icons.get("telescope") .. "  ",
           -- path_display = { "smart" },
-          mappings = {
-            i = {
-              ["<C-n>"] = actions.cycle_history_next,
-              ["<C-p>"] = actions.cycle_history_prev,
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-k>"] = actions.move_selection_previous,
-              ["<C-c>"] = actions.close,
-              ["<Down>"] = actions.move_selection_next,
-              ["<Up>"] = actions.move_selection_previous,
-              ["<CR>"] = actions.select_default,
-              ["<C-CR>"] = actions.select_default,
-              ["<C-x>"] = actions.select_horizontal,
-              ["<C-v>"] = actions.select_vertical,
-              ["<C-t>"] = actions.select_tab,
-              ["<C-u>"] = actions.preview_scrolling_up,
-              ["<C-d>"] = actions.preview_scrolling_down,
-              ["<PageUp>"] = actions.results_scrolling_up,
-              ["<PageDown>"] = actions.results_scrolling_down,
-              ["<Tab>"] = actions.toggle_selection,
-              ["<S-Tab>"] = actions.toggle_selection,
-              ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-              ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-              ["<C-l>"] = actions.complete_tag,
-              ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
-              ["<c-t>"] = trouble.open_with_trouble,
-              ["qq"] = actions.close,
-            },
-            n = {
-              ["q"] = actions.close,
-              ["<esc>"] = actions.close,
-              ["<CR>"] = actions.select_default,
-              ["<C-CR>"] = actions.select_default,
-              ["<C-x>"] = actions.select_horizontal,
-              ["<C-v>"] = actions.select_vertical,
-              ["<C-t>"] = actions.select_tab,
-              ["<Tab>"] = actions.toggle_selection,
-              ["<S-Tab>"] = actions.toggle_selection,
-              ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-              ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-              ["j"] = actions.move_selection_next,
-              ["k"] = actions.move_selection_previous,
-              ["<C-j>"] = actions.move_selection_next,
-              ["<C-k>"] = actions.move_selection_previous,
-              ["H"] = actions.move_to_top,
-              ["M"] = actions.move_to_middle,
-              ["L"] = actions.move_to_bottom,
-              ["<Down>"] = actions.move_selection_next,
-              ["<Up>"] = actions.move_selection_previous,
-              ["gg"] = actions.move_to_top,
-              ["G"] = actions.move_to_bottom,
-              ["<C-u>"] = actions.preview_scrolling_up,
-              ["<C-d>"] = actions.preview_scrolling_down,
-              ["<PageUp>"] = actions.results_scrolling_up,
-              ["<PageDown>"] = actions.results_scrolling_down,
-              ["?"] = actions.which_key,
-              ["<c-t>"] = trouble.open_with_trouble,
-            },
-          },
+          mappings = opts.defaults.mappings,
           pickers = {
             tailiscope = { theme = "dropdown" },
-            file_browser = {
-              cwd_to_path = true,
-              grouped = true,
-              hijack_netrw = true,
-              mappings = { n = { ["q"] = actions.close } },
-            },
-          },
-          extensions = {
-            fzf = {
-              fuzzy = true, -- false will only do exact matching
-              override_generic_sorter = true, -- override the generic sorter
-              override_file_sorter = true, -- override the file sorter
-              case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-              -- the default case_mode is "smart_case"
+            find_files = {
+              find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
             },
             file_browser = {
-              cwd_to_path = true,
               prompt_position = "top",
               grouped = true,
-              hijack_netrw = true,
+              hidden = true,
               mappings = {
                 ["n"] = {
                   ["h"] = fb_actions.goto_parent_dir,
                   ["l"] = actions.select_default,
+                  ["q"] = actions.close,
                 },
               },
             },
-            bookmarks = {
-              selected_browser = "firefox",
-              url_open_command = nil,
-              url_open_plugin = "open_browser",
-              full_path = true,
-              firefox_profile_name = nil,
-            },
-            project = { hidden_files = false },
           },
+          fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+          },
+          bookmarks = {
+            selected_browser = "firefox",
+            url_open_command = nil,
+            url_open_plugin = "open_browser",
+            full_path = true,
+            firefox_profile_name = nil,
+          },
+          project = { hidden_files = false },
         },
       })
-      telescope.load_extension("fzf")
+
       telescope.load_extension("project") -- telescope-project.nvim
       telescope.load_extension("file_browser")
       telescope.load_extension("projects") -- project.nvim
@@ -216,6 +174,7 @@ return {
       telescope.load_extension("cder")
       telescope.load_extension("tailiscope")
       telescope.load_extension("frecency")
+      telescope.load_extension("media_files")
     end,
   },
 }

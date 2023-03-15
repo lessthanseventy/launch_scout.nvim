@@ -14,7 +14,7 @@ return {
         ["<leader>b"] = { name = "List buffers" },
         ["<leader>c"] = { name = "+code" },
         ["<leader>f"] = { name = "+file/find" },
-        ["<leader>g"] = { name = "Git" },
+        ["<leader>g"] = { name = "+git" },
         ["<leader>gh"] = { name = "+hunks" },
         ["<leader>q"] = { name = "+quit/session" },
         ["<leader>r"] = { name = "+repl" },
@@ -22,6 +22,7 @@ return {
         ["<leader>u"] = { name = "+ui" },
         ["<leader>w"] = { name = "+window" },
         ["<leader>x"] = { name = "+diagnostics/quickfix" },
+        ["<leader>z"] = { name = "+telekasten" },
         ["<leader>sn"] = { name = "+noice" },
       }
       wk.register(keymaps)
@@ -48,6 +49,7 @@ return {
             g = true, -- bindings for prefixed with g
           },
         },
+        operators = { gc = "Comments" },
         icons = {
           breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
           separator = "➜", -- symbol used between a key and it's label
@@ -73,7 +75,7 @@ return {
         hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
         show_help = false, -- show help message on the command line when the popup is visible
         -- triggers = "auto", -- automatically setup triggers
-        triggers = { "<leader>" }, -- or specify a list manually
+        triggers = "auto", -- or specify a list manually
         triggers_blacklist = {
           -- list of mode / prefixes that should never be hooked by WhichKey
           -- this is mostly relevant for key maps that start with a native binding

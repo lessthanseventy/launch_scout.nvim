@@ -18,7 +18,6 @@ return {
       },
       highlight = {
         enable = true,
-        disable = { "lua" },
         additional_vim_regex_highlighting = { "markdown" },
       },
       textobjects = {
@@ -63,7 +62,7 @@ return {
       },
       rainbow = { enable = true, extended_mode = true, max_file_lines = nil },
       incremental_selection = { enable = false },
-      indent = { enable = true, disable = { "python", "css", "yaml" } },
+      indent = { enable = false },
       -- vim-matchup
       matchup = { enable = true },
       -- nvim-treesitter-textsubjects
@@ -77,7 +76,7 @@ return {
         },
       },
       -- endwise
-      endwise = { enable = false },
+      endwise = { enable = true },
       -- autotag
       autotag = {
         enable = true,
@@ -120,7 +119,44 @@ return {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "RRethy/nvim-treesitter-textsubjects",
       "RRethy/nvim-treesitter-endwise",
-
+      "andymass/vim-matchup",
+      {
+        "winston0410/smart-cursor.nvim",
+        keys = {
+          { "o", "o<cmd>lua require('smart-cursor').indent_cursor()<cr>", { silent = true, noremap = true } },
+          { "O", "O<cmd>lua require('smart-cursor').indent_cursor()<cr>", { silent = true, noremap = true } },
+          { "<cr>", "<cr><cmd>lua require('smart-cursor').indent_cursor()<cr>", { silent = true, noremap = true } },
+        },
+      },
+      {
+        "kiyoon/treesitter-indent-object.nvim",
+        keys = {
+          {
+            "ai",
+            "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_outer()<CR>",
+            mode = { "x", "o" },
+            desc = "Select context-aware indent (outer)",
+          },
+          {
+            "aI",
+            "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_outer(true)<CR>",
+            mode = { "x", "o" },
+            desc = "Select context-aware indent (outer, line-wise)",
+          },
+          {
+            "ii",
+            "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner()<CR>",
+            mode = { "x", "o" },
+            desc = "Select context-aware indent (inner, partial range)",
+          },
+          {
+            "iI",
+            "<Cmd>lua require'treesitter_indent_object.textobj'.select_indent_inner(true)<CR>",
+            mode = { "x", "o" },
+            desc = "Select context-aware indent (inner, entire range)",
+          },
+        },
+      },
       {
         "mfussenegger/nvim-treehopper",
         config = function()

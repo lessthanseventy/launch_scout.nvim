@@ -133,6 +133,7 @@ return {
       },
     },
   },
+  elixirls = {},
   jdtls = {},
   dockerls = {},
   graphql = {},

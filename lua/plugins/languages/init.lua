@@ -3,7 +3,7 @@ return {
   --ChatGPT
   {
     "jackMort/ChatGPT.nvim",
-    dependenciecs = {
+    dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
@@ -15,6 +15,9 @@ return {
   {
     "toppair/peek.nvim",
     build = "deno task --quiet build:fast",
+    opts = {
+      filetype = { "markdown", "telekasten" }, -- list of filetypes to recognize as markdown
+    },
   },
 
   {
@@ -40,21 +43,6 @@ return {
             bang = false,
           })
         end,
-      })
-    end,
-  },
-
-  {
-    "epwalsh/obsidian.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("obsidian").setup({
-        dir = "~/.vault",
-        notes_subdir = "notes",
-        daily_notes = { folder = "dailies" },
-        completion = {
-          nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
-        },
       })
     end,
   },
@@ -99,50 +87,6 @@ return {
     ft = { "rust" },
   },
 
-  --Databases
-  -- {
-  --   "tpope/vim-dadbod",
-  --   lazy = true,
-  --   dependencies = {
-  --     "kristijanhusak/vim-dadbod-ui",
-  --     "kristijanhusak/vim-dadbod-completion",
-  --     "abenz1267/nvim-databasehelper",
-  --   },
-  --   config = function()
-  --     local function db_completion()
-  --       require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
-  --     end
-  --
-  --     vim.g.db_ui_save_location = vim.fn.stdpath("config") .. require("plenary.path").path.sep .. "db_ui"
-  --
-  --     vim.api.nvim_create_autocmd("FileType", {
-  --       pattern = {
-  --         "sql",
-  --       },
-  --       command = [[setlocal omnifunc=vim_dadbod_completion#omni]],
-  --     })
-  --
-  --     vim.api.nvim_create_autocmd("FileType", {
-  --       pattern = {
-  --         "sql",
-  --         "mysql",
-  --         "plsql",
-  --       },
-  --       callback = function()
-  --         vim.schedule(db_completion)
-  --       end,
-  --     })
-  --   end,
-  --   cmd = {
-  --     "DBUIToggle",
-  --     "DBUI",
-  --     "DBUIAddConnection",
-  --     "DBUIFindBuffer",
-  --     "DBUIRenameBuffer",
-  --     "DBUILastQueryInfo",
-  --   },
-  -- },
-
   {
     "nanotee/sqls.nvim",
     cmd = {
@@ -158,39 +102,6 @@ return {
   {
     "dinhhuy258/vim-database",
     cmd = { "VDToggleDatabase", "VDToggleQuery", "VimDatabaseListTablesFzf" },
-  },
-
-  --REPL
-  {
-    "hkupty/iron.nvim",
-    config = function()
-      local view = require("iron.view")
-      require("iron.core").setup({
-        config = {
-          repl_definition = {
-            -- custom repl that loads the current file
-            elixir = {
-              command = { "iex", "-S", "mix" },
-            },
-            sh = { command = { "zsh" } },
-          },
-          should_map_plug = false,
-          scratch_repl = true,
-          repl_open_cmd = view.split("40%"),
-        },
-        keymaps = {
-          send_motion = "<space>rc",
-          visual_send = "<space>rc",
-          send_file = "<space>rf",
-          send_line = "<space>rl",
-          send_mark = "<space>rm",
-          cr = "<space>r<cr>",
-          interrupt = "<space>r<space>",
-          exit = "<space>rq",
-          clear = "<space>rl",
-        },
-      })
-    end,
   },
 
   -- Lua

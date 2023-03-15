@@ -2,7 +2,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     init = function()
-      local keys = require("lazyvim.plugins.lsp.keymaps").get()
+      local keys = require("lazyvim.plugins.lsp.keymaps").get()
       keys[#keys + 1] = { "<c-k>", false, mode = "i" }
     end,
     dependencies = {
@@ -39,28 +39,7 @@ return {
         -- you can do any additional lsp server setup here
         -- return true if you don't want this server to be setup with lspconfig
         ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-        setup = {
-          elixirls = function(_, opts)
-            local elixir = require("elixir")
-            elixir.setup({
-              cmd = "/home/andrew/.local/share/nvim/mason/bin/elixir-ls",
-              settings = elixir.settings({
-                dialyzerEnabled = true,
-                fetchDeps = false,
-                enableTestLenses = true,
-                suggestSpecs = false,
-              }),
-              on_attach = require("lazyvim.util").on_attach(function(client, buffer)
-                require("lazyvim.plugins.lsp.format").on_attach(client, buffer)
-                require("cmp_nvim_lsp").default_capabilities(opts.capabilities)
-              end),
-            })
-            return true
-          end,
-          -- Specify * to use this function as a fallback for any server
-          -- ["*"] = function(server, opts) end,
-          --
-        },
+        setup = {},
       }
     end,
     config = function(_, opts)
@@ -80,7 +59,8 @@ return {
       vim.diagnostic.config(opts.diagnostics)
 
       local servers = opts.servers
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(default_capabilities)
 
       local function setup(server)
         local server_opts = vim.tbl_deep_extend("force", {

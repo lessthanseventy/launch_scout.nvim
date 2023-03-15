@@ -3,7 +3,6 @@
 -- Add any additional keymaps here
 -- Shorten function name
 local keymap = vim.keymap.set
-local LSPMaps = require("config.plugins.lsp_keymaps")
 
 -- Silent keymap option
 local opts = { silent = true }
@@ -45,14 +44,14 @@ keymap("n", "<c-y>p", "<Plug>(YankyCycleBackward)")
 keymap(
   "n",
   "<C-p>",
-  "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+  "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{hidden=true, previewer = false})<cr>",
   opts
 )
 
 keymap(
   "n",
   "<leader>e",
-  "<cmd>lua require('telescope').extensions.file_browser.file_browser({path = '%:p:h', grouped = true})<cr>",
+  "<cmd>lua require('telescope').extensions.file_browser.file_browser({path = '%:p:h', grouped = true, hidden = true})<cr>",
   { desc = "Browse current directory" }
 )
 
@@ -75,7 +74,7 @@ keymap("n", "<leader>wv", "<C-W>v", { desc = "Split window vertically" })
 keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New Tab" })
 
 vim.keymap.del("n", "<leader>wd")
-keymap("n", "<leader>wd", "<cmd>bd!<cr>", { desc = "Close current buffer" })
+keymap("n", "<leader>wd", "<cmd>q!<cr>", { desc = "Close current buffer" })
 
 vim.keymap.del({ "n", "i" }, "<Esc>")
 vim.keymap.del({ "n", "i" }, "<M-j>")

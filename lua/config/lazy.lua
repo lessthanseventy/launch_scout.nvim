@@ -6,7 +6,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
--- require("config.statuscolumn")
+if vim.fn.has("nvim-0.9.0") == 1 then
+  require("config.statuscolumn")
+end
 
 require("lazy").setup({
   spec = {
@@ -16,6 +18,7 @@ require("lazy").setup({
     },
     { import = "plugins" },
     { import = "plugins.lsp" },
+    { import = "plugins.languages" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -40,7 +43,7 @@ require("lazy").setup({
       disabled_plugins = {
         "gzip",
         -- "matchit",
-        -- "matchparen",
+        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
