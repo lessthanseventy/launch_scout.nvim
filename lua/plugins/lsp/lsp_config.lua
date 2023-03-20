@@ -59,8 +59,7 @@ return {
       vim.diagnostic.config(opts.diagnostics)
 
       local servers = opts.servers
-      local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(default_capabilities)
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local function setup(server)
         local server_opts = vim.tbl_deep_extend("force", {

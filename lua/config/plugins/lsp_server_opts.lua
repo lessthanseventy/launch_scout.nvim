@@ -133,7 +133,17 @@ return {
       },
     },
   },
-  elixirls = {},
+  elixirls = {
+    settings = {
+      elixirLS = {
+        dialyzerEnabled = true,
+        fetchDeps = false,
+        enableTestLenses = false,
+        suggestSpecs = false,
+        mixEnv = "dev",
+      },
+    },
+  },
   jdtls = {},
   dockerls = {},
   graphql = {},

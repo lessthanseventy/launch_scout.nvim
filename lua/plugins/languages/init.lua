@@ -107,14 +107,12 @@ return {
   -- Lua
   {
     "folke/neodev.nvim",
-    enabled = true,
-    config = true,
+    enabled = false,
   },
 
   {
     "folke/neoconf.nvim",
-    enabled = true,
-    config = true,
+    enabled = false,
   },
 
   -- Live Server

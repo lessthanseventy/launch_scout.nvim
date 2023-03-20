@@ -65,6 +65,18 @@ function M.leave_snippet()
   end
 end
 
+function M.LAZYGIT_TOGGLE()
+  -- cwd is the root of project. if cwd is changed, change the git.
+  local cwd = vim.fn.getcwd()
+  if cwd ~= cur_cwd then
+    cur_cwd = cwd
+    lazygit:close()
+    lazygit = Terminal:new({ cmd = "lazygit", direction = "float" })
+  else
+    lazygit:toggle()
+  end
+end
+
 function M.BTOP_TOGGLE()
   btop:toggle()
 end
@@ -75,35 +87,31 @@ end
 
 function M.MIX_TEST_LINE()
   local lnum = vim.fn.line(".")
-  local cmd = '2TermExec direction=horizontal cmd="mix test %' .. ":" .. lnum .. ' --color --trace"'
-  return vim.api.nvim_command(cmd)
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local betterTerm = require("betterTerm")
+  local cmd = "mix test " .. bufname .. ":" .. lnum .. " --color --trace"
+  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
 end
 
 function M.MIX_TEST_FILE()
-  local cmd = '2TermExec direction=horizontal cmd="mix test % --color --trace"'
-  return vim.api.nvim_command(cmd)
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local betterTerm = require("betterTerm")
+  local cmd = "mix test " .. bufname .. " --color --trace"
+  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
 end
 
 function M.MIX_TEST_ALL()
-  local cmd = '2TermExec direction=horizontal cmd="mix test --color --trace"'
-  return vim.api.nvim_command(cmd)
+  local betterTerm = require("betterTerm")
+  local cmd = "mix test --color --trace"
+  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
 end
 
 function M.MIX_TEST_WATCH()
   local lnum = vim.fn.line(".")
-  local cmd = '2TermExec direction=horizontal cmd="mix test.watch %' .. ":" .. lnum .. ' --color --trace"'
-  return vim.api.nvim_command(cmd)
-end
-
-function M.LAZYGIT_TOGGLE()
-  -- cwd is the root of project. if cwd is changed, change the git.
-  local cwd = vim.fn.getcwd()
-  if cwd ~= cur_cwd then
-    cur_cwd = cwd
-    lazygit:close()
-    lazygit = Terminal:new({ cmd = "lazygit", direction = "float" })
-  end
-  lazygit:toggle()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local betterTerm = require("betterTerm")
+  local cmd = "mix test.watch " .. bufname .. ":" .. lnum .. " --color --trace"
+  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
 end
 
 return M

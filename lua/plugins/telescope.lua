@@ -8,7 +8,6 @@ return {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
       },
-      "nvim-telescope/telescope-project.nvim",
       "danielvolchek/tailiscope.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
       "nvim-telescope/telescope-media-files.nvim",
@@ -18,24 +17,19 @@ return {
           { "<leader>ss", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
         },
       },
+      "Zane-/cder.nvim",
+      "nvim-telescope/telescope-symbols.nvim",
       {
         "ahmedkhalf/project.nvim",
         config = function()
           require("project_nvim").setup({
-            detection_methods = { "pattern", "lsp" },
-            patterns = { ".git" },
-            ignore_lsp = { "null-ls" },
+            exclude_dirs = { "/home/andrew/.vault", "/home/andrew/.config/nvim" },
+            show_hidden = true,
+            silent_chdir = false,
+            scope_chdir = "tab",
           })
         end,
       },
-      "dhruvmanila/telescope-bookmarks.nvim",
-      "nvim-telescope/telescope-github.nvim",
-      "Zane-/cder.nvim",
-      {
-        "nvim-telescope/telescope-frecency.nvim",
-        dependencies = { "kkharji/sqlite.lua" },
-      },
-      "nvim-telescope/telescope-symbols.nvim",
     },
     keys = {
       { "<leader>,", false },
@@ -115,7 +109,7 @@ return {
           -- `hidden = true` is not supported in text grep commands.
           vimgrep_arguments = vimgrep_arguments,
           sorting_strategy = "ascending",
-          dynamic_preview_titles = true,
+          dynamic_preview_title = true,
           layout_config = { prompt_position = "top" },
           buffer_previewer_maker = preview_maker,
           -- preview = {
@@ -144,6 +138,8 @@ return {
               },
             },
           },
+        },
+        extensions = {
           fzf = {
             fuzzy = true, -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
@@ -151,30 +147,39 @@ return {
             case_mode = "smart_case", -- or "ignore_case" or "respect_case"
             -- the default case_mode is "smart_case"
           },
-          bookmarks = {
-            selected_browser = "firefox",
-            url_open_command = nil,
-            url_open_plugin = "open_browser",
-            full_path = true,
-            firefox_profile_name = nil,
+          tailiscope = {
+            -- register to copy classes to on selection
+            register = '"""',
+            -- indicates what picker opens when running Telescope tailiscope
+            -- can be any file inside of docs dir but most useful opts are
+            -- all, base, categories, classes
+            -- These are also accesible by running Telescope tailiscope <picker>
+            default = "base",
+            -- icon indicates an item which can be opened in tailwind docs
+            -- can be icon or false
+            doc_icon = " ",
+            -- if you would prefer to copy with/without class selector
+            -- dot is maintained in display to differentiate class from other pickers
+            no_dot = true,
+            maps = {
+              i = {
+                back = "<C-h>",
+                open_doc = "<C-o>",
+              },
+              n = {
+                back = "h",
+                open_doc = "<cr>",
+              },
+            },
           },
-          project = { hidden_files = false },
         },
       })
-
-      telescope.load_extension("project") -- telescope-project.nvim
-      telescope.load_extension("file_browser")
-      telescope.load_extension("projects") -- project.nvim
-      telescope.load_extension("yank_history")
-      telescope.load_extension("bookmarks")
-      telescope.load_extension("projects") -- project.nvim
-      telescope.load_extension("yank_history")
-      telescope.load_extension("bookmarks")
-      telescope.load_extension("gh")
       telescope.load_extension("cder")
-      telescope.load_extension("tailiscope")
-      telescope.load_extension("frecency")
+      telescope.load_extension("file_browser")
       telescope.load_extension("media_files")
+      telescope.load_extension("projects")
+      telescope.load_extension("tailiscope")
+      telescope.load_extension("yank_history")
     end,
   },
 }

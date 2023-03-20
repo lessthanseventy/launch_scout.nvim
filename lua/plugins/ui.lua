@@ -63,7 +63,7 @@ return {
           -- override the lsp markdown formatter with Noice
           ["vim.lsp.util.stylize_markdown"] = true,
           -- override cmp documentation with Noice (needs the other options to work)
-          ["cmp.entry.get_documentation"] = false,
+          ["cmp.entry.get_documentation"] = true,
         },
         hover = {
           enabled = true,
@@ -248,12 +248,8 @@ return {
       }
 
       dashboard.section.buttons.val = {
-        dashboard.button("p", "  Find project", ":Telescope projects <CR>"),
-        dashboard.button(
-          "n",
-          "  Notes",
-          "<cmd>lua require('telescope.builtin').find_files({hidden=true, search_dirs={'~/.vault/'}})<cr>"
-        ),
+        dashboard.button("p", "  Find project", "<cmd>Telescope projects<CR>"),
+        dashboard.button("n", "  Notes", "<cmd>lua require('telekasten').find_notes()<cr>"),
         dashboard.button("c", "🎚️ Nvim Configuration", ":e ~/.config/nvim/lua/config/lazy.lua <CR>"),
         dashboard.button("z", "🎚️ Zsh Configuration", ":e ~/.zshrc <CR>"),
       }

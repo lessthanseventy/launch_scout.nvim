@@ -14,6 +14,7 @@ return {
       { "<leader>zy", ":lua require('telekasten').yank_notelink()<CR>", desc = "Yank note link" },
       { "<leader>zc", ":lua require('telekasten').show_calendar()<CR>", desc = "Show calendar" },
       { "<leader>zC", ":CalendarT<CR>", desc = "Show calendar in tab" },
+      { "<leader>zv", ":lua require('telekasten').switch_vault()<CR>", desc = "Switch vault" },
       { "<leader>zi", ":lua require('telekasten').paste_img_and_link()<CR>", desc = "Paste image and link" },
       { "<leader>zt", ":lua require('telekasten').toggle_todo()<CR>", desc = "Toggle todo" },
       { "<leader>zb", ":lua require('telekasten').show_backlinks()<CR>", desc = "Show Backlinks" },
@@ -31,21 +32,34 @@ return {
       "ixru/nvim-markdown",
     },
     opts = function()
-      local home = vim.fn.expand("~/.vault/home/")
-      local home = vim.fn.expand("~/.vault/work/")
+      local home = vim.fn.expand("~/.vault/home")
+      local work = vim.fn.expand("~/.vault/work")
       return {
-        vaults = { home, work },
-        dailies = home .. "/" .. "daily",
-        weeklies = home .. "/" .. "weekly",
-        templates = home .. "/" .. "templates",
-        -- template for new notes (new_note, follow_link)
-        template_new_note = home .. "/" .. "templates/new_note.md",
+        vaults = {
+          work = {
+            home = work .. "/" .. "notes",
+            dailies = work .. "/" .. "notes/daily",
+            weeklies = work .. "/" .. "notes/weekly",
+            templates = work .. "/" .. "templates",
+            -- template for new notes (new_note, follow_link)
+            template_new_note = work .. "/" .. "templates/new_note.md",
 
+            template_new_daily = work .. "/" .. "templates/daily.md",
+
+            -- template for newly created weekly notes (goto_thisweek)
+            template_new_weekly = work .. "/" .. "templates/weekly.md", -- template for new notes (new_note, follow_link)
+          },
+        },
+        home = home .. "/" .. "notes",
+        dailies = home .. "/" .. "notes/daily",
+        weeklies = home .. "/" .. "notes/weekly",
+        templates = home .. "/" .. "templates",
+        template_new_note = home .. "/" .. "templates/new_note.md",
         -- template for newly created daily notes (goto_today)
         template_new_daily = home .. "/" .. "templates/daily.md",
-
         -- template for newly created weekly notes (goto_thisweek)
         template_new_weekly = home .. "/" .. "templates/weekly.md", -- template for new notes (new_note, follow_link)
+        auto_set_filetype = true,
         calendar_opts = {
           -- calendar week display mode: 1 .. 'WK01', 2 .. 'WK 1', 3 .. 'KW01', 4 .. 'KW 1', 5 .. '1'
           weeknm = 1,

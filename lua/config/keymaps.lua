@@ -11,8 +11,6 @@ keymap("n", "<S-h>", ":tabp<CR>", opts)
 
 keymap("n", "<leader>ww", "<cmd>w! %<cr>", opts)
 keymap("n", "<leader>qq", "<cmd>qa!<cr>", opts)
-keymap("n", "<F9>", ":Ttoggle<cr>", opts)
-keymap("t", "<F9>", "<C-\\><C-n>:Tclose<cr>", opts)
 keymap("t", "<C-j>", "<C-\\><C-n><C-w>j", opts)
 keymap("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
 

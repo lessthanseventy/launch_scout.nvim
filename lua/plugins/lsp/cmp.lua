@@ -1,7 +1,6 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
     version = false,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -10,6 +9,14 @@ return {
       "hrsh7th/cmp-path",
       "onsails/lspkind.nvim",
       "saadparwaiz1/cmp_luasnip",
+      {
+        "jcdickinson/codeium.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim",
+          "hrsh7th/nvim-cmp",
+        },
+        config = true,
+      },
     },
     opts = function(_, opts)
       local cmp = require("cmp")
@@ -32,6 +39,7 @@ return {
             luasnip = "[Snip]",
             buffer = "[Buffer]",
             path = "[Path]",
+            codeium = "[🚀 Codeium]",
           },
           before = function(entry, vim_item) -- for tailwind css autocomplete
             if vim_item.kind == "Color" and entry.completion_item.documentation then
@@ -94,6 +102,7 @@ return {
         snippet = opts.snippet,
         preselect = cmp.PreselectMode.Item,
         sources = cmp.config.sources({
+          { name = "codeium", max_item_count = 2 },
           { name = "nvim_lsp" },
           { name = "luasnip", max_item_count = 4 },
           { name = "buffer" },
