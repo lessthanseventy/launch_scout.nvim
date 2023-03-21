@@ -76,15 +76,14 @@ return {
     },
     root_dir = function(fname)
       return lsp_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
-        or lsp_util.root_pattern("postcss.config.js", "postcss.config.ts")(fname)
-        or find_package_assets_ancestor(fname)
-        or lsp_util.find_node_modules_ancestor(fname)
-        or lsp_util.find_git_ancestor(fname)
-        or lsp_util.find_package_json_ancestor(fname)
+          or lsp_util.root_pattern("postcss.config.js", "postcss.config.ts")(fname)
+          or find_package_assets_ancestor(fname)
+          or lsp_util.find_node_modules_ancestor(fname)
+          or lsp_util.find_git_ancestor(fname)
+          or lsp_util.find_package_json_ancestor(fname)
     end,
   },
   lua_ls = {
-    single_file_support = true,
     settings = {
       Lua = {
         workspace = {
@@ -123,7 +122,6 @@ return {
           unusedLocalExclude = { "_*" },
         },
         format = {
-          enable = false,
           defaultConfig = {
             indent_style = "space",
             indent_size = "2",

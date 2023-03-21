@@ -2,51 +2,69 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 --
-vim.opt.autowrite = false
-vim.opt.backup = false -- creates a backup file
-vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-vim.opt.cmdheight = 0 -- more space in the neovim command line for displaying messages
-vim.opt.completeopt = "menuone,noinsert"
-vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
-vim.opt.confirm = false
-vim.opt.fileencoding = "utf-8" -- the encoding written to a file
-vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.opt.fillchars.eob = " "
-vim.opt.foldcolumn = "0"
-vim.opt.foldenable = true
-vim.opt.foldlevelstart = 99
--- vim.opt.guicursor = "n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
-vim.opt.guifont = { "Liga Comic Mono", ":h17" }
-vim.opt.hlsearch = true -- highlight all matches on previous search pattern
-vim.opt.laststatus = 3
-vim.opt.list = true
-vim.opt.mouse = "" -- allow the mouse to be used in neovim
-vim.opt.mousemodel = "extend"
-vim.opt.number = true -- set numbered lines
-vim.opt.numberwidth = 4 -- set number column width to 4
-vim.opt.pumheight = 10 -- pop up menu height
-vim.opt.relativenumber = true
-vim.opt.ruler = false
-vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
-vim.opt.showtabline = 0 -- always show tabs
-vim.opt.signcolumn = "yes:1"
-vim.opt.smartindent = false
-vim.opt.swapfile = true -- creates a swapfile
-vim.opt.timeoutlen = 300 -- time to wait for a mapped sequence to complete (in milliseconds)
-vim.opt.undofile = true -- enable persistent undo
-vim.opt.updatetime = 200 -- faster completion (4000ms default)
-vim.opt.whichwrap:append("<,>,[,],h,l")
-vim.opt.wildmenu = false
-vim.opt.wrap = true -- display lines as one long line
-vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
-vim.g.python3_host_prog = "/usr/bin/python"
-vim.g.node_host_prog = "/home/andrew/.asdf/installs/nodejs/19.3.0/bin/neovim-node-host"
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+local opt = vim.opt
+
+opt.autowrite = false
+opt.backup = false -- creates a backup file
+opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+opt.cmdheight = 0 -- more space in the neovim command line for displaying messages
+opt.colorcolumn = "100000"
+opt.completeopt = "menuone,noinsert,noselect" -- mostly just for cmp"
+opt.conceallevel = 3 -- Hide * markup for bold and italic
+opt.confirm = false
+opt.cursorline = true
+opt.equalalways = false
+opt.expandtab = true
+opt.fileencoding = "utf-8" -- the encoding written to a file
+opt.fillchars.eob = " "
+opt.foldcolumn = "0"
+opt.foldenable = true
+opt.foldlevelstart = 99
+opt.guifont = { "Cascadia Code PL", ":h12" }
+opt.hlsearch = true -- highlight all matches on previous search pattern
+opt.laststatus = 3
+opt.list = true
+opt.mouse = "" -- allow the mouse to be used in neovim
+opt.mousemodel = "extend"
+opt.number = true -- set numbered lines
+opt.numberwidth = 4 -- set number column width to 4
+opt.pumblend = 10
+opt.pumheight = 10 -- pop up menu height
+opt.relativenumber = true
+opt.ruler = false
+opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
+opt.showtabline = 0 -- always show tabs
+opt.signcolumn = "yes:2"
+opt.smartindent = false
+opt.splitright = true
+opt.splitbelow = true
+opt.swapfile = true -- creates a swapfile
+opt.tabstop = 2
+opt.termguicolors = true
+opt.timeoutlen = 200 -- time to wait for a mapped sequence to complete (in milliseconds)
+opt.undofile = true -- enable persistent undo
+opt.undolevels = 10000
+opt.whichwrap:append("<,>,[,],h,l")
+opt.wildmenu = false
+opt.winwidth = 10
+opt.winminwidth = 10
+opt.wrap = true -- display lines as one long line
+opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+
+vim.g.python3_host_prog = vim.fn.expand("~") .. ".asdf/installs/python/3.11.2/bin/python"
+vim.g.node_host_prog = vim.fn.expand("~") .. ".asdf/installs/nodejs/19.8.1/bin/neovim-node-host"
 vim.g.loaded_perl_provider = 0
 vim.g.do_filetype_lua = 1
 
 vim.g.db_ui_auto_execute_table_helpers = 1
 vim.g.db_ui_use_nerd_fonts = 1
+--
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0
 
 vim.cmd([[
 if has('nvim') && executable('nvr')

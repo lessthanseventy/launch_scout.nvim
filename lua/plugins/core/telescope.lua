@@ -1,15 +1,18 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
+    cmd = "VimEnter",
     version = false, -- telescope did only one release, so use HEAD for now
-    event = "VimEnter",
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
       },
-      "danielvolchek/tailiscope.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
+      "Zane-/cder.nvim",
+      "debugloop/telescope-undo.nvim",
+      "ahmedkhalf/project.nvim",
+      "danielvolchek/tailiscope.nvim",
       "nvim-telescope/telescope-media-files.nvim",
       {
         "nvim-telescope/telescope-symbols.nvim",
@@ -17,23 +20,9 @@ return {
           { "<leader>ss", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
         },
       },
-      "Zane-/cder.nvim",
-      "nvim-telescope/telescope-symbols.nvim",
-      {
-        "ahmedkhalf/project.nvim",
-        config = function()
-          require("project_nvim").setup({
-            exclude_dirs = { "/home/andrew/.vault", "/home/andrew/.config/nvim" },
-            show_hidden = true,
-            silent_chdir = false,
-            scope_chdir = "tab",
-          })
-        end,
-      },
     },
     keys = {
-      { "<leader>,", false },
-      { "<leader>:", false },
+      { "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Switch Buffer" },
       { "<leader>b", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
       { "<leader><space>", "<cmd>Telescope commands<cr>", desc = "Commands" },
       -- find
@@ -48,7 +37,12 @@ return {
       { "<leader>sc", "<cmd>Telescope command_history<cr>", desc = "Command History" },
       { "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
       { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-      { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
+      { "<leader>su", "<cmd>Telescope undo<cr>", desc = "Undo Tree" },
+      {
+        "<leader>sH",
+        "<cmd>Telescope highlights<cr>",
+        desc = "Search Highlight Groups",
+      },
       { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
       { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
       { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
@@ -119,7 +113,33 @@ return {
           selection_caret = " ❯ ",
           prompt_prefix = "  " .. icons.get("telescope") .. "  ",
           -- path_display = { "smart" },
-          mappings = opts.defaults.mappings,
+          mappings = {
+            i = {
+              ["<c-t>"] = function(...)
+                return require("trouble.providers.telescope").open_with_trouble(...)
+              end,
+              ["<a-t>"] = function(...)
+                return require("trouble.providers.telescope").open_selected_with_trouble(...)
+              end,
+              ["<C-Down>"] = function(...)
+                return require("telescope.actions").cycle_history_next(...)
+              end,
+              ["<C-Up>"] = function(...)
+                return require("telescope.actions").cycle_history_prev(...)
+              end,
+              ["<C-f>"] = function(...)
+                return require("telescope.actions").preview_scrolling_down(...)
+              end,
+              ["<C-b>"] = function(...)
+                return require("telescope.actions").preview_scrolling_up(...)
+              end,
+            },
+            n = {
+              ["q"] = function(...)
+                return require("telescope.actions").close(...)
+              end,
+            },
+          },
           pickers = {
             tailiscope = { theme = "dropdown" },
             find_files = {
@@ -146,6 +166,13 @@ return {
             override_file_sorter = true, -- override the file sorter
             case_mode = "smart_case", -- or "ignore_case" or "respect_case"
             -- the default case_mode is "smart_case"
+          },
+          undo = {
+            side_by_side = true,
+            layout_strategy = "vertical",
+            layout_config = {
+              preview_height = 0.8,
+            },
           },
           tailiscope = {
             -- register to copy classes to on selection
@@ -176,10 +203,11 @@ return {
       })
       telescope.load_extension("cder")
       telescope.load_extension("file_browser")
+      telescope.load_extension("fzf")
       telescope.load_extension("media_files")
       telescope.load_extension("projects")
       telescope.load_extension("tailiscope")
-      telescope.load_extension("yank_history")
+      telescope.load_extension("undo")
     end,
   },
 }

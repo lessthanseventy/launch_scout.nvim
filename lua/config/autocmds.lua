@@ -1,8 +1,3 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
--- Add any additional autocmds here
---
--- Use 'q' to quit from common plugins
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "calendar", "qf", "help", "man", "lspinfo", "spectre_panel", "lir", "dbout" },
   callback = function()
@@ -19,6 +14,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
+    vim.opt_local.textwidth = 80
   end,
 })
 

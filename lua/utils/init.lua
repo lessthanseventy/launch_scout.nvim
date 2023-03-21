@@ -88,30 +88,30 @@ end
 function M.MIX_TEST_LINE()
   local lnum = vim.fn.line(".")
   local bufname = vim.api.nvim_buf_get_name(0)
-  local betterTerm = require("betterTerm")
-  local cmd = "mix test " .. bufname .. ":" .. lnum .. " --color --trace"
-  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
+  local cmd = "'mix test " .. bufname .. ":" .. lnum .. " --color --trace'"
+  local term = require("toggleterm")
+  term.exec_command("cmd=" .. cmd, 2)
 end
 
 function M.MIX_TEST_FILE()
   local bufname = vim.api.nvim_buf_get_name(0)
-  local betterTerm = require("betterTerm")
-  local cmd = "mix test " .. bufname .. " --color --trace"
-  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
+  local cmd = "'mix test " .. bufname .. " --color --trace'"
+  local term = require("toggleterm")
+  term.exec_command("cmd=" .. cmd, 2)
 end
 
 function M.MIX_TEST_ALL()
-  local betterTerm = require("betterTerm")
-  local cmd = "mix test --color --trace"
-  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
+  local cmd = "'mix test --color --trace'"
+  local term = require("toggleterm")
+  term.exec_command("cmd=" .. cmd, 2)
 end
 
 function M.MIX_TEST_WATCH()
   local lnum = vim.fn.line(".")
   local bufname = vim.api.nvim_buf_get_name(0)
-  local betterTerm = require("betterTerm")
-  local cmd = "mix test.watch " .. bufname .. ":" .. lnum .. " --color --trace"
-  betterTerm.send(cmd, 1, { clean = false, interrupt = false })
+  local cmd = "'mix test.watch " .. bufname .. ":" .. lnum .. " --color --trace'"
+  local term = require("toggleterm")
+  term.exec_command("cmd=" .. cmd, 2)
 end
 
 return M

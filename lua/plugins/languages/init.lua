@@ -3,12 +3,15 @@ return {
   --ChatGPT
   {
     "jackMort/ChatGPT.nvim",
+    event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
     },
-    config = true,
+    config = function()
+      require("chatgpt").setup()
+    end,
   },
 
   --Markdown
@@ -17,6 +20,26 @@ return {
     build = "deno task --quiet build:fast",
     opts = {
       filetype = { "markdown", "telekasten" }, -- list of filetypes to recognize as markdown
+    },
+  },
+
+  {
+    "jakewvincent/mkdnflow.nvim",
+    opts = {
+      links = {
+        style = "wiki",
+        name_is_source = true,
+        conceal = true,
+        context = 0,
+        implicit_extension = nil,
+        transform_implicit = false,
+        transform_explicit = function(text)
+          text = text:gsub(" ", "-")
+          text = text:lower()
+          text = os.date("%Y-%m-%d_") .. text
+          return text
+        end,
+      },
     },
   },
 
@@ -49,15 +72,21 @@ return {
 
   --Elixir
   {
-    "mhanberg/elixir.nvim",
+    "elixir-tools/elixir-tools.nvim",
     keys = {
       { "<leader>tl", vim.lsp.codelens.run, desc = "Test lens" },
     },
     ft = { "elixir", "eex", "heex", "surface" },
+    opts = {
+      cmd = vim.fn.expand("~") .. ".local/share/nvim/mason/bin/elixir-ls",
+    },
   },
 
   --Ruby on Rails
-  "tpope/vim-rails",
+  {
+    "tpope/vim-rails",
+    ft = { "ruby" },
+  },
 
   -- Go
   {
@@ -72,7 +101,6 @@ return {
   {
     "saecki/crates.nvim",
     ft = { "rust" },
-    dependencies = { { "nvim-lua/plenary.nvim" } },
     config = function()
       require("crates").setup({
         null_ls = { enabled = true, name = "crates.nvim" },
@@ -82,8 +110,7 @@ return {
 
   {
     "simrat39/rust-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "rust-lang/rust.vim" },
-    lazy = true,
+    dependencies = { "rust-lang/rust.vim" },
     ft = { "rust" },
   },
 
@@ -99,20 +126,10 @@ return {
       "SqlsSwitchConnection",
     },
   },
+
   {
     "dinhhuy258/vim-database",
     cmd = { "VDToggleDatabase", "VDToggleQuery", "VimDatabaseListTablesFzf" },
-  },
-
-  -- Lua
-  {
-    "folke/neodev.nvim",
-    enabled = false,
-  },
-
-  {
-    "folke/neoconf.nvim",
-    enabled = false,
   },
 
   -- Live Server
@@ -124,6 +141,13 @@ return {
   -- Live scratchpad
   {
     "metakirby5/codi.vim",
+  },
+
+  -- Colors
+  {
+    "max397574/colortils.nvim",
+    cmd = "Colortils",
+    config = true,
   },
 
   --VSCode Tasks

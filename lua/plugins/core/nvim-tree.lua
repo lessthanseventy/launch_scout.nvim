@@ -1,14 +1,12 @@
 return {
   {
     "nvim-tree/nvim-tree.lua",
-    priority = 99,
+    event = "VimEnter",
     dependencies = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
     },
-    tag = "nightly", -- optional, updated every week. (see issue #1193) */
+    tag = "nightly",                 -- optional, updated every week. (see issue #1193) */
     opts = function()
-      local nvim_tree = require("nvim-tree")
-      local tree_cb = require("nvim-tree.config").nvim_tree_callback
       return {
         on_attach = "default",
         disable_netrw = false,

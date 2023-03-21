@@ -2,9 +2,13 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
   -- stylua: ignore
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath })
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+
+require("config.options")
 
 if vim.fn.has("nvim-0.9.0") == 1 then
   require("config.statuscolumn")
@@ -12,16 +16,12 @@ end
 
 require("lazy").setup({
   spec = {
-    {
-      "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
-    },
-    { import = "plugins" },
+    { import = "plugins.core" },
+    { import = "plugins.ui" },
     { import = "plugins.lsp" },
     { import = "plugins.languages" },
   },
   defaults = {
-    -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
     lazy = false,
     -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
@@ -29,12 +29,12 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "launch_scout", "tokyonight" } },
+  install = { colorscheme = { "rocket_dog", "tokyonight" } },
   checker = {
     -- automatically check for plugin updates
     enabled = true,
     concurrency = nil, ---@type number? set to 1 to check for updates very slowly
-    notify = false, -- get a notification when new updates are found
+    notify = false,   -- get a notification when new updates are found
     frequency = 3600, -- check for updates every hour
   },
   performance = {
@@ -42,8 +42,6 @@ require("lazy").setup({
       -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
         "netrwPlugin",
         "tarPlugin",
         "tohtml",
@@ -53,3 +51,6 @@ require("lazy").setup({
     },
   },
 })
+
+require("config.keymaps")
+require("config.autocmds")

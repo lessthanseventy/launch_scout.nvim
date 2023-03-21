@@ -31,6 +31,15 @@ return {
       "nvim-telescope/telescope.nvim",
       "ixru/nvim-markdown",
     },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "markdown", "telekasten" },
+        group = vim.api.nvim_create_augroup("mkdn_keymap", { clear = true }),
+        callback = function()
+          vim.keymap.set("n", "<CR>", "<cmd>Telekasten follow_link<cr>", { silent = true, buffer = true })
+        end,
+      })
+    end,
     opts = function()
       local home = vim.fn.expand("~/.vault/home")
       local work = vim.fn.expand("~/.vault/work")
