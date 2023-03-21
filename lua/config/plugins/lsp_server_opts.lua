@@ -140,7 +140,7 @@ return {
         fetchDeps = false,
         enableTestLenses = false,
         suggestSpecs = false,
-        mixEnv = "dev",
+        mixEnv = "test",
       },
     },
   },
