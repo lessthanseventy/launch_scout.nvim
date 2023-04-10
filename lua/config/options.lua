@@ -45,7 +45,7 @@ opt.splitbelow = true
 opt.swapfile = true -- creates a swapfile
 opt.tabstop = 2
 opt.termguicolors = true
-opt.timeoutlen = 200 -- time to wait for a mapped sequence to complete (in milliseconds)
+opt.timeoutlen = 325 -- time to wait for a mapped sequence to complete (in milliseconds)
 opt.undofile = true -- enable persistent undo
 opt.undolevels = 10000
 opt.whichwrap:append("<,>,[,],h,l")

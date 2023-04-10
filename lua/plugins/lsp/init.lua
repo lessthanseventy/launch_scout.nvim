@@ -1,84 +1,17 @@
 return {
+  -- Autocompletion
   {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v1.x",
-    dependencies = {
-      -- LSP Support
-      { "neovim/nvim-lspconfig" }, -- Required
-      { "onsails/lspkind.nvim" }, -- Required
-      {
-        "williamboman/mason.nvim",
-        build = function()
-          pcall(vim.cmd, "MasonUpdate")
-        end,
-      }, -- Optional
-      { "williamboman/mason-lspconfig.nvim" }, -- Optional
-      { "jay-babu/mason-null-ls.nvim" },
-      { "jose-elias-alvarez/null-ls.nvim" },
-      { "b0o/schemastore.nvim" },
-
-      -- Autocompletion
-      { "hrsh7th/nvim-cmp" }, -- Required
-      { "hrsh7th/cmp-nvim-lsp" }, -- Required
-      { "hrsh7th/cmp-buffer" }, -- Optional
-      { "hrsh7th/cmp-path" }, -- Optional
-      { "saadparwaiz1/cmp_luasnip" }, -- Optional
-      { "hrsh7th/cmp-nvim-lua" }, -- Optional
-      {
-        "jcdickinson/codeium.nvim",
-        config = true,
-      },
-      -- Diagnostics
-      {
-        "glepnir/lspsaga.nvim",
-        event = "LspAttach",
-        keys = {
-          { "<leader>ca", "<cmd>Lspsaga code_action<CR>", desc = "LSP Code Action", mode = { "n", "v" } },
-          { "<leader>cr", "<cmd>Lspsaga rename<CR>", desc = "Lsp Rename in file", mode = { "n", "v" } },
-          { "<leader>cR", "<cmd>Lspsaga rename ++project<CR>", desc = "LSP Rename in project}", mode = { "n", "v" } },
-          { "gl", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>", mode = { "n" } },
-          { "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", mode = { "n" } },
-          { "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", mode = { "n" } },
-          { "K", "<cmd>Lspsaga hover_doc<CR>", mode = { "n" } },
-          { "KK", "<cmd>Lspsaga hover_doc ++keep<CR>", mode = { "n" } },
-        },
-        dependencies = {
-          { "nvim-tree/nvim-web-devicons" },
-          --Please make sure you install markdown and markdown_inline parser
-          { "nvim-treesitter/nvim-treesitter" },
-        },
-        config = true,
-      },
-      -- Snippets
-      {
-        "L3MON4D3/LuaSnip",
-        dependencies = {
-          "rafamadriz/friendly-snippets",
-          config = function()
-            require("luasnip.loaders.from_vscode").lazy_load()
-            require("luasnip").filetype_extend("telekasten", { "markdown" })
-          end,
-        },
-        opts = {
-          history = true,
-        },
-      },
-    },
-    config = function()
-      local lsp = require("lsp-zero").preset({
-        name = "lsp-compe",
-        set_lsp_keymaps = false,
-        suggest_lsp_servers = true,
-        setup_servers_on_start = true,
-      })
+    "hrsh7th/nvim-cmp",
+    dependencies = { "onsails/lspkind.nvim" },
+    opts = function()
       local cmp = require("cmp")
-      local lspkind = require("lspkind")
       local luasnip = require("luasnip")
-
-      local lsp_util = require("lspconfig/util")
-      local null_ls = require("null-ls")
-      local builtins = null_ls.builtins
-
+      local lspkind = require("lspkind")
+      local has_words_before = function()
+        unpack = unpack or table.unpack
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+      end
       local formatting_opts = {
         format = lspkind.cmp_format({
           mode = "symbol_text", -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
@@ -111,136 +44,7 @@ return {
           end,
         }),
       }
-
-      lsp.on_attach(function(client, bufnr)
-        local navic = require("nvim-navic")
-        if client.server_capabilities.documentSymbolProvider then
-          navic.attach(client, bufnr)
-        end
-
-        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-      end)
-
-      lsp.nvim_workspace()
-
-      local sources = {
-        -- formatting
-        builtins.formatting.black.with({ extra_args = { "--fast" } }),
-        builtins.diagnostics.credo.with({ extra_args = { "--min-priority", "low" } }),
-        builtins.diagnostics.eslint_d,
-        builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
-        builtins.diagnostics.markdownlint,
-        builtins.diagnostics.proselint,
-        builtins.diagnostics.tsc,
-        builtins.formatting.deno_fmt.with({
-          filetypes = { "markdown", "telekasten" }, -- only runs `deno fmt` for markdown
-        }),
-        builtins.formatting.fixjson,
-        builtins.formatting.isort,
-        builtins.formatting.prettier.with({
-          disabled_filetypes = { "markdown" },
-          extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--prose-wrap='always'" },
-        }),
-
-        builtins.formatting.mix.with({ filetypes = { "elixir", "eelixir", "heex" } }),
-        builtins.formatting.shellharden,
-        builtins.formatting.shfmt,
-        builtins.formatting.stylua,
-      }
-
-      local has_words_before = function()
-        unpack = unpack or table.unpack
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-      end
-
-      local function find_package_assets_ancestor(fname)
-        return lsp_util.search_ancestors(fname, function(path)
-          if lsp_util.path.is_dir(lsp_util.path.join(path, "assets")) then
-            return path
-          end
-        end)
-      end
-
-      lsp.configure("tailwindcss", {
-        filetypes = {
-          "elixir",
-          "eelixir",
-          "html",
-          "html-heex",
-          "heex",
-          "css",
-          "less",
-          "postcss",
-          "sass",
-          "scss",
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact",
-        },
-        cmd = { vim.fn.expand("~") .. ".local/share/nvim/mason/bin/tailwindcss-language-server", "--stdio" },
-        init_options = { userLanguages = { heex = "html", elixir = "html" } },
-        settings = {
-          tailwindCSS = {
-            hovers = true,
-            suggestions = true,
-            codeActions = true,
-          },
-        },
-        root_dir = function(fname)
-          return lsp_util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname)
-            or lsp_util.root_pattern("postcss.config.js", "postcss.config.ts")(fname)
-            or find_package_assets_ancestor(fname)
-            or lsp_util.find_node_modules_ancestor(fname)
-            or lsp_util.find_git_ancestor(fname)
-            or lsp_util.find_package_json_ancestor(fname)
-        end,
-      })
-
-      lsp.configure("jsonls", {
-        settings = {
-          json = {
-            schemas = require("schemastore").json.schemas(),
-            validate = { enable = true },
-          },
-        },
-      })
-
-      lsp.configure("yamlls", {
-        schemastore = { enable = true },
-        settings = {
-          yaml = {
-            hover = true,
-            completion = true,
-            validate = true,
-            schemas = require("schemastore").json.schemas(),
-          },
-        },
-      })
-
-      lsp.configure("elixirls", {
-        settings = {
-          elixirLS = {
-            dialyzerEnabled = true,
-            fetchDeps = false,
-            enableTestLenses = false,
-            suggestSpecs = false,
-            mixEnv = "test",
-          },
-        },
-      })
-
-      lsp.configure("rust_analyzer", {
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = { allFeatures = true },
-            checkOnSave = { command = "clippy", extraArgs = { "--no-deps" } },
-          },
-        },
-      })
-
-      local cmp_config = {
+      return {
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -295,39 +99,184 @@ return {
           entries = "native",
         },
       }
-
-      cmp.setup(cmp_config)
-
-      lsp.format_on_save({
-        format_opts = {
-          timeout_ms = 10000,
+    end,
+  }, -- Required
+  { "hrsh7th/cmp-nvim-lsp" }, -- Required
+  { "hrsh7th/cmp-buffer" }, -- Optional
+  { "hrsh7th/cmp-path" }, -- Optional
+  { "saadparwaiz1/cmp_luasnip" }, -- Optional
+  { "hrsh7th/cmp-nvim-lua" }, -- Optional
+  {
+    "jcdickinson/codeium.nvim",
+    config = true,
+  },
+  -- Diagnostics
+  {
+    "glepnir/lspsaga.nvim",
+    event = "LspAttach",
+    keys = {
+      {
+        "<leader>ca",
+        "<cmd>Lspsaga code_action<CR>",
+        desc = "LSP Code Action",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>cr",
+        "<cmd>Lspsaga rename<CR>",
+        desc = "Lsp Rename in file",
+        mode = {
+          "n",
+          "v",
         },
-        servers = {
-          ["null-ls"] = { "javascript", "typescript", "lua", "elixir", "eelixir", "heex", "markdown", "telekasten" },
+      },
+      {
+        "<leader>cR",
+        "<cmd>Lspsaga rename ++project<CR>",
+        desc = "LSP Rename in project}",
+        mode = {
+          "n",
+          "v",
         },
-      })
+      },
+      { "gl", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>", mode = { "n" } },
+      { "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", mode = { "n" } },
+      { "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", mode = { "n" } },
+      { "K", "<cmd>Lspsaga hover_doc<CR>", mode = { "n" } },
+      { "KK", "<cmd>Lspsaga hover_doc ++keep<CR>", mode = { "n" } },
+    },
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      --Please make sure you install markdown and markdown_inline parser
+      { "nvim-treesitter/nvim-treesitter" },
+    },
+    config = true,
+  },
+  -- Snippets
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      config = function()
+        require("luasnip.loaders.from_vscode").lazy_load()
+        require("luasnip").filetype_extend("telekasten", { "markdown" })
+      end,
+    },
+    opts = {
+      history = true,
+    },
+  },
+  { "neovim/nvim-lspconfig" },
+  {
+    "williamboman/mason.nvim",
+    build = function()
+      pcall(vim.cmd, "MasonUpdate")
+    end,
+  }, -- Optional
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      { "jay-babu/mason-null-ls.nvim" },
+      { "jose-elias-alvarez/null-ls.nvim" },
+    },
+    config = function()
+      require("mason").setup()
 
-      lsp.setup()
+      local null_ls = require("null-ls")
+      local builtins = null_ls.builtins
 
-      local null_opts = lsp.build_options("null-ls", {})
+      local sources = {
+        -- formatting
+        builtins.formatting.black.with({ extra_args = { "--fast" } }),
+        builtins.diagnostics.credo.with({ extra_args = { "--min-priority", "low" } }),
+        builtins.diagnostics.eslint_d,
+        builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
+        builtins.diagnostics.markdownlint,
+        builtins.diagnostics.proselint,
+        builtins.diagnostics.tsc,
+        builtins.formatting.deno_fmt.with({
+          filetypes = { "markdown", "telekasten" }, -- only runs `deno fmt` for markdown
+        }),
+        builtins.formatting.fixjson,
+        builtins.formatting.isort,
+        builtins.formatting.prettier.with({
+          disabled_filetypes = { "markdown" },
+          extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--prose-wrap='always'" },
+        }),
 
-      null_ls.setup({
-        on_attach = function(client, bufnr)
-          null_opts.on_attach(client, bufnr)
-        end,
+        builtins.formatting.mix.with({ filetypes = { "elixir", "eelixir", "heex" } }),
+        builtins.formatting.shellharden,
+        builtins.formatting.shfmt,
+        builtins.formatting.stylua,
+      }
+
+      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+      require("null-ls").setup({
+        -- you can reuse a shared lspconfig on_attach callback here
         sources = sources,
+        on_attach = function(client, bufnr)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format({
+                  bufnr = bufnr,
+                  timeout_ms = 3000,
+                  filter = function(client)
+                    return client.name == "null-ls"
+                  end,
+                })
+              end,
+            })
+          end
+        end,
       })
 
-      -- See mason-null-ls.nvim's documentation for more details:
-      -- https://github.com/jay-babu/mason-null-ls.nvim#setup
       require("mason-null-ls").setup({
-        ensure_installed = nil,
-        automatic_installation = true, -- You can still set this to `true`
         automatic_setup = false,
       })
 
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          -- Replace these with whatever servers you want to install
+          "elixir-ls",
+          "lua-language-server",
+        },
+      })
+
+      local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lsp_attach = function(client, bufnr)
+        -- Create your keybindings here...
+      end
+
+      local lspconfig = require("lspconfig")
+      require("mason-lspconfig").setup_handlers({
+        function(server_name)
+          lspconfig[server_name].setup({
+            on_attach = lsp_attach,
+            capabilities = lsp_capabilities,
+          })
+        end,
+      })
+      local signs = {
+        Error = " ",
+        Warn = " ",
+        Info = " ",
+        Hint = "ﴞ ",
+      }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
+
       vim.diagnostic.config({
+        signs = true,
         update_in_insert = false,
+        underline = true,
+        severity_sort = true,
+        virtual_text = false,
       })
     end,
   },

@@ -30,9 +30,7 @@ keymap("v", ">", ">gv", opts)
 -- NvimTree
 keymap("n", "<F8>", ":NvimTreeToggle<CR>", opts)
 
--- Glance
-keymap("n", "gr", "<cmd>Glance references<cr>", opts)
-keymap("n", "gd", "<cmd>Glance definitions<cr>", opts)
+-- Alpha
 keymap("n", "<leader>a", "<cmd>Alpha<cr>", opts)
 
 keymap(

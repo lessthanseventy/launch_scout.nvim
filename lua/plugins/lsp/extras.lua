@@ -3,6 +3,20 @@ return {
 
   {
     "dnlhc/glance.nvim",
+    keys = {
+      {
+        "gd",
+        "<Cmd>Glance definitions<CR>",
+        mode = { "n" },
+        desc = "Glance definitions",
+      },
+      {
+        "gr",
+        "<Cmd>Glance references<CR>",
+        mode = { "n" },
+        desc = "Glance references",
+      },
+    },
     config = function()
       local glance = require("glance")
       local actions = glance.actions

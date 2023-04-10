@@ -14,6 +14,10 @@ return {
     end,
   },
 
+  {
+    "dpayne/CodeGPT.nvim",
+  },
+
   --Markdown
   {
     "toppair/peek.nvim",
@@ -78,7 +82,7 @@ return {
     },
     ft = { "elixir", "eex", "heex", "surface" },
     opts = {
-      cmd = vim.fn.expand("~") .. ".local/share/nvim/mason/bin/elixir-ls",
+      cmd = "elixir-ls",
     },
   },
 
