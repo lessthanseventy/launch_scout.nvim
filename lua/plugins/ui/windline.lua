@@ -5,6 +5,8 @@ return {
       local recorder = require("recorder")
       local codegpt = require("codegpt")
       local windline = require("windline")
+      local cava_component = require("windline.components.cava")
+      cava_component.is_stop = false
       local helper = require("windline.helpers")
       local b_components = require("windline.components.basic")
       local state = _G.WindLine.state
@@ -39,10 +41,16 @@ return {
           return { { "  ", state.mode[2] } }
         end,
       }
-      basic.square_mode = {
-        hl_colors = colors_mode,
+
+      basic.gpt_status = {
+        name = "gpt_status",
+        hl_colors = {
+          red = { "red", "black" },
+          yellow = { "yellow", "black" },
+          blue = { "blue", "black" },
+        },
         text = function()
-          return { { "▊▊", state.mode[2] } }
+          return codegpt.get_status()
         end,
       }
 
@@ -205,6 +213,7 @@ return {
         filetypes = { "default" },
         active = {
           basic.vi_mode,
+          basic.gpt_status,
           basic.file,
           basic.lsp_diagnos,
           basic.divider,
