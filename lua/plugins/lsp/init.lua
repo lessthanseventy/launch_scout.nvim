@@ -12,6 +12,7 @@ return {
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
       end
+
       local formatting_opts = {
         format = lspkind.cmp_format({
           mode = "symbol_text", -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
@@ -113,7 +114,7 @@ return {
   -- Diagnostics
   {
     "glepnir/lspsaga.nvim",
-    event = "LspAttach",
+    event = "VeryLazy",
     keys = {
       {
         "<leader>ca",
@@ -150,7 +151,17 @@ return {
       --Please make sure you install markdown and markdown_inline parser
       { "nvim-treesitter/nvim-treesitter" },
     },
-    config = true,
+    opts = {
+      symbol_in_winbar = {
+        enable = true,
+        separator = " ",
+        ignore_patterns = { "oil" },
+        hide_keyword = true,
+        show_file = false,
+        respect_root = false,
+        color_mode = true,
+      },
+    },
   },
   -- Snippets
   {
@@ -167,17 +178,45 @@ return {
     },
   },
   { "neovim/nvim-lspconfig" },
-  {
-    "williamboman/mason.nvim",
-    build = function()
-      pcall(vim.cmd, "MasonUpdate")
-    end,
-  }, -- Optional
+  { "williamboman/mason.nvim" },
+  -- Optional
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
       { "jay-babu/mason-null-ls.nvim" },
       { "jose-elias-alvarez/null-ls.nvim" },
+      {
+        "SmiteshP/nvim-navbuddy",
+        keys = {
+          { "<leader>cn", "<cmd>Navbuddy<cr>", desc = "Navbuddy", silent = true, noremap = true },
+        },
+        dependencies = {
+          "SmiteshP/nvim-navic",
+          "MunifTanjim/nui.nvim",
+        },
+        opts = {
+          window = {
+            size = "90%",
+            sections = {
+              left = {
+                size = "20%",
+                border = "single", -- You can set border style for each section individually as well.
+              },
+              mid = {
+                size = "40%",
+                border = "double",
+              },
+              right = {
+                border = "single",
+                preview = "leaf",
+              },
+            },
+          },
+          lsp = {
+            auto_attach = true,
+          },
+        },
+      },
     },
     config = function()
       require("mason").setup()
@@ -192,7 +231,6 @@ return {
         builtins.diagnostics.eslint_d,
         builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
         builtins.diagnostics.markdownlint,
-        builtins.diagnostics.proselint,
         builtins.diagnostics.tsc,
         builtins.formatting.deno_fmt.with({
           filetypes = { "markdown", "telekasten" }, -- only runs `deno fmt` for markdown
@@ -224,8 +262,8 @@ return {
                 vim.lsp.buf.format({
                   bufnr = bufnr,
                   timeout_ms = 3000,
-                  filter = function(client)
-                    return client.name == "null-ls"
+                  filter = function(lsp_client)
+                    return lsp_client.name == "null-ls"
                   end,
                 })
               end,
@@ -241,22 +279,92 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           -- Replace these with whatever servers you want to install
-          "elixir-ls",
-          "lua-language-server",
+          "elixirls",
+          "lua_ls",
         },
       })
-
-      local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lsp_attach = function(client, bufnr)
-        -- Create your keybindings here...
-      end
 
       local lspconfig = require("lspconfig")
       require("mason-lspconfig").setup_handlers({
         function(server_name)
+          local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+          local lsp_attach = function(client, bufnr) end
           lspconfig[server_name].setup({
             on_attach = lsp_attach,
             capabilities = lsp_capabilities,
+          })
+        end,
+        ["elixirls"] = function()
+          local elixir = require("elixir")
+          local elixirls = require("elixir.elixirls")
+          elixir.setup({
+            elixirls = {
+              cmd = "elixir-ls",
+              settings = elixirls.settings({
+                dialyzerEnabled = true,
+                fetchDeps = true,
+                enableTestLenses = false,
+                suggestSpecs = false,
+              }),
+            },
+          })
+        end,
+        ["lua_ls"] = function()
+          lspconfig["lua_ls"].setup({
+            settings = {
+              Lua = {
+                workspace = {
+                  checkThirdParty = false,
+                  library = vim.api.nvim_get_runtime_file("", true),
+                },
+                runtime = {
+                  -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                  version = "LuaJIT",
+                },
+                completion = {
+                  workspaceWord = true,
+                  callSnippet = "Both",
+                },
+                misc = {
+                  parameters = {
+                    "--log-level=trace",
+                  },
+                },
+                diagnostics = {
+                  globals = { "vim" },
+                  groupSeverity = {
+                    strong = "Warning",
+                    strict = "Warning",
+                  },
+                  groupFileStatus = {
+                    ["ambiguity"] = "Opened",
+                    ["await"] = "Opened",
+                    ["codestyle"] = "None",
+                    ["duplicate"] = "Opened",
+                    ["global"] = "Opened",
+                    ["luadoc"] = "Opened",
+                    ["redefined"] = "Opened",
+                    ["strict"] = "Opened",
+                    ["strong"] = "Opened",
+                    ["type-check"] = "Opened",
+                    ["unbalanced"] = "Opened",
+                    ["unused"] = "Opened",
+                  },
+                  unusedLocalExclude = { "_*" },
+                },
+                format = {
+                  enable = false,
+                  defaultConfig = {
+                    indent_style = "space",
+                    indent_size = "2",
+                    continuation_indent_size = "2",
+                  },
+                },
+                telemetry = {
+                  enable = false,
+                },
+              },
+            },
           })
         end,
       })

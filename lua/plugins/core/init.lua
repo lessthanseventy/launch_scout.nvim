@@ -18,6 +18,7 @@ return {
         stages = "fade",
         background_color = { bg = "#a6e3a1" },
         icons = nonicons_extension.icons,
+        top_down = false,
       }
     end,
   },
@@ -119,6 +120,20 @@ return {
       { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",      desc = "Todo/Fix/Fixme (Trouble)" },
       { "<leader>st", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
     },
+  },
+
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "jfpedroza/neotest-elixir",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-elixir"),
+        },
+      })
+    end,
   },
 
   { "tpope/vim-repeat", event = "VeryLazy" },

@@ -114,4 +114,31 @@ function M.MIX_TEST_WATCH()
   term.exec_command("cmd=" .. cmd, 2)
 end
 
+function M.PROJECT_FILES()
+  local opts = { hidden = true, previewer = false } -- define here if you want to define something
+
+  vim.fn.system("git rev-parse --is-inside-work-tree")
+  if vim.v.shell_error == 0 then
+    require("fzf-lua").git_files()
+  else
+    require("fzf-lua").files()
+  end
+end
+
+function M.dropdown_theme()
+  require("telescope.themes").get_dropdown({
+    results_height = 20,
+    winblend = 20,
+    width = 0.8,
+    prompt_title = "",
+    prompt_prefix = "Files>",
+    previewer = false,
+    borderchars = {
+      prompt = { "▀", "▐", "▄", "▌", "▛", "▜", "▟", "▙" },
+      results = { " ", "▐", "▄", "▌", "▌", "▐", "▟", "▙" },
+      preview = { "▀", "▐", "▄", "▌", "▛", "▜", "▟", "▙" },
+    },
+  })
+end
+
 return M

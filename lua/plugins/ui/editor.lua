@@ -1,72 +1,6 @@
 return {
 
   {
-    "b0o/incline.nvim",
-    opts = function()
-      local colors = require("rocket_dog.colors").setup() -- pass in any of the config options as explained above
-      return {
-        hide = { only_win = false, focused_win = false, cursorline = true },
-        ignore = {
-          buftypes = "special",
-          filetypes = { "sql" },
-          floating_wins = true,
-          unlisted_buffers = true,
-          wintypes = "special",
-        },
-        render = function(props)
-          -- generate name
-          local filetype = vim.api.nvim_buf_get_option(props.buf, "ft")
-          local bufname = vim.api.nvim_buf_get_name(props.buf)
-          if bufname == "" then
-            return "[No name]"
-          else
-            -- ":." is the filename relative to the PWD (=project)
-            -- bufname = vim.fn.fnamemodify(bufname, ":.")
-            bufname = vim.fn.fnamemodify(bufname, ":p:h:h:t")
-              .. "/"
-              .. vim.fn.fnamemodify(bufname, ":p:h:t")
-              .. "/"
-              .. vim.fn.fnamemodify(bufname, ":t")
-          end
-
-          local icon = require("nvim-web-devicons").get_icon(filetype, nil, { default = true })
-
-          local max_len = vim.api.nvim_win_get_width(props.win) / 2
-
-          if #bufname > max_len then
-            return {
-              " " .. icon .. " …" .. string.sub(bufname, #bufname - max_len, -1) .. " ",
-              guibg = colors.yellow,
-              guifg = colors.bg_dark,
-            }
-          else
-            return {
-              " " .. icon .. " " .. bufname .. " ",
-              guibg = colors.yellow,
-              guifg = colors.bg_dark,
-            }
-          end
-        end,
-        window = {
-          zindex = 2,
-          width = "fit",
-          placement = { horizontal = "right", vertical = "top" },
-          options = {
-            signcolumn = true,
-            wrap = false,
-          },
-          margin = {
-            horizontal = { left = 1, right = 1 },
-            vertical = { bottom = 0, top = 1 },
-          },
-          padding = { left = 1, right = 2 },
-          padding_char = " ",
-        },
-      }
-    end,
-  },
-
-  {
     "petertriho/nvim-scrollbar",
     opts = {
       show = true,
@@ -240,6 +174,7 @@ return {
           "TelescopePrompt",
           "Trouble",
           "mason",
+          "oil",
           "CompetiTest",
           "NvimTree",
           "prompt",
@@ -260,6 +195,16 @@ return {
           "calendar",
         },
         symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+        create_event = function()
+          local win_n = require("colorful-winsep.utils").calculate_number_windows()
+          if win_n == 2 then
+            local win_id = vim.fn.win_getid(vim.fn.winnr("h"))
+            local filetype = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_id), "filetype")
+            if filetype == "NvimTree" then
+              require("colorful-winsep").NvimSeparatorDel()
+            end
+          end
+        end,
       })
     end,
   },
@@ -276,6 +221,42 @@ return {
         -- Do not tint `terminal` or floating windows, tint everything else
         return buftype == "terminal" or filetype == "NvimTree" or floating
       end,
+    },
+  },
+
+  {
+    "folke/twilight.nvim",
+    opts = {
+      dimming = {
+        alpha = 0.35, -- amount of dimming
+        -- we try to get the foreground from the highlight groups or fallback color
+        color = { "Normal", "#ffffff" },
+        term_bg = "#190641", -- if guibg=NONE, this will be used to calculate text color
+        inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+      },
+      context = 15, -- amount of lines we will try to show around the current line
+      treesitter = true, -- use treesitter when available for the filetype
+      -- treesitter is used to automatically expand the visible text,
+      -- but you can further control the types of nodes that should always be fully expanded
+      expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
+        "function",
+        "method",
+        "table",
+        "if_statement",
+        "tag",
+        "component",
+      },
+      exclude = {}, -- exclude these filetypes
+    },
+  },
+
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      kitty = {
+        enabled = true,
+        font = "+4", -- font size increment
+      },
     },
   },
 

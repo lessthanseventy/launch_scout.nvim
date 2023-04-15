@@ -1,9 +1,9 @@
 return {
   {
     "windwp/windline.nvim",
+    dependencies = "linrongbin16/lsp-progress.nvim",
     config = function()
       local recorder = require("recorder")
-      local codegpt = require("codegpt")
       local windline = require("windline")
       local cava_component = require("windline.components.cava")
       cava_component.is_stop = false
@@ -22,7 +22,6 @@ return {
       }
       local basic = {}
 
-      local breakpoint_width = 90
       basic.divider = { b_components.divider, "" }
       basic.bg = { " ", "StatusLine" }
 
@@ -38,19 +37,103 @@ return {
         name = "vi_mode",
         hl_colors = colors_mode,
         text = function()
-          return { { "  ", state.mode[2] } }
+          return { { "󱓞 ", state.mode[2] } }
         end,
       }
 
-      basic.gpt_status = {
-        name = "gpt_status",
+      basic.recorder_status = {
+        name = "recorder",
         hl_colors = {
-          red = { "red", "black" },
-          yellow = { "yellow", "black" },
-          blue = { "blue", "black" },
+          default = hl_list.Black,
+          white = { "white", "black" },
+          magenta = { "magenta", "black" },
         },
         text = function()
-          return codegpt.get_status()
+          return {
+            { recorder.recordingStatus() },
+          }
+        end,
+      }
+
+      basic.recorder_slots = {
+        name = "recorder",
+        hl_colors = {
+          default = hl_list.Black,
+          white = { "white", "black" },
+          magenta = { "magenta", "black" },
+        },
+        text = function()
+          return {
+            { recorder.displaySlots() },
+          }
+        end,
+      }
+
+      basic.file_name = {
+        name = "file_name",
+        hl_colors = {
+          default = hl_list.Black,
+          white = { "white", "black" },
+          magenta = { "magenta", "black" },
+        },
+        text = function(_, _, _)
+          return {
+            { " ", "" },
+            { b_components.cache_file_name("[No Name]", "unique"), "magenta" },
+            { " ", "" },
+            { b_components.file_modified(" "), "magenta" },
+          }
+        end,
+      }
+
+      basic.file_pos = {
+        name = "file_pos",
+        hl_colors = {
+          default = hl_list.Black,
+          white = { "white", "black" },
+        },
+        text = function(_, _, _)
+          return {
+            { b_components.line_col_lua, "white" },
+            { b_components.progress_lua, "" },
+            { " ", "" },
+          }
+        end,
+      }
+
+      basic.git = {
+        name = "git",
+        hl_colors = {
+          green = { "green", "black" },
+          red = { "red", "black" },
+          blue = { "blue", "black" },
+        },
+        text = function(bufnr)
+          if git_comps.is_git(bufnr) then
+            return {
+              { git_comps.diff_added({ format = "  %s", show_zero = true }), "green" },
+              { git_comps.diff_removed({ format = "  %s", show_zero = true }), "red" },
+              { git_comps.diff_changed({ format = " 柳%s", show_zero = true }), "blue" },
+            }
+          end
+          return ""
+        end,
+      }
+
+      basic.lsp_name = {
+        name = "lsp_name",
+        hl_colors = {
+          magenta = { "magenta", "black" },
+        },
+        text = function(bufnr)
+          if lsp_comps.check_lsp(bufnr) then
+            return {
+              { lsp_comps.lsp_name(), "magenta" },
+            }
+          end
+          return {
+            { b_components.cache_file_type({ icon = true }), "magenta" },
+          }
         end,
       }
 
@@ -61,7 +144,6 @@ return {
           yellow = { "yellow", "black" },
           blue = { "blue", "black" },
         },
-        width = breakpoint_width,
         text = function(bufnr)
           if lsp_comps.check_lsp(bufnr) then
             return {
@@ -74,82 +156,23 @@ return {
         end,
       }
 
-      basic.recorder = {
-        name = "recorder",
-        hl_colors = {
-          default = hl_list.Black,
-          white = { "white", "black" },
-          magenta = { "magenta", "black" },
-        },
-        text = function()
-          return {
-            { recorder.recordingStatus() },
-            { " ", "" },
-            { recorder.displaySlots() },
-            { " ", "" },
-          }
-        end,
-      }
+      local function LspStatus()
+        return require("lsp-progress").progress({
+          format = function(messages)
+            return #messages > 0 and table.concat(messages, " ") or ""
+          end,
+        })
+      end
 
-      basic.file = {
-        name = "file",
+      basic.lsp_status = {
+        name = "lsp_status",
         hl_colors = {
-          default = hl_list.Black,
-          white = { "white", "black" },
-          magenta = { "magenta", "black" },
-        },
-        text = function(_, _, width)
-          if width > breakpoint_width then
-            return {
-              { " ", "" },
-              { b_components.cache_file_name("[No Name]", "unique"), "magenta" },
-              { b_components.line_col_lua, "white" },
-              { b_components.progress_lua, "" },
-              { " ", "" },
-              { b_components.file_modified(" "), "magenta" },
-            }
-          else
-            return {
-              { b_components.cache_file_size(), "default" },
-              { " ", "" },
-              { b_components.cache_file_name("[No Name]", "unique"), "magenta" },
-              { " ", "" },
-              { b_components.file_modified(" "), "magenta" },
-            }
-          end
-        end,
-      }
-
-      basic.file_right = {
-        hl_colors = {
-          default = hl_list.Black,
-          white = { "white", "black" },
-          magenta = { "magenta", "black" },
-        },
-        text = function(_, _, width)
-          if width < breakpoint_width then
-            return {
-              { b_components.line_col_lua, "white" },
-              { b_components.progress_lua, "" },
-            }
-          end
-        end,
-      }
-
-      basic.git = {
-        name = "git",
-        hl_colors = {
-          green = { "green", "black" },
-          red = { "red", "black" },
           blue = { "blue", "black" },
         },
-        width = breakpoint_width,
         text = function(bufnr)
-          if git_comps.is_git(bufnr) then
+          if lsp_comps.check_lsp(bufnr) then
             return {
-              { git_comps.diff_added({ format = "  %s", show_zero = true }), "green" },
-              { git_comps.diff_removed({ format = "  %s", show_zero = true }), "red" },
-              { git_comps.diff_changed({ format = " 柳%s", show_zero = true }), "blue" },
+              { " " .. LspStatus(), "blue" },
             }
           end
           return ""
@@ -191,37 +214,21 @@ return {
         show_last_status = true,
       }
 
-      basic.lsp_name = {
-        width = breakpoint_width,
-        name = "lsp_name",
-        hl_colors = {
-          magenta = { "magenta", "black" },
-        },
-        text = function(bufnr)
-          if lsp_comps.check_lsp(bufnr) then
-            return {
-              { lsp_comps.lsp_name(), "magenta" },
-            }
-          end
-          return {
-            { b_components.cache_file_type({ icon = true }), "magenta" },
-          }
-        end,
-      }
-
       local default = {
         filetypes = { "default" },
         active = {
           basic.vi_mode,
-          basic.gpt_status,
-          basic.file,
+          basic.file_name,
           basic.lsp_diagnos,
+          basic.lsp_status,
           basic.divider,
-          basic.file_right,
-          basic.recorder,
-          basic.lsp_name,
+          basic.recorder_status,
+          basic.recorder_slots,
+          { " ", hl_list.Black },
+          basic.file_pos,
+          { " ", hl_list.Black },
           basic.git,
-          { git_comps.git_branch(), { "magenta", "black" }, breakpoint_width },
+          { git_comps.git_branch(), { "magenta", "black" } },
           { " ", hl_list.Black },
         },
         inactive = {},

@@ -62,7 +62,7 @@ return {
     opts = {
       popupmenu = { enabled = false },
       cmdline = {
-        enabled = false,
+        enabled = true,
         view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
         opts = { buf_options = { filetype = "vim" } },
         icons = {
@@ -77,7 +77,7 @@ return {
       notify = { enabled = true },
       lsp = {
         progress = {
-          enabled = true,
+          enabled = false,
           -- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
           -- See the section on formatting for more details on how to customize.
           format = "lsp_progress",

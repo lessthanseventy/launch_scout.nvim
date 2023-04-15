@@ -2,10 +2,6 @@ return {
   {
     "akinsho/bufferline.nvim",
     event = "VimEnter",
-    keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-    },
     opts = {
       options = {
         diagnostics = "nvim_lsp",
@@ -25,7 +21,7 @@ return {
         end,
         offsets = {
           {
-            filetype = "SidebarNvim",
+            filetype = "NvimTree",
             text = "File Explorer",
             highlight = "Directory",
             text_align = "left",

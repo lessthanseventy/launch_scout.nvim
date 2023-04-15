@@ -55,8 +55,9 @@ opt.winminwidth = 10
 opt.wrap = true -- display lines as one long line
 opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
-vim.g.python3_host_prog = vim.fn.expand("~") .. ".asdf/installs/python/3.11.2/bin/python"
-vim.g.node_host_prog = vim.fn.expand("~") .. ".asdf/installs/nodejs/19.8.1/bin/neovim-node-host"
+vim.g.python3_host_prog = "/usr/bin/python"
+-- vim.g.python3_host_prog = vim.fn.expand("~") .. ".asdf/installs/python/3.11.2/bin/python"
+-- vim.g.node_host_prog = vim.fn.expand("~") .. ".asdf/installs/nodejs/19.8.1/bin/neovim-node-host"
 vim.g.loaded_perl_provider = 0
 vim.g.do_filetype_lua = 1
 

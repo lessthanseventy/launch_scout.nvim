@@ -37,7 +37,7 @@ return {
         },
         list = {
           position = "right", -- Position of the list window 'left'|'right'
-          width = 0.33,       -- 33% width relative to the active window, min 0.1, max 0.5
+          width = 0.33, -- 33% width relative to the active window, min 0.1, max 0.5
         },
         theme = {
           -- This feature might not work properly in nvim-0.7.2
@@ -46,11 +46,11 @@ return {
         },
         mappings = {
           list = {
-            ["j"] = actions.next,     -- Bring the cursor to the next item in the list
+            ["j"] = actions.next, -- Bring the cursor to the next item in the list
             ["k"] = actions.previous, -- Bring the cursor to the previous item in the list
             ["<Down>"] = actions.next,
             ["<Up>"] = actions.previous,
-            ["<Tab>"] = actions.next_location,       -- Bring the cursor to the next location skipping groups in the list
+            ["<Tab>"] = actions.next_location, -- Bring the cursor to the next location skipping groups in the list
             ["<S-Tab>"] = actions.previous_location, -- Bring the cursor to the previous location skipping groups in the list
             ["<C-u>"] = actions.preview_scroll_win(5),
             ["<C-d>"] = actions.preview_scroll_win(-5),
@@ -99,5 +99,27 @@ return {
         },
       })
     end,
+  },
+
+  {
+    "mhanberg/output-panel.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("output_panel").setup()
+    end,
+  },
+
+  {
+    "linrongbin16/lsp-progress.nvim",
+    event = { "VimEnter" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lsp-progress").setup()
+    end,
+  },
+
+  {
+    "simrat39/symbols-outline.nvim",
+    config = true,
   },
 }

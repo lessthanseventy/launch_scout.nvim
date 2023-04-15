@@ -40,14 +40,10 @@ return {
       }
 
       dashboard.section.buttons.val = {
-        dashboard.button("p", "  Find project", "<cmd>Telescope projects<CR>"),
+        dashboard.button("p", "  Find project", "<cmd>Oil --float /home/andrew/projects/<CR>"),
         dashboard.button("n", "  Today's Note", "<cmd>lua require('telekasten').goto_today()<cr>"),
-        dashboard.button(
-          "c",
-          "🎚️ Nvim Configuration",
-          "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{hidden=true, previewer = false, cwd = vim.fn.stdpath('config')})<cr>"
-        ),
-        dashboard.button("z", "🎚️ Zsh Configuration", ":e ~/.zshrc <CR>"),
+        dashboard.button("c", "  Nvim Configuration", "<cmd>Oil --float /home/andrew/.config/nvim/lua/<cr>"),
+        dashboard.button("z", "  Zsh Configuration", ":e ~/.zshrc <CR>"),
       }
 
       local function footer()
