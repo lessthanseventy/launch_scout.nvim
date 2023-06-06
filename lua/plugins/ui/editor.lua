@@ -176,7 +176,7 @@ return {
           "mason",
           "oil",
           "CompetiTest",
-          "NvimTree",
+          "neo-tree",
           "prompt",
           "ultestsummary",
           "spectre_panel",
@@ -200,7 +200,7 @@ return {
           if win_n == 2 then
             local win_id = vim.fn.win_getid(vim.fn.winnr("h"))
             local filetype = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_id), "filetype")
-            if filetype == "NvimTree" then
+            if filetype == "neo-tree" then
               require("colorful-winsep").NvimSeparatorDel()
             end
           end
@@ -219,7 +219,7 @@ return {
         local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
 
         -- Do not tint `terminal` or floating windows, tint everything else
-        return buftype == "terminal" or filetype == "NvimTree" or floating
+        return buftype == "terminal" or filetype == "neo-tree" or floating
       end,
     },
   },

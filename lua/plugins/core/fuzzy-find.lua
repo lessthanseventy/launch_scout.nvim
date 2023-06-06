@@ -6,10 +6,12 @@ return {
       "ahmedkhalf/project.nvim",
       "debugloop/telescope-undo.nvim",
       "nvim-telescope/telescope-symbols.nvim",
+      "benfowler/telescope-luasnip.nvim",
     },
     keys = {
       { "<leader>se", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
       { "<leader>sp", "<cmd>lua require('telescope').extensions.projects.projects()<CR>", desc = "Projects" },
+      { "<leader>ss", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
       { "<leader>su", "<cmd>Telescope undo<cr>", desc = "Undo Tree" },
     },
     config = function()
@@ -43,6 +45,8 @@ return {
         },
       })
       telescope.load_extension("projects")
+      telescope.load_extension("luasnip")
+      telescope.load_extension("workspaces")
     end,
   },
 

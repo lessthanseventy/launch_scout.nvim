@@ -23,8 +23,7 @@ keymap("n", "<leader>yp", ":Cprelpath<cr>", { desc = "Copy relative path to curr
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
--- NvimTree
-keymap("n", "<F8>", ":NvimTreeToggle<CR>", opts)
+keymap("n", "<F8>", ":Neotree<CR>", opts)
 
 keymap("n", "<C-p>", "<cmd>lua require('utils').PROJECT_FILES()<cr>", opts)
 

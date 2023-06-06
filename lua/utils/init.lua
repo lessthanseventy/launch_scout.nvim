@@ -4,10 +4,6 @@ local cur_cwd = vim.fn.getcwd()
 
 local btop = Terminal:new({
   cmd = "btop",
-  direction = "float",
-  float_opts = {
-    border = "double",
-  },
   -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd("startinsert!")
@@ -21,10 +17,6 @@ local btop = Terminal:new({
 
 local lazydocker = Terminal:new({
   cmd = "lazydocker",
-  direction = "float",
-  float_opts = {
-    border = "double",
-  },
   -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd("startinsert!")

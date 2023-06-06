@@ -102,7 +102,7 @@ return {
           enabled = true,
           auto_open = {
             enabled = true,
-            trigger = false, -- Automatically show signature help when typing a trigger character from the LSP
+            trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
             throttle = 400, -- Debounce lsp signature help request by 50ms
           },
           view = nil, -- when nil, use defaults from documentation

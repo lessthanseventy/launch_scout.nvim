@@ -122,4 +122,13 @@ return {
     "simrat39/symbols-outline.nvim",
     config = true,
   },
+
+  {
+    "lessthanseventy/otter.nvim",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
 }

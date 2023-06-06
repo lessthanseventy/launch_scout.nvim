@@ -66,7 +66,15 @@ return {
           },
           should_map_plug = false,
           scratch_repl = false,
-          repl_open_cmd = view.split("40%"),
+          repl_open_cmd = function(bufnr)
+            -- HACK: set the filetype to 'iron' to detect it when needed
+            vim.api.nvim_buf_set_option(bufnr, "filetype", "iron")
+            local win_opts = {
+              number = false,
+              relativenumber = false,
+            }
+            return view.split.vert.botright(40, win_opts)(bufnr)
+          end,
           visibility = "single",
         },
       })

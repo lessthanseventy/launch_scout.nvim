@@ -96,9 +96,9 @@ return {
             cmp.complete()
           end, { "i" }),
         }),
-        view = {
-          entries = "native",
-        },
+        -- view = {
+        --   entries = "native",
+        -- },
       }
     end,
   }, -- Required
@@ -114,7 +114,7 @@ return {
   -- Diagnostics
   {
     "glepnir/lspsaga.nvim",
-    event = "VeryLazy",
+    event = "LspAttach",
     keys = {
       {
         "<leader>ca",
@@ -153,6 +153,9 @@ return {
     },
     opts = {
       symbol_in_winbar = {
+        enable = false,
+      },
+      code_action_prompt = {
         enable = true,
         separator = " ",
         ignore_patterns = { "oil" },
@@ -163,23 +166,9 @@ return {
       },
     },
   },
-  -- Snippets
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
-        require("luasnip").filetype_extend("telekasten", { "markdown" })
-      end,
-    },
-    opts = {
-      history = true,
-    },
-  },
+  -- { "Bekaboo/dropbar.nvim" },
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim" },
-  -- Optional
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
@@ -279,7 +268,6 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           -- Replace these with whatever servers you want to install
-          "elixirls",
           "lua_ls",
         },
       })
@@ -297,15 +285,37 @@ return {
         ["elixirls"] = function()
           local elixir = require("elixir")
           local elixirls = require("elixir.elixirls")
+
           elixir.setup({
+            credo = { enabled = false },
             elixirls = {
-              cmd = "elixir-ls",
+              enabled = true,
               settings = elixirls.settings({
                 dialyzerEnabled = true,
                 fetchDeps = true,
                 enableTestLenses = false,
                 suggestSpecs = false,
               }),
+              on_attach = function(client, bufnr)
+                vim.keymap.set(
+                  "n",
+                  "<space>cfp",
+                  ":ElixirFromPipe<cr>",
+                  { desc = "From Pipe", buffer = true, noremap = true }
+                )
+                vim.keymap.set(
+                  "n",
+                  "<space>ctp",
+                  ":ElixirToPipe<cr>",
+                  { desc = "To Pipe", buffer = true, noremap = true }
+                )
+                vim.keymap.set(
+                  "v",
+                  "<space>cem",
+                  ":ElixirExpandMacro<cr>",
+                  { desc = "Expand Macro", buffer = true, noremap = true }
+                )
+              end,
             },
           })
         end,

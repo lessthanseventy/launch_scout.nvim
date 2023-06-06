@@ -25,7 +25,7 @@ return {
       show_trailing_blankline_indent = true,
       show_first_indent_level = true,
       buftype_exclude = { "terminal", "nofile" },
-      filetype_exclude = { "help", "lazy", "NvimTree", "alpha" },
+      filetype_exclude = { "help", "lazy", "neo-tree", "alpha" },
     },
     config = function(_, opts)
       vim.cmd([[

@@ -203,7 +203,7 @@ return {
       }
 
       local explorer = {
-        filetypes = { "fern", "NvimTree", "lir" },
+        filetypes = { "fern", "neo-tree", "lir" },
         active = {
           { "  ", { "black", "red" } },
           { helper.separators.slant_right, { "red", "NormalBg" } },

@@ -40,7 +40,7 @@ return {
       }
 
       dashboard.section.buttons.val = {
-        dashboard.button("p", "  Find project", "<cmd>Oil --float /home/andrew/projects/<CR>"),
+        dashboard.button("p", "  Find project", "<cmd>Telescope workspaces<CR>"),
         dashboard.button("n", "  Today's Note", "<cmd>lua require('telekasten').goto_today()<cr>"),
         dashboard.button("c", "  Nvim Configuration", "<cmd>Oil --float /home/andrew/.config/nvim/lua/<cr>"),
         dashboard.button("z", "  Zsh Configuration", ":e ~/.zshrc <CR>"),

@@ -33,7 +33,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 vim.cmd("autocmd FileType dbui nmap <buffer> <c-j> <C-w>j")
 vim.cmd("autocmd FileType dbui nmap <buffer> <c-k> <C-w>k")
-vim.cmd([[autocmd CursorHold,CursorHoldI,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]])
 
 local telescope_augroup_id = vim.api.nvim_create_augroup("telescope_settings", {})
 
