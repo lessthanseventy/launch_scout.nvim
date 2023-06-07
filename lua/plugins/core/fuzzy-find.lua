@@ -70,7 +70,7 @@ return {
       { "<leader>sc", "<cmd>FzfLua changes<cr>", desc = "Changes" },
       { "<leader>sd", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Diagnostics" },
       { "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
-      { "<leader>sw", "<cmd>FzfLua grep_cword<cr>", desc = "Current Word" },
+      { "<leader>sw", "<cmd>Telescope workspaces<cr>", desc = "Workspaces" },
       {
         "<leader>sH",
         "<cmd>FzfLua highlights<cr>",

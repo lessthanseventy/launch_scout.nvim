@@ -295,7 +295,7 @@ return {
     event = "VimEnter",
     keys = {
       {
-        "<leader>e",
+        "<leader>o",
         "<cmd>Oil --float<cr>",
         desc = "Browse current file's folder",
       },

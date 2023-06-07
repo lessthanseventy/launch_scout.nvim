@@ -1,14 +1,4 @@
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "calendar", "qf", "help", "man", "lspinfo", "spectre_panel", "lir", "dbout" },
-  callback = function()
-    vim.cmd([[
-      nnoremap <silent> <buffer> q :close<CR>
-      set nobuflisted
-    ]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "oil" },
   callback = vim.schedule_wrap(function()
     vim.api.nvim_buf_set_keymap(
@@ -19,6 +9,33 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       { noremap = true, silent = true }
     )
   end),
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "alpha" },
+  callback = function()
+    vim.b.minianimate_disable = true
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "User" }, {
+  pattern = { "MiniAnimateDoneOpen", "MiniAnimateDoneClose" },
+  callback = function()
+    local buf_id = vim.api.nvim_get_current_buf()
+    local ft = vim.bo[buf_id].filetype
+    if ft == "toggleterm" or ft == "Trouble" or ft == "iron" then
+      return
+    else
+      vim.api.nvim_input("<ESC>")
+    end
+  end,
+})
+
+-- Set wrap and spell in markdown and gitcommit
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost" }, {
+  callback = function()
+    require("neo-tree.events").fire_event("git_event")
+  end,
 })
 
 -- Set wrap and spell in markdown and gitcommit

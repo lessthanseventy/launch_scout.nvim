@@ -4,34 +4,45 @@ local cur_cwd = vim.fn.getcwd()
 
 local btop = Terminal:new({
   cmd = "btop",
-  -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd("startinsert!")
-    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
   end,
   -- function to run on closing the terminal
-  on_close = function(term)
-    vim.cmd("startinsert!")
-  end,
+  hidden = true,
+  direction = "float",
+  float_opts = {
+    border = "double",
+  },
 })
 
 local lazydocker = Terminal:new({
-  cmd = "lazydocker",
-  -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd("startinsert!")
     vim.api.nvim_buf_set_keymap(term.bufnr, "t", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-j>", "<C-j>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-k>", "<C-k>", { noremap = true, silent = true })
   end,
-  -- function to run on closing the terminal
   on_close = function(term)
-    vim.cmd("startinsert!")
+    require("neo-tree.events").fire_event("git_event")
   end,
+  cmd = "sleep 0.1 && lazydocker",
+  hidden = true,
+  direction = "horizontal",
 })
 
 local lazygit = Terminal:new({
   cmd = "lazygit",
+  hidden = true,
   dir = "git_dir",
   direction = "float",
+  on_open = function(term)
+    vim.cmd("startinsert!")
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-j>", "<C-j>", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-k>", "<C-k>", { noremap = true, silent = true })
+  end,
+  on_close = function(term)
+    require("neo-tree.events").fire_event("git_event")
+  end,
   float_opts = {
     border = "double",
   },
@@ -63,7 +74,13 @@ function M.LAZYGIT_TOGGLE()
   if cwd ~= cur_cwd then
     cur_cwd = cwd
     lazygit:close()
-    lazygit = Terminal:new({ cmd = "lazygit", direction = "float" })
+    lazygit = Terminal:new({
+      cmd = "lazygit",
+      direction = "float",
+      on_close = function()
+        require("neo-tree.events").fire_event("git_event")
+      end,
+    })
   else
     lazygit:toggle()
   end
@@ -74,7 +91,7 @@ function M.BTOP_TOGGLE()
 end
 
 function M.LAZYDOCKER_TOGGLE()
-  lazydocker:toggle()
+  lazydocker:open()
 end
 
 function M.MIX_TEST_LINE()
@@ -115,22 +132,6 @@ function M.PROJECT_FILES()
   else
     require("fzf-lua").files()
   end
-end
-
-function M.dropdown_theme()
-  require("telescope.themes").get_dropdown({
-    results_height = 20,
-    winblend = 20,
-    width = 0.8,
-    prompt_title = "",
-    prompt_prefix = "Files>",
-    previewer = false,
-    borderchars = {
-      prompt = { "▀", "▐", "▄", "▌", "▛", "▜", "▟", "▙" },
-      results = { " ", "▐", "▄", "▌", "▌", "▐", "▟", "▙" },
-      preview = { "▀", "▐", "▄", "▌", "▛", "▜", "▟", "▙" },
-    },
-  })
 end
 
 return M

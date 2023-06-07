@@ -172,27 +172,27 @@ return {
         -- This plugin will not be activated for filetype in the following table.
         no_exec_files = {
           "TelescopePrompt",
-          "Trouble",
           "mason",
           "oil",
+          "edgy",
+          "iron",
           "CompetiTest",
-          "neo-tree",
           "prompt",
           "ultestsummary",
-          "spectre_panel",
-          "toggleterm",
           "pr",
-          "help",
           "telescope",
           "dbout",
           "dbui",
           "sql",
           "csv",
-          "neoterm",
           "noice",
           "guihua",
           "alpha",
           "calendar",
+          "neo-tree",
+          "neo-tree-popup",
+          "notify",
+          "toggleterm",
         },
         symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
         create_event = function()
@@ -216,10 +216,16 @@ return {
         local bufid = vim.api.nvim_win_get_buf(winid)
         local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
         local filetype = vim.api.nvim_buf_get_option(bufid, "filetype")
-        local floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+        local is_floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+        local is_excluded_filetype = filetype == "neo-tree"
+          or filetype == "edgy"
+          or filetype == "iron"
+          or filetype == "Trouble"
+          or filetype == "spectre_panel"
+          or filetype == "toggleterm"
+          or buftype == "nofile"
 
-        -- Do not tint `terminal` or floating windows, tint everything else
-        return buftype == "terminal" or filetype == "neo-tree" or floating
+        return is_excluded_filetype or is_floating
       end,
     },
   },

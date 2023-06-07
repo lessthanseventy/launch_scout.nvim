@@ -64,7 +64,6 @@ return {
     "anuvyklack/windows.nvim",
     dependencies = {
       "anuvyklack/middleclass",
-      "anuvyklack/animation.nvim",
     },
     opts = {
       autowidth = {
@@ -79,10 +78,7 @@ return {
         filetype = { "NvimTree", "carbon.explorer", "neo-tree", "undotree", "gundo" },
       },
       animation = {
-        enable = true,
-        duration = 300,
-        fps = 30,
-        easing = "in_out_sine",
+        enable = false,
       },
     },
   },

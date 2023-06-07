@@ -55,10 +55,9 @@ return {
     "akinsho/toggleterm.nvim",
     version = "*",
     opts = {
-      size = 20,
       open_mapping = [[<c-\>]],
       hide_numbers = true,
-      shade_terminals = true,
+      shade_terminals = false,
       shading_factor = 2,
       start_in_insert = true,
       insert_mappings = false,
@@ -67,7 +66,7 @@ return {
       close_on_exit = true,
       autochdir = true,
       shell = vim.o.shell,
-      winbar = { enabled = true },
+      winbar = { enabled = false },
     },
   },
 
