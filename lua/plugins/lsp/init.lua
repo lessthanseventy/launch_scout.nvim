@@ -222,7 +222,7 @@ return {
         builtins.diagnostics.markdownlint,
         builtins.diagnostics.tsc,
         builtins.formatting.deno_fmt.with({
-          filetypes = { "markdown", "telekasten" }, -- only runs `deno fmt` for markdown
+          filetypes = { "markdown" }, -- only runs `deno fmt` for markdown
         }),
         builtins.formatting.fixjson,
         builtins.formatting.isort,

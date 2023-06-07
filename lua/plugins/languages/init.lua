@@ -5,7 +5,7 @@ return {
     "toppair/peek.nvim",
     build = "deno task --quiet build:fast",
     opts = {
-      filetype = { "markdown", "telekasten" }, -- list of filetypes to recognize as markdown
+      filetype = { "markdown" }, -- list of filetypes to recognize as markdown
     },
   },
 

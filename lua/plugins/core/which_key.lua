@@ -25,7 +25,6 @@ return {
         ["<leader>w"] = { name = "+window" },
         ["<leader>x"] = { name = "+diagnostics/quickfix" },
         ["<leader>y"] = { name = "+yank" },
-        ["<leader>z"] = { name = "+telekasten" },
         ["<leader>sn"] = { name = "+noice" },
       }
       wk.register(keymaps)
