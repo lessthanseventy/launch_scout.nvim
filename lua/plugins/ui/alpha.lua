@@ -40,9 +40,10 @@ return {
       }
 
       dashboard.section.buttons.val = {
-        dashboard.button("w", "𝌸  Find workspace", "<cmd>Telescope workspaces<CR>"),
+        dashboard.button("r", "󰪶  Recent Files", "<cmd>FzfLua oldfiles<CR>"),
+        dashboard.button("w", "𝌸  Find Workspace", "<cmd>Telescope workspaces<CR>"),
         dashboard.button("c", "  Nvim Configuration", "<cmd>Oil --float /home/andrew/.config/nvim/lua/<cr>"),
-        dashboard.button("q", "  🟔 🟔 🟔  🟔 🟔 🟔 ", ":qa!<CR>"),
+        dashboard.button("q", "  🟔 🟔 🟔  🟔 🟔 🟔 ", ":qa!<CR>"),
       }
 
       local function footer()

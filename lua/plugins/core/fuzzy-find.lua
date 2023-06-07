@@ -93,6 +93,7 @@ return {
             -- These lines must exist to let fzf know you want to use preview scrolling
             ["ctrl-u"] = "preview-page-up",
             ["ctrl-d"] = "preview-page-down",
+            ["alt-a"] = "toggle-all",
           },
         },
       })

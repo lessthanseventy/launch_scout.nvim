@@ -28,7 +28,7 @@ opt.guifont = { "Cascadia Code PL", ":h12" }
 opt.hlsearch = true -- highlight all matches on previous search pattern
 opt.laststatus = 3
 opt.list = true
-opt.mouse = "" -- allow the mouse to be used in neovim
+opt.mouse = "a" -- allow the mouse to be used in neovim
 opt.mousemodel = "extend"
 opt.number = true -- set numbered lines
 opt.numberwidth = 4 -- set number column width to 4
@@ -46,7 +46,7 @@ opt.splitkeep = "screen"
 opt.swapfile = true -- creates a swapfile
 opt.tabstop = 2
 opt.termguicolors = true
-opt.timeoutlen = 325 -- time to wait for a mapped sequence to complete (in milliseconds)
+opt.timeoutlen = 175 -- time to wait for a mapped sequence to complete (in milliseconds)
 opt.undofile = true -- enable persistent undo
 opt.undolevels = 10000
 opt.whichwrap:append("<,>,[,],h,l")
