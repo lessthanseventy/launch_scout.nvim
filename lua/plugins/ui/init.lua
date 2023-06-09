@@ -36,9 +36,9 @@ return {
 
   {
     "m-demare/hlargs.nvim",
-    config = function()
-      require("hlargs").setup()
-    end,
+    opts = {
+      hl_priority = 10000,
+    },
   },
 
   {
