@@ -22,4 +22,6 @@ return {
       vim.cmd("colorscheme rocket_dog")
     end,
   },
+
+  "psliwka/termcolors.nvim",
 }

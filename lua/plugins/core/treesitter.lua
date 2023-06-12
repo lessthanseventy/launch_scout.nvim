@@ -63,7 +63,23 @@ return {
             include_surrounding_whitespace = true,
           },
         },
-        rainbow = { enable = true, extended_mode = true, max_file_lines = nil },
+        rainbow = {
+          enable = true,
+          query = {
+            "rainbow-parens",
+            html = "rainbow-tags",
+          },
+          strategy = require("ts-rainbow").strategy.global,
+          hlgroups = {
+            "TSRainbowRed",
+            "TSRainbowYellow",
+            "TSRainbowBlue",
+            "TSRainbowOrange",
+            "TSRainbowGreen",
+            "TSRainbowViolet",
+            "TSRainbowCyan",
+          },
+        },
         incremental_selection = { enable = false },
         indent = { enable = false },
         -- vim-matchup
@@ -115,6 +131,7 @@ return {
       "nvim-treesitter/nvim-treesitter-refactor",
       "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "HiPhish/nvim-ts-rainbow2",
       {
         "chrisgrieser/nvim-various-textobjs",
         keys = {
