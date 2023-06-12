@@ -1,4 +1,14 @@
 vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "tsplayground" },
+  callback = function()
+    vim.cmd([[
+      nnoremap <silent> <buffer> q :close<CR>
+      set nobuflisted
+    ]])
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "oil" },
   callback = vim.schedule_wrap(function()
     vim.b.minianimate_disable = true
