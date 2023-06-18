@@ -29,19 +29,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "User" }, {
-  pattern = { "MiniAnimateDoneOpen", "MiniAnimateDoneClose" },
-  callback = function()
-    local buf_id = vim.api.nvim_get_current_buf()
-    local ft = vim.bo[buf_id].filetype
-    if ft == "toggleterm" or ft == "Trouble" or ft == "iron" then
-      return
-    else
-      vim.api.nvim_input("<ESC>")
-    end
-  end,
-})
-
 -- Set wrap and spell in markdown and gitcommit
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost" }, {
   callback = function()
@@ -56,6 +43,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt_local.wrap = true
     vim.opt_local.spell = true
     vim.opt_local.textwidth = 80
+  end,
+})
+--
+-- Disable miniindent
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "alpha", "fzf", "qf", "terminal", "toggleterm", "neo-tree" },
+  callback = function()
+    vim.b.miniindentscope_disable = true
   end,
 })
 
