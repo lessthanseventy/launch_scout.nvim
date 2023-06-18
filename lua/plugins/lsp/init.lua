@@ -101,14 +101,20 @@ return {
         -- },
       }
     end,
-  }, -- Required
+    config = function(_, opts)
+      local cmp = require("cmp")
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      cmp.setup(opts)
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+    end,
+  },
   { "hrsh7th/cmp-nvim-lsp" }, -- Required
   { "hrsh7th/cmp-buffer" }, -- Optional
   { "hrsh7th/cmp-path" }, -- Optional
   { "saadparwaiz1/cmp_luasnip" }, -- Optional
   { "hrsh7th/cmp-nvim-lua" }, -- Optional
   {
-    "jcdickinson/codeium.nvim",
+    "lessthanseventy/codeium.nvim",
     config = true,
   },
   -- Diagnostics
@@ -391,7 +397,7 @@ return {
 
       vim.diagnostic.config({
         signs = true,
-        update_in_insert = false,
+        update_in_insert = true,
         underline = true,
         severity_sort = true,
         virtual_text = false,
