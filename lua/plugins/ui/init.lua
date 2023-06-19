@@ -63,6 +63,7 @@ return {
     "anuvyklack/windows.nvim",
     dependencies = {
       "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
     },
     opts = {
       autowidth = {
@@ -80,6 +81,12 @@ return {
         enable = false,
       },
     },
+    config = function(_, opts)
+      vim.o.winwidth = 10
+      vim.o.winminwidth = 10
+      vim.o.equalalways = false
+      require("windows").setup(opts)
+    end,
   },
 
   {

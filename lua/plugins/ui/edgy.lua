@@ -9,41 +9,6 @@ return {
         desc = "Toggle Sidebar",
       },
     },
-    dependencies = {
-      {
-        "echasnovski/mini.animate",
-        config = function()
-          local animate = require("mini.animate")
-          animate.setup({
-            scroll = {
-              timing = animate.gen_timing.linear({ duration = 200, unit = "total" }),
-            },
-            cursor = {
-              timing = animate.gen_timing.linear({ duration = 200, unit = "total" }),
-              path = animate.gen_path.line({
-                predicate = function()
-                  return true
-                end,
-              }),
-            },
-            resize = {
-              timing = animate.gen_timing.linear({ duration = 200, unit = "total" }),
-            },
-            open = {
-              timing = animate.gen_timing.linear({ duration = 200, unit = "total" }),
-              winconfig = animate.gen_winconfig.wipe({ direction = "from_edge" }),
-              winblend = animate.gen_winblend.linear({ from = 80, to = 100 }),
-            },
-
-            close = {
-              timing = animate.gen_timing.linear({ duration = 200, unit = "total" }),
-              winconfig = animate.gen_winconfig.wipe({ direction = "to_edge" }),
-              winblend = animate.gen_winblend.linear({ from = 100, to = 80 }),
-            },
-          })
-        end,
-      },
-    },
     opts = {
       keys = {
         -- close sidebar
@@ -95,12 +60,8 @@ return {
       animate = {
         enabled = true,
         fps = 30, -- frames per second
-        on_begin = function()
-          vim.g.minianimate_disable = true
-        end,
-        on_end = function()
-          vim.g.minianimate_disable = false
-        end,
+        on_begin = function() end,
+        on_end = function() end,
         -- Spinner for pinned views that are loading.
         -- if you have noice.nvim installed, you can use any spinner from it, like:
         -- spinner = require("noice.util.spinners").spinners.circleFull,
