@@ -148,22 +148,6 @@ return {
   },
 
   {
-    "mvllow/modes.nvim",
-    tag = "v0.2.0",
-    opts = function()
-      local colors = require("rocket_dog.colors").setup() -- pass in any of the config options as explained above
-      return {
-        colors = {
-          copy = colors.orange,
-          delete = colors.red,
-          insert = colors.green,
-          visual = colors.cyan,
-        },
-      }
-    end,
-  },
-
-  {
     "nvim-zh/colorful-winsep.nvim",
     config = function()
       require("colorful-winsep").setup({
