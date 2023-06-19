@@ -15,6 +15,12 @@ keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
+-- Center screen after common actions
+keymap("n", "<C-d>", "<C-d>zz", opts)
+keymap("n", "<C-u>", "<C-u>zz", opts)
+keymap("n", "n", "nzz", opts)
+keymap("n", "N", "Nzz", opts)
+
 -- Copy current file path to clipboard
 keymap("n", "<leader>yP", ":Cppath<cr>", { desc = "Copy absolute path to current file" })
 keymap("n", "<leader>yp", ":Cprelpath<cr>", { desc = "Copy relative path to current file" })
