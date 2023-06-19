@@ -172,7 +172,7 @@ return {
       },
     },
   },
-  -- { "Bekaboo/dropbar.nvim" },
+  { "Bekaboo/dropbar.nvim" },
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim" },
   {
