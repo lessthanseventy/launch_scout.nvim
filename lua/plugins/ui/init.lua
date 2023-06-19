@@ -1,7 +1,6 @@
 return {
   { "romainl/vim-cool" },
   { "mechatroner/rainbow_csv" },
-  { "simeji/winresizer" },
   { "kevinhwang91/nvim-bqf" },
 
   {
