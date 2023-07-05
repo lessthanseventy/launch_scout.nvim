@@ -22,13 +22,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end),
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "alpha" },
-  callback = function()
-    vim.b.minianimate_disable = true
-  end,
-})
-
 -- Set wrap and spell in markdown and gitcommit
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost" }, {
   callback = function()
