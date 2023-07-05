@@ -28,7 +28,7 @@ return {
     dependencies = "nvim-lua/plenary.nvim",
     -- stylua: ignore
     keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+      { "<leader>ss", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
     },
   },
 

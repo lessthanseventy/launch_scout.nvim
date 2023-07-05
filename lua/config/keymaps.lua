@@ -9,10 +9,18 @@ local opts = { silent = true }
 keymap("n", "<S-l>", ":tabn<CR>", opts)
 keymap("n", "<S-h>", ":tabp<CR>", opts)
 
+keymap(
+  "n",
+  "<leader>nc",
+  "<cmd>lua require('mini.files').open('/home/andrew/.config/nvim/lua/')<cr>",
+  { desc = "Edit neovim configuration" }
+)
+keymap("n", "<leader>nl", "<cmd>Lazy<cr>", { desc = "Lazy" })
 -- Move to window using the <ctrl> hjkl keys
 keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
+keymap("n", "<leader><C-l>", "<C-L>-default", { desc = "Refresh" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
 -- Center screen after common actions
@@ -56,7 +64,6 @@ keymap("n", "<leader>wo", "<Cmd>lua require('utils').WINDOW_OPTIONS()<cr>", { de
 keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New tab" })
 keymap("n", "<leader>wv", "<C-W>v", { desc = "Split vertically" })
 keymap("n", "<leader>ww", "<cmd>w %<cr>", { desc = "Save current file" })
-keymap("n", "<leader>l", "<cmd>Lazy<cr>", opts)
 keymap("t", "<C-j>", "<C-\\><C-n><C-w>j", opts)
 keymap("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
 
