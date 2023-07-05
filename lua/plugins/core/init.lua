@@ -12,10 +12,9 @@ return {
     opts = function()
       local nonicons_extension = require("nvim-nonicons.extentions.nvim-notify")
       return {
-        top_down = true,
-        timeout = 3500,
-        render = "compact",
-        stages = "fade",
+        timeout = 3000,
+        render = "default",
+        stages = "fade_in_slide_out",
         background_color = { bg = "#a6e3a1" },
         icons = nonicons_extension.icons,
         top_down = false,
