@@ -31,7 +31,7 @@ return {
 
   --Elixir
   {
-    "lessthanseventy/elixir-tools.nvim",
+    "elixir-tools/elixir-tools.nvim",
     ft = { "elixir", "eex", "heex", "surface" },
     config = false,
   },
