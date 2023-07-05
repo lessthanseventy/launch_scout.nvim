@@ -5,17 +5,7 @@ return {
       { "<leader>Wa", "<Cmd>WorkspacesAdd<CR>", desc = "Add Workspace" },
     },
     dependencies = {
-      "gennaro-tedesco/nvim-possession",
-      keys = {
-        { "<leader>ql", [[*<Cmd>lua require('nvim-possession').list()<CR>]], desc = "List Sessions" },
-        { "<leader>qn", [[*<Cmd>lua require('nvim-possession').new()<CR>]], desc = "Save Session" },
-        { "<leader>qu", [[*<Cmd>lua require('nvim-possession').update()<CR>]], desc = "Update Current Session" },
-        { "<leader>qd", [[*<Cmd>lua require('nvim-possession').delete()<CR>]], desc = "Delete Current Session" },
       },
-      dependencies = {
-        "ibhagwan/fzf-lua",
-      },
-      config = true,
     },
     opts = {
       -- path to a file to store workspaces data in
