@@ -36,6 +36,7 @@ opt.pumblend = 10
 opt.pumheight = 10 -- pop up menu height
 opt.relativenumber = true
 opt.ruler = false
+opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 opt.showtabline = 0 -- always show tabs
 opt.signcolumn = "yes:2"
