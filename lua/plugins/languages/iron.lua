@@ -60,7 +60,7 @@ return {
           repl_definition = {
             -- custom repl that loads the current file
             elixir = {
-              command = { "iex", "-S", "mix", "phx.server" },
+              command = { "iex", "-S", "mix" },
             },
             sh = { command = { "zsh" } },
           },
