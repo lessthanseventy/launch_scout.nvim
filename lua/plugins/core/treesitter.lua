@@ -2,7 +2,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     version = false,
-    event = { "BufReadPost", "BufNewFile" },
+    event = "BufReadPost",
     build = ":TSUpdate",
     opts = function()
       return {
