@@ -32,6 +32,12 @@ return {
   },
 
   {
+    "stevearc/resession.nvim",
+    event = "VimEnter",
+    config = true,
+  },
+
+  {
     "ggandor/leap.nvim",
     dependencies = "tpope/vim-repeat",
     keys = {

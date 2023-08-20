@@ -36,7 +36,7 @@ opt.pumblend = 10
 opt.pumheight = 10 -- pop up menu height
 opt.relativenumber = true
 opt.ruler = false
-opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+opt.sessionoptions = "buffers,curdir,folds,options,help,tabpages,resize,winpos,winsize"
 opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 opt.showtabline = 0 -- always show tabs
 opt.signcolumn = "yes:2"
@@ -52,8 +52,8 @@ opt.undofile = true -- enable persistent undo
 opt.undolevels = 10000
 opt.whichwrap:append("<,>,[,],h,l")
 opt.wildmenu = false
-opt.winwidth = 10
-opt.winminwidth = 10
+-- opt.winwidth = 1
+-- opt.winminwidth = 1
 opt.wrap = true -- display lines as one long line
 opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
