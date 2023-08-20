@@ -22,6 +22,7 @@ return {
 
   {
     "echasnovski/mini.files",
+    event = "VimEnter",
     version = false,
     keys = {
       {
@@ -30,6 +31,38 @@ return {
         desc = "Browse current file's folder",
       },
     },
+    init = function()
+      local map_split = function(buf_id, lhs, direction)
+        local rhs = function()
+          -- Make new window and set it as target
+          local new_target_window
+
+          vim.api.nvim_win_call(MiniFiles.get_target_window(), function()
+            vim.cmd(direction .. " split")
+            new_target_window = vim.api.nvim_get_current_win()
+          end)
+
+          MiniFiles.set_target_window(new_target_window)
+          MiniFiles.go_in()
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "i", false)
+        end
+
+        -- Adding `desc` will result into `show_help` entries
+        local desc = "Split " .. direction
+
+        vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
+      end
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniFilesBufferCreate",
+        callback = function(args)
+          local buf_id = args.data.buf_id
+
+          map_split(buf_id, "<C-s>", "belowright horizontal")
+          map_split(buf_id, "<C-v>", "belowright vertical")
+        end,
+      })
+    end,
     opts = {
       -- Customization of shown content
       content = {
@@ -44,9 +77,9 @@ return {
       -- Module mappings created only inside explorer.
       -- Use `''` (empty string) to not create one.
       mappings = {
-        close = "q",
+        close = "<ESC>",
         go_in = "",
-        go_in_plus = "<cr>",
+        go_in_plus = "<CR>",
         go_out = "",
         go_out_plus = "-",
         reset = "<BS>",
@@ -78,5 +111,8 @@ return {
         width_preview = 25,
       },
     },
+    config = function(_, opts)
+      require("mini.files").setup(opts)
+    end,
   },
 }
