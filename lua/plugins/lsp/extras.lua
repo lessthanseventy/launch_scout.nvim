@@ -3,6 +3,7 @@ return {
 
   {
     "dnlhc/glance.nvim",
+    event = "LspAttach",
     keys = {
       {
         "gd",
@@ -99,6 +100,17 @@ return {
         },
       })
     end,
+  },
+
+  {
+    "dgagn/diagflow.nvim",
+    event = "LspAttach",
+    opts = {
+      scope = "line",
+      show_sign = true,
+      padding_right = 5,
+      toggle_event = { "InsertEnter" },
+    },
   },
 
   {

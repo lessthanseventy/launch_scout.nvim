@@ -118,61 +118,94 @@ return {
     config = true,
   },
   -- Diagnostics
+  -- {
+  --   "glepnir/lspsaga.nvim",
+  --   event = "LspAttach",
+  --   keys = {
+  --     {
+  --       "<leader>ca",
+  --       "<cmd>Lspsaga code_action<CR>",
+  --       desc = "LSP Code Action",
+  --       mode = { "n", "v" },
+  --     },
+  --     {
+  --       "<leader>cr",
+  --       "<cmd>Lspsaga rename<CR>",
+  --       desc = "Lsp Rename in file",
+  --       mode = {
+  --         "n",
+  --         "v",
+  --       },
+  --     },
+  --     {
+  --       "<leader>cR",
+  --       "<cmd>Lspsaga rename ++project<CR>",
+  --       desc = "LSP Rename in project}",
+  --       mode = {
+  --         "n",
+  --         "v",
+  --       },
+  --     },
+  --     { "gl", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>", mode = { "n" } },
+  --     { "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", mode = { "n" } },
+  --     { "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", mode = { "n" } },
+  --     { "K", "<cmd>Lspsaga hover_doc<CR>", mode = { "n" } },
+  --     { "KK", "<cmd>Lspsaga hover_doc ++keep<CR>", mode = { "n" } },
+  --   },
+  --   dependencies = {
+  --     { "nvim-tree/nvim-web-devicons" },
+  --     --Please make sure you install markdown and markdown_inline parser
+  --     { "nvim-treesitter/nvim-treesitter" },
+  --   },
+  --   opts = {
+  --     ui = {
+  --       border = "double",
+  --       code_action = "🚀",
+  --     },
+  --     symbol_in_winbar = {
+  --       enable = false,
+  --     },
+  --     code_action_prompt = {
+  --       enable = true,
+  --       separator = " ",
+  --       ignore_patterns = { "oil" },
+  --       hide_keyword = true,
+  --       show_file = false,
+  --       respect_root = false,
+  --       color_mode = true,
+  --     },
+  --     lightbulb = {
+  --       enable = true,
+  --       sign = true,
+  --       debounce = 10,
+  --       sign_priority = 40,
+  --       virtual_text = false,
+  --       enable_in_insert = false,
+  --     },
+  --   },
+  -- },
   {
-    "glepnir/lspsaga.nvim",
-    event = "LspAttach",
-    keys = {
-      {
-        "<leader>ca",
-        "<cmd>Lspsaga code_action<CR>",
-        desc = "LSP Code Action",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>cr",
-        "<cmd>Lspsaga rename<CR>",
-        desc = "Lsp Rename in file",
-        mode = {
-          "n",
-          "v",
-        },
-      },
-      {
-        "<leader>cR",
-        "<cmd>Lspsaga rename ++project<CR>",
-        desc = "LSP Rename in project}",
-        mode = {
-          "n",
-          "v",
-        },
-      },
-      { "gl", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>", mode = { "n" } },
-      { "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", mode = { "n" } },
-      { "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", mode = { "n" } },
-      { "K", "<cmd>Lspsaga hover_doc<CR>", mode = { "n" } },
-      { "KK", "<cmd>Lspsaga hover_doc ++keep<CR>", mode = { "n" } },
-    },
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      --Please make sure you install markdown and markdown_inline parser
-      { "nvim-treesitter/nvim-treesitter" },
-    },
+    "Bekaboo/dropbar.nvim",
+    event = "VimEnter",
     opts = {
-      symbol_in_winbar = {
-        enable = false,
-      },
-      code_action_prompt = {
-        enable = true,
-        separator = " ",
-        ignore_patterns = { "oil" },
-        hide_keyword = true,
-        show_file = false,
-        respect_root = false,
-        color_mode = true,
+      general = {
+        update_interval = 100,
       },
     },
   },
-  { "Bekaboo/dropbar.nvim" },
+  -- {
+  --   "utilyre/barbecue.nvim",
+  --   name = "barbecue",
+  --   version = "*",
+  --   dependencies = {
+  --     "SmiteshP/nvim-navic",
+  --     "nvim-tree/nvim-web-devicons", -- optional dependency
+  --   },
+  --   opts = {
+  --     attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
+  --   },
+  -- },
+
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim" },
   {
@@ -282,47 +315,14 @@ return {
       require("mason-lspconfig").setup_handlers({
         function(server_name)
           local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-          local lsp_attach = function(client, bufnr) end
+          local lsp_attach = function(client, bufnr)
+            -- if client.server_capabilities["documentSymbolProvider"] then
+            --   require("nvim-navic").attach(client, bufnr)
+            -- end
+          end
           lspconfig[server_name].setup({
             on_attach = lsp_attach,
             capabilities = lsp_capabilities,
-          })
-        end,
-        ["elixirls"] = function()
-          local elixir = require("elixir")
-          local elixirls = require("elixir.elixirls")
-
-          elixir.setup({
-            credo = { enabled = false },
-            elixirls = {
-              enabled = true,
-              settings = elixirls.settings({
-                dialyzerEnabled = true,
-                fetchDeps = true,
-                enableTestLenses = false,
-                suggestSpecs = false,
-              }),
-              on_attach = function(client, bufnr)
-                vim.keymap.set(
-                  "n",
-                  "<space>cfp",
-                  ":ElixirFromPipe<cr>",
-                  { desc = "From Pipe", buffer = true, noremap = true }
-                )
-                vim.keymap.set(
-                  "n",
-                  "<space>ctp",
-                  ":ElixirToPipe<cr>",
-                  { desc = "To Pipe", buffer = true, noremap = true }
-                )
-                vim.keymap.set(
-                  "v",
-                  "<space>cem",
-                  ":ElixirExpandMacro<cr>",
-                  { desc = "Expand Macro", buffer = true, noremap = true }
-                )
-              end,
-            },
           })
         end,
         ["lua_ls"] = function()
