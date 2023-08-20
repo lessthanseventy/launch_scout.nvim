@@ -134,4 +134,14 @@ function M.PROJECT_FILES()
   end
 end
 
+function M.VSPLIT()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  vim.cmd("vsplit " .. bufname)
+end
+
+function M.SPLIT()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  vim.cmd("split " .. bufname)
+end
+
 return M

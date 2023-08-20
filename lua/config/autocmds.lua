@@ -22,7 +22,55 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end),
 })
 
--- Set wrap and spell in markdown and gitcommit
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+  pattern = "*",
+  callback = function()
+    local prev_winnr = vim.fn.winnr("#")
+    local prev_win = vim.fn.win_getid(prev_winnr)
+
+    if vim.o.filetype ~= "dropbar_menu" then
+      local api = require("dropbar.api")
+      local dropbar = api.get_current_dropbar()
+      if not dropbar then
+        return
+      end
+      local prev_winnr = vim.fn.winnr("#")
+      local prev_win = vim.fn.win_getid(prev_winnr)
+      vim.wo[prev_win].winbar = "   %f"
+    else
+      vim.wo[prev_win].winbar = "%{%v:lua.dropbar.get_dropbar_str()%}"
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+  callback = function(args)
+    local api = require("dropbar.api")
+    local win = vim.api.nvim_get_current_win()
+    local dropbar = api.get_current_dropbar()
+    if not dropbar then
+      return
+    end
+    vim.wo[win].winbar = "   %f"
+  end,
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc(-1) == 0 then
+      require("telescope").extensions.workspaces.workspaces()
+    end
+  end,
+})
+
+local resession = require("resession")
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    resession.save(vim.fn.getcwd(), { notify = false })
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost" }, {
   callback = function()
     require("neo-tree.events").fire_event("git_event")
@@ -38,12 +86,28 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt_local.textwidth = 80
   end,
 })
---
+
+vim.api.nvim_create_autocmd({ "WinClosed" }, {
+  group = vim.api.nvim_create_augroup("tint_clear", { clear = true }),
+  pattern = { "*" },
+  callback = function(_)
+    require("tint").untint(vim.api.nvim_get_current_win())
+  end,
+})
+
 -- Disable miniindent
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "alpha", "fzf", "qf", "terminal", "toggleterm", "neo-tree" },
   callback = function()
     vim.b.miniindentscope_disable = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("DiffUpdated", {
+  group = vim.api.nvim_create_augroup("foo", { clear = true }),
+  pattern = { "*" },
+  callback = function(_)
+    require("tint").untint(vim.api.nvim_get_current_win())
   end,
 })
 

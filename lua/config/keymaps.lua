@@ -59,10 +59,9 @@ keymap("n", "<leader>gf", "<cmd>LazyGitFilterCurrentFile<cr>", { desc = "LazyGit
 --Window management
 keymap("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "🟔 🟔 🟔  🚀 🟔 🟔 🟔 " })
 keymap("n", "<leader>wd", "<cmd>q!<cr>", { desc = "Close current buffer" })
-keymap("n", "<leader>ws", "<C-W>s", { desc = "Split horizontally" })
-keymap("n", "<leader>wo", "<Cmd>lua require('utils').WINDOW_OPTIONS()<cr>", { desc = "Print options" })
+keymap("n", "<leader>ws", "<cmd>lua require('utils').SPLIT()<cr>", { desc = "Split horizontally" })
 keymap("n", "<leader>wt", "<cmd>tabnew<cr>", { desc = "New tab" })
-keymap("n", "<leader>wv", "<C-W>v", { desc = "Split vertically" })
+keymap("n", "<leader>wv", "<cmd>lua require('utils').VSPLIT()<cr>", { desc = "Split vertically" })
 keymap("n", "<leader>ww", "<cmd>w %<cr>", { desc = "Save current file" })
 keymap("t", "<C-j>", "<C-\\><C-n><C-w>j", opts)
 keymap("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
