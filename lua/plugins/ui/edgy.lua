@@ -1,7 +1,7 @@
 return {
   {
     "folke/edgy.nvim",
-    event = "VeryLazy",
+    event = "VimEnter",
     keys = {
       {
         "<leader>e",
@@ -15,27 +15,22 @@ return {
         ["q"] = function(win)
           if win.view.edgebar.pos == "left" then
             win.view.edgebar:close()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "i", false)
           else
             win:close()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "i", false)
           end
         end,
         -- close sidebar
         ["Q"] = function(win)
           if win.view.edgebar.pos == "left" then
             win.view.edgebar:close()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "i", false)
           else
             win:close()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "i", false)
           end
         end,
         -- hide window
         ["<C-q>"] = function(win)
           if win.view.edgebar.pos == "bottom" then
             win.view.edgebar:close()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "i", false)
           else
             win:hide()
           end
@@ -96,16 +91,6 @@ return {
       },
       left = {
         {
-          title = "Neo-Tree",
-          ft = "neo-tree",
-          filter = function(buf)
-            return vim.b[buf].neo_tree_source == "filesystem"
-          end,
-          pinned = true,
-          size = { height = 0.5 },
-          open = "Neotree position=right filesystem",
-        },
-        {
           title = "Neo-Tree Git",
           ft = "neo-tree",
           filter = function(buf)
@@ -129,6 +114,14 @@ return {
         },
         {
           ft = "help",
+          size = { height = 0.25 },
+          -- only show help buffers
+          filter = function(buf)
+            return vim.bo[buf].buftype == "help"
+          end,
+        },
+        {
+          ft = "markdown",
           size = { height = 0.25 },
           -- only show help buffers
           filter = function(buf)
