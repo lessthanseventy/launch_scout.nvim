@@ -7,26 +7,39 @@ return {
 
       vim.api.nvim_create_autocmd({ "FileType" }, {
         pattern = { "*" },
-        callback = function(opts)
+        callback = vim.schedule_wrap(function(args)
           local buf_id = vim.api.nvim_get_current_buf()
-          local ft = vim.bo[buf_id].filetype
-          local buftype = vim.bo[buf_id].buftype
-          if buftype == "nofile" then
-            return
-          end
-          if
-            ft == "toggleterm"
-            or ft == "Trouble"
-            or ft == "iron"
-            or ft == "fzf"
-            or ft == "oil"
-            or ft == "NvimSeparator"
-          then
-            return
-          else
+          local ft_exclude = {
+            "TelescopePrompt",
+            "mason",
+            "oil",
+            "edgy",
+            "iron",
+            "CompetiTest",
+            "prompt",
+            "ultestsummary",
+            "pr",
+            "telescope",
+            "dbout",
+            "dbui",
+            "sql",
+            "csv",
+            "noice",
+            "guihua",
+            "alpha",
+            "calendar",
+            "neo-tree",
+            "neo-tree-popup",
+            "notify",
+            "toggleterm",
+          }
+          local buftype_exclude = {
+            "help",
+          }
+          if not vim.tbl_contains(ft_exclude, vim.o.ft) and not vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
             vim.cmd("BlockOn")
           end
-        end,
+        end),
       })
     end,
     config = function()
