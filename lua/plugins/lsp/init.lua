@@ -114,97 +114,50 @@ return {
   { "saadparwaiz1/cmp_luasnip" }, -- Optional
   { "hrsh7th/cmp-nvim-lua" }, -- Optional
   {
-    "lessthanseventy/codeium.nvim",
-    config = true,
+    "jcdickinson/codeium.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    config = function()
+      require("codeium").setup({
+        tools = {
+          uname = "/usr/bin/uname",
+          uuidgen = "/usr/bin/uuidgen",
+          curl = "/usr/bin/curl",
+          gzip = "usr/bin/gzip",
+          language_server = "/usr/local/bin/codeium",
+        },
+      })
+    end,
   },
-  -- Diagnostics
+
   -- {
-  --   "glepnir/lspsaga.nvim",
-  --   event = "LspAttach",
-  --   keys = {
-  --     {
-  --       "<leader>ca",
-  --       "<cmd>Lspsaga code_action<CR>",
-  --       desc = "LSP Code Action",
-  --       mode = { "n", "v" },
-  --     },
-  --     {
-  --       "<leader>cr",
-  --       "<cmd>Lspsaga rename<CR>",
-  --       desc = "Lsp Rename in file",
-  --       mode = {
-  --         "n",
-  --         "v",
-  --       },
-  --     },
-  --     {
-  --       "<leader>cR",
-  --       "<cmd>Lspsaga rename ++project<CR>",
-  --       desc = "LSP Rename in project}",
-  --       mode = {
-  --         "n",
-  --         "v",
-  --       },
-  --     },
-  --     { "gl", "<cmd>Lspsaga show_line_diagnostics ++unfocus<CR>", mode = { "n" } },
-  --     { "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", mode = { "n" } },
-  --     { "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", mode = { "n" } },
-  --     { "K", "<cmd>Lspsaga hover_doc<CR>", mode = { "n" } },
-  --     { "KK", "<cmd>Lspsaga hover_doc ++keep<CR>", mode = { "n" } },
-  --   },
-  --   dependencies = {
-  --     { "nvim-tree/nvim-web-devicons" },
-  --     --Please make sure you install markdown and markdown_inline parser
-  --     { "nvim-treesitter/nvim-treesitter" },
-  --   },
+  --   "Bekaboo/dropbar.nvim",
+  --   event = "VimEnter",
   --   opts = {
-  --     ui = {
-  --       border = "double",
-  --       code_action = "🚀",
-  --     },
-  --     symbol_in_winbar = {
-  --       enable = false,
-  --     },
-  --     code_action_prompt = {
-  --       enable = true,
-  --       separator = " ",
-  --       ignore_patterns = { "oil" },
-  --       hide_keyword = true,
-  --       show_file = false,
-  --       respect_root = false,
-  --       color_mode = true,
-  --     },
-  --     lightbulb = {
-  --       enable = true,
-  --       sign = true,
-  --       debounce = 10,
-  --       sign_priority = 40,
-  --       virtual_text = false,
-  --       enable_in_insert = false,
+  --     general = {
+  --       update_interval = 100,
   --     },
   --   },
   -- },
+
   {
-    "Bekaboo/dropbar.nvim",
+    "utilyre/barbecue.nvim",
     event = "VimEnter",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
     opts = {
-      general = {
-        update_interval = 100,
-      },
+      attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
+      context_follow_icon_color = true,
+      create_autocmd = false,
+      show_modified = true,
     },
   },
-  -- {
-  --   "utilyre/barbecue.nvim",
-  --   name = "barbecue",
-  --   version = "*",
-  --   dependencies = {
-  --     "SmiteshP/nvim-navic",
-  --     "nvim-tree/nvim-web-devicons", -- optional dependency
-  --   },
-  --   opts = {
-  --     attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
-  --   },
-  -- },
 
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim" },
@@ -316,9 +269,9 @@ return {
         function(server_name)
           local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
           local lsp_attach = function(client, bufnr)
-            -- if client.server_capabilities["documentSymbolProvider"] then
-            --   require("nvim-navic").attach(client, bufnr)
-            -- end
+            if client.server_capabilities["documentSymbolProvider"] then
+              require("nvim-navic").attach(client, bufnr)
+            end
           end
           lspconfig[server_name].setup({
             on_attach = lsp_attach,
@@ -327,6 +280,7 @@ return {
         end,
         ["lua_ls"] = function()
           lspconfig["lua_ls"].setup({
+            on_attach = lsp_attach,
             settings = {
               Lua = {
                 workspace = {

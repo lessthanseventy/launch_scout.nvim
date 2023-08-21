@@ -23,36 +23,45 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-  pattern = "*",
   callback = function()
-    local prev_winnr = vim.fn.winnr("#")
-    local prev_win = vim.fn.win_getid(prev_winnr)
-
-    if vim.o.filetype ~= "dropbar_menu" then
-      local api = require("dropbar.api")
-      local dropbar = api.get_current_dropbar()
-      if not dropbar then
-        return
-      end
-      local prev_winnr = vim.fn.winnr("#")
-      local prev_win = vim.fn.win_getid(prev_winnr)
-      vim.wo[prev_win].winbar = "   %f"
-    else
-      vim.wo[prev_win].winbar = "%{%v:lua.dropbar.get_dropbar_str()%}"
-    end
+    require("barbecue.ui").update()
   end,
 })
 
 vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
-  callback = function(args)
-    local api = require("dropbar.api")
+  callback = vim.schedule_wrap(function(args)
     local win = vim.api.nvim_get_current_win()
-    local dropbar = api.get_current_dropbar()
-    if not dropbar then
-      return
+    local ft_exclude = {
+      "TelescopePrompt",
+      "mason",
+      "oil",
+      "edgy",
+      "iron",
+      "CompetiTest",
+      "prompt",
+      "ultestsummary",
+      "pr",
+      "telescope",
+      "dbout",
+      "dbui",
+      "sql",
+      "csv",
+      "noice",
+      "guihua",
+      "alpha",
+      "calendar",
+      "neo-tree",
+      "neo-tree-popup",
+      "notify",
+      "toggleterm",
+    }
+    local buftype_exclude = {
+      "help",
+    }
+    if not vim.tbl_contains(ft_exclude, vim.o.ft) and not vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
+      vim.api.nvim_win_set_option(win, "winbar", "   %f")
     end
-    vim.wo[win].winbar = "   %f"
-  end,
+  end),
 })
 
 vim.api.nvim_create_autocmd("VimEnter", {

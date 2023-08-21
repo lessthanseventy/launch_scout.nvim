@@ -30,6 +30,7 @@ opt.laststatus = 3
 opt.list = true
 opt.mouse = "a" -- allow the mouse to be used in neovim
 opt.mousemodel = "extend"
+opt.mousemoveevent = true
 opt.number = true -- set numbered lines
 opt.numberwidth = 4 -- set number column width to 4
 opt.pumblend = 10

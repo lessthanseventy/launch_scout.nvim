@@ -34,18 +34,24 @@ return {
     "elixir-tools/elixir-tools.nvim",
     version = "*",
     event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-lua/plenary.nvim",
+    },
     config = function()
       local elixir = require("elixir")
       local elixirls = require("elixir.elixirls")
 
+      local lsp_attach = function(client, bufnr)
+        vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
+        vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
+        vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
+        require("nvim-navic").attach(client, bufnr)
+      end
       elixir.setup({
         nextls = {
           enable = false,
-          on_attach = function(client, bufnr)
-            vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
-            vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
-            vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-          end,
+          on_attach = lsp_attach,
         },
         credo = { enable = true },
         elixirls = {
@@ -54,12 +60,10 @@ return {
             dialyzerEnabled = false,
             enableTestLenses = false,
           }),
+          on_attach = lsp_attach,
         },
       })
     end,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
   },
 
   --Ruby on Rails
