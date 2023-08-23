@@ -45,6 +45,7 @@ opt.smartindent = false
 opt.splitright = true
 opt.splitbelow = true
 opt.splitkeep = "screen"
+opt.startofline = true
 opt.swapfile = true -- creates a swapfile
 opt.tabstop = 2
 opt.termguicolors = true

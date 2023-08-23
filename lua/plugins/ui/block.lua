@@ -5,7 +5,7 @@ return {
       local keymap = vim.keymap.set
       keymap("n", "<leader>Tb", "<cmd>Block<cr>", { desc = "Block Highlights" })
 
-      vim.api.nvim_create_autocmd({ "FileType" }, {
+      vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
         pattern = { "*" },
         callback = vim.schedule_wrap(function(args)
           local buf_id = vim.api.nvim_get_current_buf()

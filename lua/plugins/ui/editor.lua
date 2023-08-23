@@ -180,11 +180,6 @@ return {
           "toggleterm",
         },
         symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
-        create_event = function()
-          if vim.fn.winnr("$") == 3 then
-            require("colorful-winsep").NvimSeparatorDel()
-          end
-        end,
       })
     end,
   },

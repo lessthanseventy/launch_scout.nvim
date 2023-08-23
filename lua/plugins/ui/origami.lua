@@ -42,4 +42,10 @@ return {
       vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
     end,
   },
+
+  {
+    "chrisgrieser/nvim-origami",
+    event = "BufReadPost", -- later or on keypress would prevent saving folds
+    opts = true, -- needed even when using default config
+  },
 }
