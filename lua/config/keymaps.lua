@@ -36,8 +36,6 @@ keymap("n", "<leader>yp", ":Cprelpath<cr>", { desc = "Copy relative path to curr
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
-keymap("n", "<C-p>", "<cmd>lua require('utils').PROJECT_FILES()<cr>", opts)
-
 -- Toggles
 keymap("n", "<leader>Tz", "<cmd>ZenMode<cr>", { desc = "Zen mode" })
 keymap("n", "<leader>Tt", "<cmd>Twilight<cr>", { desc = "Twilight mode" })

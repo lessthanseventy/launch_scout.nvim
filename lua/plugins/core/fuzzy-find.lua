@@ -100,4 +100,22 @@ return {
       })
     end,
   },
+  {
+    "danielfalk/smart-open.nvim",
+    branch = "0.2.x",
+    keys = {
+      {
+        "<c-p>",
+        [[<cmd>lua require('telescope').extensions.smart_open.smart_open({ cwd_only = true })<cr>]],
+        desc = "Search for File",
+      },
+    },
+    dependencies = {
+      "kkharji/sqlite.lua",
+      "nvim-telescope/telescope-fzy-native.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("smart_open")
+    end,
+  },
 }

@@ -22,50 +22,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end),
 })
 
--- vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
---   callback = vim.schedule_wrap(function(args)
---     local win = vim.api.nvim_get_current_win()
---     require("barbecue.ui").update(win)
---   end),
--- })
---
--- vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
---   callback = vim.schedule_wrap(function(args)
---     local ft_exclude = {
---       "TelescopePrompt",
---       "mason",
---       "oil",
---       "edgy",
---       "iron",
---       "CompetiTest",
---       "prompt",
---       "ultestsummary",
---       "pr",
---       "telescope",
---       "dbout",
---       "dbui",
---       "sql",
---       "csv",
---       "noice",
---       "guihua",
---       "alpha",
---       "calendar",
---       "neo-tree",
---       "neo-tree-popup",
---       "notify",
---       "toggleterm",
---     }
---     local buftype_exclude = {
---       "help",
---     }
---
---     if not vim.tbl_contains(ft_exclude, vim.o.ft) and not vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
---       local win = vim.api.nvim_get_current_win()
---       vim.wo[win].winbar = "   %f"
---     end
---   end),
--- })
-
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if vim.fn.argc(-1) == 0 then

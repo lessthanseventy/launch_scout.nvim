@@ -96,20 +96,31 @@ return {
             cmp.complete()
           end, { "i" }),
         }),
-        -- view = {
-        --   entries = "native",
-        -- },
       }
     end,
     config = function(_, opts)
       local cmp = require("cmp")
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          {
+            name = "cmdline",
+            option = {
+              ignore_cmds = { "Man", "!" },
+            },
+          },
+        }),
+      })
       cmp.setup(opts)
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   },
   { "hrsh7th/cmp-nvim-lsp" }, -- Required
   { "hrsh7th/cmp-buffer" }, -- Optional
+  { "hrsh7th/cmp-cmdline" }, -- Optional
   { "hrsh7th/cmp-path" }, -- Optional
   { "saadparwaiz1/cmp_luasnip" }, -- Optional
   { "hrsh7th/cmp-nvim-lua" }, -- Optional

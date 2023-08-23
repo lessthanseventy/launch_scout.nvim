@@ -133,28 +133,4 @@ return {
     cmd = "Colortils",
     config = true,
   },
-
-  --VSCode Tasks
-  {
-    "stevearc/overseer.nvim",
-    lazy = true,
-    cmd = {
-      "OverseerToggle",
-      "OverseerOpen",
-      "OverseerRun",
-      "OverseerBuild",
-      "OverseerClose",
-      "OverseerLoadBundle",
-      "OverseerSaveBundle",
-      "OverseerDeleteBundle",
-      "OverseerRunCmd",
-      "OverseerQuickAction",
-      "OverseerTaskAction",
-    },
-    config = function()
-      require("overseer").setup({
-        templates = { "builtin", "user.run_script" },
-      })
-    end,
-  },
 }

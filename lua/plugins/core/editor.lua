@@ -239,6 +239,11 @@ return {
             cyclic = true, -- "or" is incremented into "and".
           }),
           augend.constant.new({
+            elements = { "assert", "refute" },
+            word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
+            cyclic = true, -- "or" is incremented into "and".
+          }),
+          augend.constant.new({
             elements = { "true", "false" },
             word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
             cyclic = true, -- "or" is incremented into "and".
@@ -331,6 +336,14 @@ return {
     },
     opts = {
       multi_window = false,
+      nohlsearch = true,
+      label = {
+        rainbow = {
+          enabled = false,
+          -- number between 1 and 9
+          shade = 5,
+        },
+      },
     },
   },
 }

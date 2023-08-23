@@ -23,16 +23,7 @@ return {
         -- stylua: ignore start
         map("n", "]h", gs.next_hunk, "Next Hunk")
         map("n", "[h", gs.prev_hunk, "Prev Hunk")
-        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
-        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-        map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+        map("n", "<leader>gbR", gs.reset_buffer, "Reset Buffer")
       end,
     },
     config = function(_, opts)
@@ -52,6 +43,9 @@ return {
   {
     "ruifm/gitlinker.nvim",
     dependencies = "nvim-lua/plenary.nvim",
+    keys = {
+      { "<leader>gy", "<cmd>lua require('gitlinker').get_buf_range_url('n')<cr>", desc = "Copy Github Link" },
+    },
     config = function()
       require("gitlinker").setup({ mappings = nil })
     end,
@@ -76,6 +70,12 @@ return {
       wk.register({
         g = {
           name = "+Git",
+          h = {
+            name = "+Hunk",
+          },
+          b = {
+            name = "+Buffer",
+          },
           G = {
             name = "+Github",
             c = {
@@ -126,23 +126,21 @@ return {
     end,
   },
 
-  -- {
-  --   "pwntester/octo.nvim",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope.nvim",
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  --   config = function()
-  --     require("octo").setup()
-  --   end,
-  -- },
-
-  --   {
-  --     "tanvirtin/vgit.nvim",
-  --     dependencies = {
-  --       "nvim-lua/plenary.nvim",
-  --     },
-  --     config = true,
-  --   },
+  {
+    "tanvirtin/vgit.nvim",
+    keys = {
+      { "<leader>ghr", "<cmd>lua require('vgit').buffer_hunk_reset()<cr>", desc = "Reset Hunk" },
+      { "<leader>ghp", "<cmd>lua require('vgit').buffer_hunk_preview()<cr>", desc = "Preview Hunk" },
+      { "<leader>gbb", "<cmd>lua require('vgit').buffer_blame_preview()<cr>", desc = "Preview Blame" },
+      { "<leader>gbd", "<cmd>lua require('vgit').buffer_diff_preview()<cr>", desc = "Diff" },
+      { "<leader>gbh", "<cmd>lua require('vgit').buffer_history_preview()<cr>", desc = "History" },
+      { "<leader>gbg", "<cmd>lua require('vgit').buffer_gutter_blame_preview()<cr>", desc = "Gutter Blame" },
+      { "<leader>gd", "<cmd>lua require('vgit').project_diff_preview()<cr>", desc = "Diff Project" },
+      { "<leader>gq", "<cmd>lua require('vgit').project_hunks_qf()<cr>", desc = "Hunks QF" },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = true,
+  },
 }

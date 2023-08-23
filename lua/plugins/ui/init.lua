@@ -1,36 +1,11 @@
 return {
   { "romainl/vim-cool" },
   { "mechatroner/rainbow_csv" },
-  { "kevinhwang91/nvim-bqf" },
 
   {
     "yamatsum/nvim-nonicons",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = true,
-  },
-
-  {
-    "kevinhwang91/nvim-hlslens",
-    keys = {
-      { "*", [[*<Cmd>lua require('hlslens').start()<CR>]], silent = true, noremap = true },
-      { "#", [[#<Cmd>lua require('hlslens').start()<CR>]], silent = true, noremap = true },
-      { "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], silent = true, noremap = true },
-      { "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], silent = true, noremap = true },
-    },
-    config = function()
-      require("hlslens").setup({
-        build_position_cb = function(plist, _, _, _)
-          require("scrollbar.handlers.search").handler.show(plist.start_pos)
-        end,
-      })
-
-      vim.cmd([[
-        augroup scrollbar_search_hide
-            autocmd!
-            autocmd CmdlineLeave : lua require('scrollbar.handlers.search').handler.hide()
-        augroup END
-    ]])
-    end,
   },
 
   {
