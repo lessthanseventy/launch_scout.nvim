@@ -57,7 +57,7 @@ return {
         elixirls = {
           enable = true,
           settings = elixirls.settings({
-            dialyzerEnabled = false,
+            dialyzerEnabled = true,
             enableTestLenses = false,
           }),
           on_attach = lsp_attach,

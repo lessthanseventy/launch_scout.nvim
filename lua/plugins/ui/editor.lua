@@ -153,6 +153,7 @@ return {
       require("colorful-winsep").setup({
         -- timer refresh rate
         interval = 30,
+        event = { "WinNew" },
         -- This plugin will not be activated for filetype in the following table.
         no_exec_files = {
           "TelescopePrompt",
@@ -180,13 +181,8 @@ return {
         },
         symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
         create_event = function()
-          local win_n = require("colorful-winsep.utils").calculate_number_windows()
-          if win_n == 2 then
-            local win_id = vim.fn.win_getid(vim.fn.winnr("h"))
-            local filetype = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_id), "filetype")
-            if filetype == "neo-tree" then
-              require("colorful-winsep").NvimSeparatorDel()
-            end
+          if vim.fn.winnr("$") == 3 then
+            require("colorful-winsep").NvimSeparatorDel()
           end
         end,
       })
