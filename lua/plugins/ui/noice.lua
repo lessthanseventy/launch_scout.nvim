@@ -60,9 +60,9 @@ return {
       }
     end,
     opts = {
-      popupmenu = { enabled = true, backend = "nui" },
+      popupmenu = { backend = "cmp" },
+      messages = { view_search = false },
       cmdline = {
-        enabled = true,
         view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
         opts = { buf_options = { filetype = "vim" } },
         format = {
@@ -70,7 +70,6 @@ return {
           search_up = false,
         },
       },
-      notify = { enabled = true },
       lsp = {
         progress = {
           enabled = false,
@@ -116,8 +115,6 @@ return {
         },
       },
       presets = {
-        -- you can enable a preset by setting it to true, or a table that will override the preset config
-        -- you can also add custom presets that you can enable/disable with enabled=true
         long_message_to_split = true,
         bottom_search = true, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together

@@ -105,20 +105,4 @@ return {
       { "<leader>st", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
     },
   },
-
-  {
-    "nvim-neotest/neotest",
-    dependencies = {
-      "jfpedroza/neotest-elixir",
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-elixir"),
-        },
-      })
-    end,
-  },
-
-  { "tpope/vim-repeat" },
 }

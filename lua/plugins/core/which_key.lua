@@ -6,7 +6,6 @@ return {
       local keymaps = {
         mode = { "n", "v" },
         ["g"] = { name = "+goto" },
-        ["gz"] = { name = "+surround" },
         ["]"] = { name = "+next" },
         ["["] = { name = "+prev" },
         ["<leader><tab>"] = { "<cmd>b#<cr>", "Previous window" },

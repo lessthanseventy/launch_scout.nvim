@@ -208,7 +208,7 @@ return {
   {
     "zbirenbaum/neodim",
     event = "LspAttach",
-    branch = v2,
+    branch = "v2",
     config = function()
       require("neodim").setup({
         refresh_delay = 75, -- time in ms to wait after typing before refresh diagnostics
@@ -261,6 +261,7 @@ return {
     "stevearc/dressing.nvim",
     lazy = true,
     init = function()
+      ---@diagnostic disable-next-line: different-requires
       local lazy = require("lazy")
       ---@diagnostic disable-next-line: duplicate-set-field
       vim.ui.select = function(...)

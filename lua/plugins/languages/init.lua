@@ -37,6 +37,7 @@ return {
     dependencies = {
       "SmiteshP/nvim-navic",
       "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
     },
     config = function()
       local elixir = require("elixir")
@@ -46,7 +47,9 @@ return {
         vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-        require("nvim-navic").attach(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          require("nvim-navic").attach(client, bufnr)
+        end
       end
       elixir.setup({
         nextls = {

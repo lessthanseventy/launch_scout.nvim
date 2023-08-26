@@ -2,6 +2,39 @@ return {
   { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
 
   {
+    "SmiteshP/nvim-navbuddy",
+    keys = {
+      { "<leader>cn", "<cmd>Navbuddy<cr>", desc = "Navbuddy", silent = true, noremap = true },
+    },
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {
+      window = {
+        size = "90%",
+        sections = {
+          left = {
+            size = "20%",
+            border = "single", -- You can set border style for each section individually as well.
+          },
+          mid = {
+            size = "40%",
+            border = "double",
+          },
+          right = {
+            border = "single",
+            preview = "leaf",
+          },
+        },
+      },
+      lsp = {
+        auto_attach = true,
+      },
+    },
+  },
+
+  {
     "dnlhc/glance.nvim",
     event = "LspAttach",
     keys = {
@@ -10,6 +43,12 @@ return {
         "<Cmd>Glance definitions<CR>",
         mode = { "n" },
         desc = "Glance definitions",
+      },
+      {
+        "gl",
+        "<Cmd>lua vim.diagnostic.open_float()<CR>",
+        mode = { "n" },
+        desc = "View diagnostic at cursor",
       },
       {
         "gr",
