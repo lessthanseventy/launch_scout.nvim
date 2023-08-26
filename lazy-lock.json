@@ -131,5 +131,6 @@
   "windline.nvim": { "branch": "master", "commit": "f58634d649d5774d438f745fbd96caca16aef2c2" },
   "windows.nvim": { "branch": "main", "commit": "c7492552b23d0ab30325e90b56066ec51242adc8" },
   "workspaces.nvim": { "branch": "master", "commit": "a6fb4995333f927cc6f707890800fa7f7c476043" },
-  "zen-mode.nvim": { "branch": "main", "commit": "68f554702de63f4b7b6b6d4bcb10178f41a0acc7" }
+  "zen-mode.nvim": { "branch": "main", "commit": "68f554702de63f4b7b6b6d4bcb10178f41a0acc7" },
+  "zone.nvim": { "branch": "main", "commit": "895047eeb79cb08bdb999b8e8efc46939b1f2071" }
 }
