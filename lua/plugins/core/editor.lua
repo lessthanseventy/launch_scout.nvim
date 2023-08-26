@@ -1,38 +1,32 @@
 return {
+
+  -- respect camelCaswe and the like in w,e,b motions (get it, spider?)
   {
     "chrisgrieser/nvim-spider",
-    lazy = true,
     keys = {
       { "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w", mode = { "n", "o", "x" } } },
       { "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e", mode = { "n", "o", "x" } } },
       { "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b", mode = { "n", "o", "x" } } },
       { "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-ge", mode = { "n", "o", "x" } } },
     },
+    config = function()
+      require("spider").setup({
+        skipInsignificantPunctuation = true,
+      })
+    end,
   },
 
   { "mbbill/undotree" },
 
+  { "tpope/vim-repeat" },
+
+  -- clean up whitespace on save
   {
     "mcauley-penney/tidy.nvim",
     config = true,
   },
 
-  {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require("project_nvim").setup({
-        exclude_dirs = { vim.fn.expand("~") .. "/.vault" },
-        ignore_lsp = { "tailwindcss", "null-ls" },
-        patterns = {
-          ">projects",
-        },
-        show_hidden = true,
-        silent_chdir = true,
-        scope_chdir = "tab",
-      })
-    end,
-  },
-
+  -- map <jk> to escape to enter normal mode more easily
   {
     "max397574/better-escape.nvim",
     config = function()
@@ -45,74 +39,29 @@ return {
     end,
   },
 
-  { "tenxsoydev/karen-yank.nvim", config = true },
-
-  -- {
-  --   "echasnovski/mini.pairs",
-  --   event = "VeryLazy",
-  --   config = function(_, opts)
-  --     require("mini.pairs").setup(opts)
-  --   end,
-  -- },
-  --
-
+  -- copy/paste like yank behavior
   {
-    "altermo/npairs-integrate-upair",
-    dependencies = { "windwp/nvim-autopairs", "altermo/ultimate-autopair.nvim" },
+    "tenxsoydev/karen-yank.nvim",
+    config = true,
+  },
+
+  -- additional text object for subword and key/value pairs
+  {
+    "chrisgrieser/nvim-various-textobjs",
+    event = "VeryLazy",
     config = function()
-      require("npairs-int-upair").setup({
-        map = "n",
-        cmap = "u",
-        bs = "n",
-        cr = "n",
-        space = "u",
-        c_h = "",
-        c_w = "",
-        fastwarp = "<A-e>",
-        rfastwarp = "<A-E>",
-        fastwrap = "<A-]>",
-        npairs_conf = {
-          disable_filetype = { "TelescopePrompt", "spectre_panel" },
-          disable_in_macro = false,
-          disable_in_visualblock = false,
-          disable_in_replace_mode = true,
-          ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
-          enable_moveright = true,
-          enable_afterquote = true,
-          enable_check_bracket_line = false,
-          enable_bracket_in_quote = true,
-          enable_abbr = false,
-          break_undo = true,
-          check_ts = false,
-          map_cr = true,
-          map_bs = true,
-          map_c_h = false,
-          map_c_w = false,
-        },
-        upair_conf = {},
-      })
+      local map = vim.keymap.set
+      map({ "o", "x", "v" }, "ik", "<cmd>lua require('various-textobjs').key(true)<CR>", { remap = true })
+      map({ "o", "x", "v" }, "ak", "<cmd>lua require('various-textobjs').key(false)<CR>", { remap = true })
+      map({ "o", "x", "v" }, "iv", "<cmd>lua require('various-textobjs').value(true)<CR>", { remap = true })
+      map({ "o", "x", "v" }, "av", "<cmd>lua require('various-textobjs').value(false)<CR>", { remap = true })
+      map({ "o", "x", "v" }, "iw", "<cmd>lua require('various-textobjs').subword(true)<CR>", { remap = true })
+      map({ "o", "x", "v" }, "aw", "<cmd>lua require('various-textobjs').subword(false)<CR>", { remap = true })
+      require("various-textobjs").setup({ usetestKeymaps = false })
     end,
   },
 
-  {
-    "echasnovski/mini.surround",
-    opts = {
-      mappings = {
-        add = "gza", -- Add surrounding in Normal and Visual modes
-        delete = "gzd", -- Delete surrounding
-        find = "gzf", -- Find surrounding (to the right)
-        find_left = "gzF", -- Find surrounding (to the left)
-        highlight = "gzh", -- Highlight surrounding
-        replace = "gzr", -- Replace surrounding
-        update_n_lines = "gzn", -- Update `n_lines`
-      },
-    },
-    config = function(_, opts)
-      -- use gz mappings instead of s to prevent conflict with leap
-      require("mini.surround").setup(opts)
-    end,
-  },
-
+  -- toggle comments on selection
   {
     "echasnovski/mini.comment",
     event = "VeryLazy",
@@ -128,84 +77,15 @@ return {
     end,
   },
 
-  {
-    "echasnovski/mini.ai",
-    keys = {
-      { "a", mode = { "x", "o" } },
-      { "i", mode = { "x", "o" } },
-    },
-    event = "VeryLazy",
-    dependencies = { "nvim-treesitter-textobjects" },
-    opts = function()
-      local ai = require("mini.ai")
-      return {
-        n_lines = 500,
-        custom_textobjects = {
-          o = ai.gen_spec.treesitter({
-            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-          }, {}),
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-        },
-      }
-    end,
-    config = function(_, opts)
-      require("mini.ai").setup(opts)
-      -- register all text objects with which-key
-      --
-      local i = {
-        [" "] = "Whitespace",
-        ['"'] = 'Balanced "',
-        ["'"] = "Balanced '",
-        ["`"] = "Balanced `",
-        ["("] = "Balanced (",
-        [")"] = "Balanced ) including white-space",
-        [">"] = "Balanced > including white-space",
-        ["<lt>"] = "Balanced <",
-        ["]"] = "Balanced ] including white-space",
-        ["["] = "Balanced [",
-        ["}"] = "Balanced } including white-space",
-        ["{"] = "Balanced {",
-        ["?"] = "User Prompt",
-        _ = "Underscore",
-        a = "Argument",
-        b = "Balanced ), ], }",
-        c = "Class",
-        f = "Function",
-        o = "Block, conditional, loop",
-        q = "Quote `, \", '",
-        t = "Tag",
-      }
-      local a = vim.deepcopy(i)
-      for k, v in pairs(a) do
-        a[k] = v:gsub(" including.*", "")
-      end
-
-      for key, name in pairs({ n = "Next", l = "Last" }) do
-        i[key] = "Inside " .. name .. " textobject"
-        a[key] = "Around " .. name .. " textobject"
-      end
-
-      require("which-key").register({
-        mode = { "o", "x" },
-        i = i,
-        a = a,
-      })
-    end,
-  },
-
-  {
-    "segeljakt/vim-silicon",
-    cmd = { "Silicon" },
-  },
-
+  -- better marks on backtick
   {
     "chentoast/marks.nvim",
     opts = {
       -- whether to map keybinds or not. default true
       default_mappings = true,
-      marks = false,
+      signs = true,
+      builtin_marks = {},
+      sign_priority = { lower = 10, upper = 15, builtin = 0, bookmark = 20 },
       excluded_filetypes = {
         "prompt",
         "ultestsummary",
@@ -224,41 +104,6 @@ return {
   },
 
   {
-    "monaqa/dial.nvim",
-    config = function()
-      local augend = require("dial.augend")
-      require("dial.config").augends:register_group({
-        default = {
-          augend.integer.alias.decimal_int, -- nonnegative decimal number (0, 1, 2, 3, ...)
-          augend.date.alias["%Y-%m-%d"],
-          augend.date.alias["%Y/%m/%d"], -- date (2022/02/19, etc.)
-          augend.date.alias["%m/%d/%Y"], -- date (02/19/2022, etc.)
-          augend.constant.new({
-            elements = { "and", "or" },
-            word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
-            cyclic = true, -- "or" is incremented into "and".
-          }),
-          augend.constant.new({
-            elements = { "assert", "refute" },
-            word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
-            cyclic = true, -- "or" is incremented into "and".
-          }),
-          augend.constant.new({
-            elements = { "true", "false" },
-            word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
-            cyclic = true, -- "or" is incremented into "and".
-          }),
-          augend.constant.new({ elements = { "&&", "||" }, word = false, cyclic = true }),
-        },
-      })
-      vim.keymap.set("v", "<C-a>", require("dial.map").inc_visual(), { noremap = true })
-      vim.keymap.set("v", "<C-x>", require("dial.map").dec_visual(), { noremap = true })
-      vim.keymap.set("n", "<C-a>", require("dial.map").inc_normal(), { noremap = true })
-      vim.keymap.set("n", "<C-x>", require("dial.map").dec_normal(), { noremap = true })
-    end,
-  },
-
-  {
     "bennypowers/nvim-regexplainer",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
@@ -269,81 +114,19 @@ return {
 
   "tpope/vim-projectionist",
 
+  -- better search and replace
   {
-    "chrisgrieser/nvim-recorder",
-    event = "VimEnter",
-    config = function()
-      require("recorder").setup({
-        slots = { "a", "b", "c" },
-        mapping = {
-          startStopRecording = "q",
-          playMacro = "Q",
-          switchSlot = "<C-q>",
-          editMacro = "cq",
-          yankMacro = "yq", -- also decodes it for turning macros to mappings
-          addBreakPoint = "##", -- ⚠️ this should be a string you don't use in insert mode during a macro
-        },
-        clear = false,
-        logLevel = vim.log.levels.INFO,
-        dapSharedKeymaps = false,
-      })
-    end,
+    "windwp/nvim-spectre",
+    dependencies = "nvim-lua/plenary.nvim",
+    -- stylua: ignore
+    keys = {
+      { "<leader>ss", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+    },
   },
 
   {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    keys = {
-      {
-        "s",
-        mode = { "n", "x", "o" },
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-      {
-        "S",
-        mode = { "n", "o", "x" },
-        function()
-          require("flash").treesitter()
-        end,
-        desc = "Flash Treesitter",
-      },
-      {
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
-      {
-        "R",
-        mode = { "o", "x" },
-        function()
-          require("flash").treesitter_search()
-        end,
-        desc = "Treesitter Search",
-      },
-      {
-        "<leader>Tf",
-        function()
-          require("flash").toggle()
-        end,
-        desc = "Toggle Flash Search",
-      },
-    },
-    opts = {
-      multi_window = false,
-      nohlsearch = true,
-      label = {
-        rainbow = {
-          enabled = false,
-          -- number between 1 and 9
-          shade = 5,
-        },
-      },
-    },
+    "stevearc/resession.nvim",
+    event = "VimEnter",
+    config = true,
   },
 }

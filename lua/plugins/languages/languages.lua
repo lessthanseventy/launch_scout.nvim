@@ -1,5 +1,4 @@
 return {
-
   --Markdown
   {
     "toppair/peek.nvim",
@@ -101,39 +100,8 @@ return {
     ft = { "rust" },
   },
 
-  {
-    "nanotee/sqls.nvim",
-    cmd = {
-      "SqlsExecuteQuery",
-      "SqlsExecuteQueryVertical",
-      "SqlsShowDatabases",
-      "SqlsShowSchemas",
-      "SqlsShowConnections",
-      "SqlsSwitchDatabase",
-      "SqlsSwitchConnection",
-    },
-  },
-
-  {
-    "dinhhuy258/vim-database",
-    cmd = { "VDToggleDatabase", "VDToggleQuery", "VimDatabaseListTablesFzf" },
-  },
-
-  -- Live Server
-  {
-    "ray-x/web-tools.nvim",
-    config = true,
-  },
-
   -- Live scratchpad
   {
     "metakirby5/codi.vim",
-  },
-
-  -- Colors
-  {
-    "max397574/colortils.nvim",
-    cmd = "Colortils",
-    config = true,
   },
 }

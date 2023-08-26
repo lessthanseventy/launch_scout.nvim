@@ -1,25 +1,5 @@
 return {
 
-  -- {
-  --   "echasnovski/mini.sessions",
-  --   version = false,
-  --   opts = {
-  --     autoread = true,
-  --     autowrite = true,
-  --     directory = vim.fn.expand(vim.fn.stdpath("data") .. "/sessions/"),
-  --     file = "Session.vim",
-  --     force = { read = false, write = true, delete = true },
-  --     hooks = {
-  --       pre = { read = nil, write = nil, delete = nil },
-  --       post = { read = nil, write = nil, delete = nil },
-  --     },
-  --     verbose = { read = false, write = true, delete = true },
-  --   },
-  --   config = function(_, opts)
-  --     require("mini.sessions").setup(opts)
-  --   end,
-  -- },
-
   {
     "echasnovski/mini.files",
     event = "VimEnter",

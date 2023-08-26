@@ -132,20 +132,6 @@ return {
       "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "HiPhish/nvim-ts-rainbow2",
-      {
-        "chrisgrieser/nvim-various-textobjs",
-        keys = {
-          { "ik", "<cmd>lua require('various-textobjs').key(true)<CR>", mode = { "o", "x", "v" } },
-          { "ak", "<cmd>lua require('various-textobjs').key(false)<CR>", mode = { "o", "x", "v" } },
-          { "iv", "<cmd>lua require('various-textobjs').value(true)<CR>", mode = { "o", "x", "v" } },
-          { "av", "<cmd>lua require('various-textobjs').value(false)<CR>", mode = { "o", "x", "v" } },
-          { "iw", "<cmd>lua require('various-textobjs').subword(true)<CR>", mode = { "o", "x", "v" } },
-          { "aw", "<cmd>lua require('various-textobjs').subword(false)<CR>", mode = { "o", "x", "v" } },
-        },
-        config = function()
-          require("various-textobjs").setup({ useDefaultKeymaps = false })
-        end,
-      },
       "RRethy/nvim-treesitter-textsubjects",
       "RRethy/nvim-treesitter-endwise",
       "andymass/vim-matchup",

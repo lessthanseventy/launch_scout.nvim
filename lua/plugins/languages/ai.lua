@@ -3,7 +3,6 @@ return {
   --ChatGPT
   {
     "jackMort/ChatGPT.nvim",
-    event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",

@@ -1,5 +1,13 @@
 return {
-  { "romainl/vim-cool" },
+
+  -- Icone utility library
+  {
+    "yamatsum/nvim-nonicons",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = true,
+  },
+
+  --Prettier csv files
   { "mechatroner/rainbow_csv" },
 
   {
@@ -18,12 +26,7 @@ return {
     },
   },
 
-  {
-    "yamatsum/nvim-nonicons",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = true,
-  },
-
+  -- Highlight function arguments
   {
     "m-demare/hlargs.nvim",
     opts = {
@@ -31,6 +34,7 @@ return {
     },
   },
 
+  -- Better looking quickfix menu
   {
     url = "https://gitlab.com/yorickpeterse/nvim-pqf",
     config = function()
@@ -50,6 +54,7 @@ return {
     end,
   },
 
+  -- Animate windows when entering/exiting
   {
     "anuvyklack/windows.nvim",
     dependencies = {
@@ -80,6 +85,7 @@ return {
     end,
   },
 
+  -- Change highlight group of current line
   {
     "yamatsum/nvim-cursorline",
     config = function()
@@ -94,6 +100,7 @@ return {
     end,
   },
 
+  -- Colorize text of colors
   {
     "NvChad/nvim-colorizer.lua",
     opts = {

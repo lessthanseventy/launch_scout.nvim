@@ -1,12 +1,7 @@
 return {
   { "nvim-lua/plenary.nvim", lazy = true },
-
-  -- icons
-  { "nvim-tree/nvim-web-devicons", lazy = true },
-
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
-
   {
     "rcarriga/nvim-notify",
     opts = function()
@@ -20,21 +15,6 @@ return {
         top_down = false,
       }
     end,
-  },
-
-  {
-    "windwp/nvim-spectre",
-    dependencies = "nvim-lua/plenary.nvim",
-    -- stylua: ignore
-    keys = {
-      { "<leader>ss", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-    },
-  },
-
-  {
-    "stevearc/resession.nvim",
-    event = "VimEnter",
-    config = true,
   },
 
   {
@@ -56,6 +36,7 @@ return {
     },
   },
 
+  -- quickfix replacement/diagnostic viewer
   {
     "folke/trouble.nvim",
     dependencies = "nvim-tree/nvim-web-devicons",
@@ -91,6 +72,7 @@ return {
     },
   },
 
+  -- show todos in trouble
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",

@@ -36,4 +36,22 @@ return {
       "DBUILastQueryInfo",
     },
   },
+
+  {
+    "nanotee/sqls.nvim",
+    cmd = {
+      "SqlsExecuteQuery",
+      "SqlsExecuteQueryVertical",
+      "SqlsShowDatabases",
+      "SqlsShowSchemas",
+      "SqlsShowConnections",
+      "SqlsSwitchDatabase",
+      "SqlsSwitchConnection",
+    },
+  },
+
+  {
+    "dinhhuy258/vim-database",
+    cmd = { "VDToggleDatabase", "VDToggleQuery", "VimDatabaseListTablesFzf" },
+  },
 }
