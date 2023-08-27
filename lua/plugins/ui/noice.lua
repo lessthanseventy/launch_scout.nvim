@@ -67,7 +67,7 @@ return {
       popupmenu = { backend = "cmp" },
       messages = { view_search = false },
       cmdline = {
-        view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+        view = "cmdline_popup",
         opts = { buf_options = { filetype = "vim" } },
         format = {
           search_down = false,
@@ -121,7 +121,7 @@ return {
       presets = {
         long_message_to_split = true,
         bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
+        command_palette = false, -- position the cmdline and popupmenu together
         lsp_doc_border = true, -- add a border to hover docs and signature help
       },
       redirect = { { view = "popup", filter = { event = "msg_show" } } },
@@ -129,6 +129,43 @@ return {
         hover = {
           border = { style = "rounded" },
           size = { max_width = 80 },
+        },
+        cmdline_popup = {
+          relative = "editor",
+          border = {
+            style = "none",
+            padding = { 1, 2 },
+          },
+          filter_options = {},
+          win_options = {
+            winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+          },
+          position = {
+            row = "97%",
+            col = "9",
+          },
+          size = {
+            width = 50,
+            height = "auto",
+          },
+        },
+        popupmenu = {
+          relative = "editor",
+          reverse = true,
+          position = {
+            col = "9",
+          },
+          size = {
+            width = 60,
+            height = "10",
+          },
+          border = {
+            style = "none",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "NormalFloat", FloatBorder = "FloatBorder" },
+          },
         },
       },
       routes = {
