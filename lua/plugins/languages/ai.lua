@@ -3,6 +3,25 @@ return {
   --ChatGPT
   {
     "jackMort/ChatGPT.nvim",
+    keys = {
+      { "<leader>ai", mode = { "n", "v" }, "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+      { "<leader>ae", mode = { "n", "v" }, "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+      { "<leader>ag", mode = { "n", "v" }, "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+      { "<leader>ak", mode = { "n", "v" }, "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
+      { "<leader>ad", mode = { "n", "v" }, "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+      { "<leader>aa", mode = { "n", "v" }, "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+      { "<leader>ao", mode = { "n", "v" }, "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+      { "<leader>as", mode = { "n", "v" }, "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+      { "<leader>af", mode = { "n", "v" }, "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+      { "<leader>ax", mode = { "n", "v" }, "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+      { "<leader>ar", mode = { "n", "v" }, "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+      {
+        "<leader>al",
+        mode = { "n", "v" },
+        "<cmd>ChatGPTRun code_readability_analysis<CR>",
+        desc = "Code Readability Analysis",
+      },
+    },
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
@@ -14,61 +33,44 @@ return {
   },
 
   {
-    "Bryley/neoai.nvim",
+    "piersolenski/wtf.nvim",
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
+    event = "VeryLazy",
     keys = {
-      { "<leader>ai", "<cmd>NeoAI<cr>", desc = "NeoAIToggle" },
-      { "<leader>ac", "<cmd>NeoAI<cr>", mode = { "n", "v" }, desc = "NeoAIContext" },
-      { "<leader>aj", "<cmd>NeoAI<cr>", mode = { "n", "v" }, desc = "NeoAIInjectCode" },
+      {
+        "<leader>wtf",
+        mode = { "n" },
+        function()
+          require("wtf").ai()
+        end,
+        desc = "Debug diagnostic with AI",
+      },
+      {
+        mode = { "n" },
+        "<leader>wtF",
+        function()
+          require("wtf").search()
+        end,
+        desc = "Search diagnostic with Google",
+      },
     },
-    cmd = {
-      "NeoAI",
-      "NeoAIOpen",
-      "NeoAIClose",
-      "NeoAIToggle",
-      "NeoAIContext",
-      "NeoAIContextOpen",
-      "NeoAIContextClose",
-      "NeoAIInject",
-      "NeoAIInjectCode",
-      "NeoAIInjectContext",
-      "NeoAIInjectContextCode",
+    opts = {
+      popup_type = "popup",
+      openai_model_id = "gpt-3.5-turbo",
+      language = "english",
+      search_engine = "duck_duck_go",
+    },
+  },
+
+  {
+    "Robitx/gp.nvim",
+    keys = {
+      { "<leader>at", mode = { "n", "v" }, "<cmd>split | set ft=gpt | GpChatNew<cr>", desc = "Toggle GPT Buffer" },
     },
     config = function()
-      require("neoai").setup({
-        shortcuts = {
-          -- {
-          --   name = "textify",
-          --   key = "<leader>as",
-          --   desc = "fix text with AI",
-          --   use_context = true,
-          --   prompt = [[
-          --       Please rewrite the text to make it more readable, clear,
-          --       concise, and fix any grammatical, punctuation, or spelling
-          --       errors
-          --   ]],
-          --   modes = { "v" },
-          --   strip_function = nil,
-          -- },
-          -- {
-          --   name = "gitcommit",
-          --   key = "<leader>ag",
-          --   desc = "generate git commit message",
-          --   use_context = false,
-          --   prompt = function()
-          --     return [[
-          --           Using the following git diff generate a consise and
-          --           clear git commit message, with a short title summary
-          --           that is 75 characters or less:
-          --       ]] .. vim.fn.system("git diff --cached")
-          --   end,
-          --   modes = { "n" },
-          --   strip_function = nil,
-          -- },
-        },
-      })
+      require("gp").setup()
     end,
   },
 }

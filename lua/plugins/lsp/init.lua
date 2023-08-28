@@ -105,10 +105,10 @@ return {
       })
 
       local signs = {
-        Error = " ",
-        Warn = " ",
-        Info = " ",
-        Hint = " ",
+        Error = "🔴",
+        Warn = "🟢",
+        Info = "🟣",
+        Hint = "🟢",
       }
 
       for type, icon in pairs(signs) do
@@ -120,7 +120,7 @@ return {
         signs = true,
         update_in_insert = false,
         underline = true,
-        severity_sort = true,
+        severity_sort = false,
         virtual_text = true,
       })
 
