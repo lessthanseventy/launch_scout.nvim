@@ -11,15 +11,15 @@ return {
   { "mechatroner/rainbow_csv" },
 
   -- Screensaver
-  {
-    "lessthanseventy/zone.nvim",
-    config = function()
-      require("zone").setup({
-        style = "dvd",
-        after = 90, -- Idle timeout
-      })
-    end,
-  },
+  -- {
+  --   "lessthanseventy/zone.nvim",
+  --   config = function()
+  --     require("zone").setup({
+  --       style = "dvd",
+  --       after = 90, -- Idle timeout
+  --     })
+  --   end,
+  -- },
 
   {
     "karb94/neoscroll.nvim",
