@@ -22,6 +22,7 @@ return {
       { "hrsh7th/cmp-cmdline" }, -- Optional
       { "hrsh7th/cmp-buffer" }, -- Optional
       { "hrsh7th/cmp-path" }, -- Optional
+      { "tpope/vim-endwise" },
     },
     config = function()
       local lsp = require("lsp-zero").preset({

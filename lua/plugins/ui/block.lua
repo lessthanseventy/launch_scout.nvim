@@ -6,41 +6,49 @@ return {
       local keymap = vim.keymap.set
       keymap("n", "<leader>Tb", "<cmd>Block<cr>", { desc = "Block Highlights" })
 
-      vim.api.nvim_create_autocmd({ "FileType" }, {
+      local ft_exclude = {
+        "TelescopePrompt",
+        "mason",
+        "oil",
+        "edgy",
+        "iron",
+        "CompetiTest",
+        "prompt",
+        "ultestsummary",
+        "pr",
+        "telescope",
+        "dbout",
+        "dbui",
+        "sql",
+        "csv",
+        "noice",
+        "guihua",
+        "alpha",
+        "calendar",
+        "neo-tree",
+        "neo-tree-popup",
+        "notify",
+        "toggleterm",
+      }
+      local buftype_exclude = {
+        "help",
+      }
+      vim.api.nvim_create_autocmd({ "Filetype", "BufEnter", "WinEnter" }, {
         pattern = { "*" },
-        callback = vim.schedule_wrap(function(args)
-          local buf_id = vim.api.nvim_get_current_buf()
-          local ft_exclude = {
-            "TelescopePrompt",
-            "mason",
-            "oil",
-            "edgy",
-            "iron",
-            "CompetiTest",
-            "prompt",
-            "ultestsummary",
-            "pr",
-            "telescope",
-            "dbout",
-            "dbui",
-            "sql",
-            "csv",
-            "noice",
-            "guihua",
-            "alpha",
-            "calendar",
-            "neo-tree",
-            "neo-tree-popup",
-            "notify",
-            "toggleterm",
-          }
-          local buftype_exclude = {
-            "help",
-          }
-          if not vim.tbl_contains(ft_exclude, vim.o.ft) and not vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
+        callback = function(args)
+          if not vim.tbl_contains(ft_exclude, vim.bo.ft) and not vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
             vim.cmd("BlockOn")
           end
-        end),
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "WinLeave" }, {
+        pattern = { "*" },
+        callback = function(args)
+          if not vim.tbl_contains(ft_exclude, vim.bo.ft) and not vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
+            vim.cmd("BlockOff")
+          end
+        end,
       })
       require("block").setup({
         percent = 0.7,

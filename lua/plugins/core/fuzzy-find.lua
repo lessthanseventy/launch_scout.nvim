@@ -61,15 +61,17 @@ return {
         desc = "Search in project",
       },
       { "<leader>b", "<cmd>FzfLua buffers<cr>", desc = "Switch Buffer" },
-      { "<leader><space>", "<cmd>FzfLua commands<cr>", desc = "Commands" },
+      { "<leader><space>", ":", desc = "Command" },
       -- git
       { "<leader>sgc", "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
-      { "<leader>sgb", "<cmd>FzfLua git_bcommits<CR>", desc = "Buffer Commits" },
-      { "<leader>sgs", "<cmd>FzfLua git_status<CR>", desc = "Status" },
+      { "<leader>gbc", "<cmd>FzfLua git_bcommits<CR>", desc = "Buffer Commits" },
+      { "<leader>gs", "<cmd>FzfLua git_status<CR>", desc = "Status" },
+      { "<leader>gc", "<cmd>FzfLua changes<cr>", desc = "Changes" },
+
       -- search
       { "<leader>sa", "<cmd>FzfLua autocmds<cr>", desc = "Auto Commands" },
-      { "<leader>sc", "<cmd>FzfLua changes<cr>", desc = "Changes" },
       { "<leader>sd", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Diagnostics" },
+      { "<leader>sc", "<cmd>FzfLua commands<cr>", desc = "Commands" },
       { "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
       { "<leader>sw", "<cmd>Telescope workspaces<cr>", desc = "Workspaces" },
       {

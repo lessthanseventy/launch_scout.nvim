@@ -1,7 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
--- Shorten function name
 local keymap = vim.keymap.set
 
 -- Silent keymap option
@@ -41,15 +37,33 @@ keymap("n", "<leader>Tw", "<cmd>WindowsToggleAutowidth<cr>", { desc = "Window an
 
 --Terminal stuff
 keymap("n", "<leader>ta", "<cmd>lua require('utils').MIX_TEST_ALL()<cr>", { desc = "Run test suite" })
-keymap("n", "<leader>tb", "<cmd>lua require('utils').BTOP_TOGGLE()<cr>", { desc = "Btop" })
-keymap("n", "<leader>td", "<cmd>lua require('utils').LAZYDOCKER_TOGGLE()<cr>", { desc = "Lazydocker" })
-keymap("n", "<leader>tf", "<cmd>lua require('utils').MIX_TEST_FILE()<cr>", { desc = "Run tests for filfe" })
+keymap("n", "<leader>tl", "<cmd>lua require('utils').MIX_TEST_LIVE()<cr>", { desc = "Run live tests" })
+keymap(
+  "n",
+  "<leader>tL",
+  "<cmd>lua require('utils').MIX_TEST_LIVE(watch = true)<cr>",
+  { desc = "Run live tests (watch)" }
+)
+keymap("n", "<leader>tf", "<cmd>lua require('utils').MIX_TEST_FILE()<cr>", { desc = "Run tests for file" })
+keymap(
+  "n",
+  "<leader>tF",
+  "<cmd>lua require('utils').MIX_TEST_FILE(watch = true)<cr>",
+  { desc = "Run tests for file (watch)" }
+)
+keymap("n", "<leader>trb", "<cmd>lua require('utils').BTOP_TOGGLE()<cr>", { desc = "Btop" })
+keymap("n", "<leader>trd", "<cmd>lua require('utils').LAZYDOCKER_TOGGLE()<cr>", { desc = "Lazydocker" })
 keymap("n", "<leader>tt", "<cmd>lua require('utils').MIX_TEST_LINE()<cr>", { desc = "Test current line" })
-keymap("n", "<leader>tw", "<cmd>lua require('utils').MIX_TEST_WATCH()<cr>", { desc = "Watch test for current line" })
+keymap(
+  "n",
+  "<leader>tT",
+  "<cmd>lua require('utils').MIX_TEST_LINE(watch = true)<cr>",
+  { desc = "Test current line (watch)" }
+)
 keymap("t", "<C-j><C-k>", "<C-\\><C-n>", opts)
 
 keymap("n", "<leader>gg", "<cmd>lua require('utils').LAZYGIT_TOGGLE()<cr>", { desc = "LazyGit" })
-keymap("n", "<leader>gf", "<cmd>LazyGitFilterCurrentFile<cr>", { desc = "LazyGit current file" })
+keymap("n", "<leader>gbf", "<cmd>LazyGitFilterCurrentFile<cr>", { desc = "LazyGit current file" })
 
 --Window management
 keymap("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "🟔 🟔 🟔  🚀 🟔 🟔 🟔 " })

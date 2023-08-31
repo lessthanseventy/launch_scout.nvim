@@ -182,4 +182,8 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
   },
+
+  {
+    "jubnzv/virtual-types.nvim",
+  },
 }

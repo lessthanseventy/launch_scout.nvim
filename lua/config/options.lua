@@ -60,7 +60,6 @@ opt.writebackup = false -- if a file is being edited by another program (or was 
 vim.g.python3_host_prog = "/usr/bin/python"
 vim.g.loaded_perl_provider = 0
 vim.g.do_filetype_lua = 1
-
 vim.g.db_ui_auto_execute_table_helpers = 1
 vim.g.db_ui_use_nerd_fonts = 1
 --

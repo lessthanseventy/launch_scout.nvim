@@ -82,8 +82,6 @@ return {
         },
         incremental_selection = { enable = false },
         indent = { enable = false },
-        -- vim-matchup
-        matchup = { enable = true },
         -- nvim-treesitter-textsubjects
         textsubjects = {
           enable = true,
@@ -134,7 +132,6 @@ return {
       "HiPhish/nvim-ts-rainbow2",
       "RRethy/nvim-treesitter-textsubjects",
       "RRethy/nvim-treesitter-endwise",
-      "andymass/vim-matchup",
       {
         "kiyoon/treesitter-indent-object.nvim",
         keys = {

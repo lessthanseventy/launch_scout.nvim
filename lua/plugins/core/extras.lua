@@ -17,4 +17,11 @@ return {
     cmd = "Colortils",
     config = true,
   },
+
+  {
+    "stefanlogue/hydrate.nvim",
+    opts = {
+      minute_interval = 20,
+    },
+  },
 }

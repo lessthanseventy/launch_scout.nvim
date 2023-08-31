@@ -20,6 +20,7 @@ return {
         ["<leader>r"] = { name = "+repl" },
         ["<leader>s"] = { name = "+search" },
         ["<leader>t"] = { name = "+terminal" },
+        ["<leader>tr"] = { name = "+run" },
         ["<leader>T"] = { name = "+toggle" },
         ["<leader>w"] = { name = "+window" },
         ["<leader>x"] = { name = "+diagnostics/quickfix" },

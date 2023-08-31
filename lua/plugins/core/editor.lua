@@ -1,5 +1,8 @@
 return {
 
+  --  better search highlighting
+  { "romainl/vim-cool" },
+
   -- respect camelCaswe and the like in w,e,b motions (get it, spider?)
   {
     "chrisgrieser/nvim-spider",
@@ -19,6 +22,15 @@ return {
   { "mbbill/undotree" },
 
   { "tpope/vim-repeat" },
+
+  --deal with surrounding stuff
+  {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({})
+    end,
+  },
 
   -- clean up whitespace on save
   {
