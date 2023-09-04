@@ -61,7 +61,6 @@ return {
         desc = "Search in project",
       },
       { "<leader>b", "<cmd>FzfLua buffers<cr>", desc = "Switch Buffer" },
-      { "<leader><space>", ":", desc = "Command" },
       -- git
       { "<leader>sgc", "<cmd>FzfLua git_commits<CR>", desc = "Commits" },
       { "<leader>gbc", "<cmd>FzfLua git_bcommits<CR>", desc = "Buffer Commits" },

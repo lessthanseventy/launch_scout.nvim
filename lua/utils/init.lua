@@ -48,14 +48,13 @@ local lazygit = Terminal:new({
   },
 })
 
-local diagnostics_active = false
-function M.toggle_diagnostics()
-  diagnostics_active = not diagnostics_active
-  if diagnostics_active then
-    vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
-  else
-    vim.diagnostic.config({ virtual_lines = false })
-  end
+local formatting_active = true
+function M.toggle_formatting()
+  formatting_active = not formatting_active
+end
+
+function M.should_format()
+return formatting_active
 end
 
 function M.leave_snippet()

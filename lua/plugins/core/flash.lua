@@ -21,13 +21,6 @@ return {
         end,
         desc = "Treesitter Search",
       },
-      {
-        "<leader>Tf",
-        function()
-          require("flash").toggle()
-        end,
-        desc = "Toggle Flash Search",
-      },
     },
     opts = {
       multi_window = false,

@@ -5,11 +5,12 @@ return {
     "jackMort/ChatGPT.nvim",
     keys = {
       { "<leader>ai", mode = { "n", "v" }, "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+      { "<leader>aa", mode = { "n", "v" }, "<cmd>ChatGPTActAs<CR>", desc = "Act As" },
       { "<leader>ae", mode = { "n", "v" }, "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
       { "<leader>ag", mode = { "n", "v" }, "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
       { "<leader>ak", mode = { "n", "v" }, "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
       { "<leader>ad", mode = { "n", "v" }, "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
-      { "<leader>aa", mode = { "n", "v" }, "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+      { "<leader>at", mode = { "n", "v" }, "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
       { "<leader>ao", mode = { "n", "v" }, "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
       { "<leader>as", mode = { "n", "v" }, "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
       { "<leader>af", mode = { "n", "v" }, "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
@@ -37,7 +38,6 @@ return {
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
-    event = "VeryLazy",
     keys = {
       {
         "<leader>wtf",

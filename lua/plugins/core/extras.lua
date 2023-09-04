@@ -20,6 +20,13 @@ return {
 
   {
     "stefanlogue/hydrate.nvim",
+    keys = {
+      { "<leader>hh", "<cmd>HydrateNow<cr>", desc = "Hydrate Now" },
+      { "<leader>he", "<cmd>HydrateEnable<cr>", desc = "Enable Hydrate" },
+      { "<leader>hd", "<cmd>HydrateDisable<cr>", desc = "Disable Hydrate" },
+      { "<leader>hi", "<cmd>HydrateInterval<cr>", desc = " Hydration Interval" },
+    },
+    lazy = false,
     opts = {
       minute_interval = 20,
     },

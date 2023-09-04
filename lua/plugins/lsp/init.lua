@@ -25,6 +25,9 @@ return {
       { "tpope/vim-endwise" },
     },
     config = function()
+      local keymap = vim.keymap.set
+
+      keymap("n", "<leader>Tf", "<cmd>lua require('utils').toggle_formatting()<cr>", { desc = "Autoformat" })
       local lsp = require("lsp-zero").preset({
         float_border = "rounded",
         call_servers = "local",
@@ -54,13 +57,15 @@ return {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              vim.lsp.buf.format({
-                bufnr = bufnr,
-                timeout_ms = 3000,
-                filter = function(lsp_client)
-                  return lsp_client.name == "null-ls"
-                end,
-              })
+              if require("utils").should_format() then
+                vim.lsp.buf.format({
+                  bufnr = bufnr,
+                  timeout_ms = 3000,
+                  filter = function(lsp_client)
+                    return lsp_client.name == "null-ls"
+                  end,
+                })
+              end
             end,
           })
         end
@@ -80,9 +85,9 @@ return {
       local elixirls = require("elixir.elixirls")
 
       local elixir_attach = function(client, bufnr)
-        vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
-        vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
-        vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
+        vim.keymap.set("n", "<space>cf", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
+        vim.keymap.set("n", "<space>ct", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
+        vim.keymap.set("v", "<space>ce", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
         lsp.default_keymaps({ buffer = bufnr })
         if client.server_capabilities.documentSymbolProvider then
           require("nvim-navic").attach(client, bufnr)
@@ -232,9 +237,6 @@ return {
         builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
         builtins.diagnostics.markdownlint,
         builtins.diagnostics.tsc,
-        builtins.formatting.deno_fmt.with({
-          filetypes = { "markdown" }, -- only runs `deno fmt` for markdown
-        }),
         builtins.formatting.fixjson,
         builtins.formatting.isort,
         builtins.formatting.prettier.with({
