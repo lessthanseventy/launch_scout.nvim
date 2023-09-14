@@ -64,7 +64,7 @@ return {
       }
     end,
     opts = {
-      popupmenu = { backend = "cmp" },
+      popupmenu = { enabled = true, backend = "cmp" },
       messages = { view_search = false },
       cmdline = {
         view = "cmdline_popup",
@@ -80,14 +80,14 @@ return {
         },
         override = {
           -- override the default lsp markdown formatter with Noice
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
           -- override the lsp markdown formatter with Noice
-          ["vim.lsp.util.stylize_markdown"] = true,
+          ["vim.lsp.util.stylize_markdown"] = false,
           -- override cmp documentation with Noice (needs the other options to work)
-          ["cmp.entry.get_documentation"] = true,
+          ["cmp.entry.get_documentation"] = false,
         },
         hover = {
-          enabled = true,
+          enabled = false,
           view = "hover", -- when nil, use defaults from documentation
           opts = {}, -- merged with defaults from documentation
         },
@@ -122,7 +122,7 @@ return {
         long_message_to_split = true,
         bottom_search = true, -- use a classic bottom cmdline for search
         command_palette = false, -- position the cmdline and popupmenu together
-        lsp_doc_border = true, -- add a border to hover docs and signature help
+        lsp_doc_border = false, -- add a border to hover docs and signature help
       },
       redirect = { { view = "popup", filter = { event = "msg_show" } } },
       views = {
