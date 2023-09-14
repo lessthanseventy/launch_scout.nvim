@@ -1,7 +1,7 @@
 return {
   {
     "natecraddock/workspaces.nvim",
-    event = "VimEnter",
+    lazy = false,
     keys = {
       { "<leader>Wa", "<Cmd>WorkspacesAdd<CR>", desc = "Add Workspace" },
     },

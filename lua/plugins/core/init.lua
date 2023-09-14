@@ -4,6 +4,7 @@ return {
   { "MunifTanjim/nui.nvim", lazy = true },
   {
     "rcarriga/nvim-notify",
+    lazy = false,
     opts = function()
       local nonicons_extension = require("nvim-nonicons.extentions.nvim-notify")
       return {
@@ -19,6 +20,7 @@ return {
 
   {
     "akinsho/toggleterm.nvim",
+    lazy = false,
     dependencies = "folke/edgy.nvim",
     opts = {
       open_mapping = [[<c-\>]],
@@ -91,6 +93,7 @@ return {
   -- better % matchup
   {
     "utilyre/sentiment.nvim",
+    lazy = false,
     opts = {
       pairs = {
         { "(", ")" },

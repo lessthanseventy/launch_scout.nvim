@@ -1,7 +1,7 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    cmd = "VimEnter",
+    lazy = false,
     dependencies = {
       "ahmedkhalf/project.nvim",
       "debugloop/telescope-undo.nvim",
@@ -53,7 +53,7 @@ return {
 
   {
     "ibhagwan/fzf-lua",
-    event = "VimEnter",
+    lazy = false,
     keys = {
       {
         "<leader>/",
@@ -101,6 +101,7 @@ return {
       })
     end,
   },
+
   {
     "danielfalk/smart-open.nvim",
     branch = "0.2.x",

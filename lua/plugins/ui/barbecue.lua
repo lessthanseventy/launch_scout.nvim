@@ -1,7 +1,7 @@
 return {
   {
     "utilyre/barbecue.nvim",
-    event = "VimEnter",
+    lazy = false,
     name = "barbecue",
     version = false,
     dependencies = {

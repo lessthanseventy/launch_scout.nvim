@@ -3,7 +3,7 @@ return {
   -- better macros, no more qaqq@a@@ stuff
   {
     "chrisgrieser/nvim-recorder",
-    event = "VimEnter",
+    lazy = false,
     config = function()
       require("recorder").setup({
         slots = { "a", "b", "c" },

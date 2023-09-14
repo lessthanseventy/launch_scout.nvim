@@ -41,7 +41,7 @@ return {
   -- Dim inactive windows
   {
     "levouh/tint.nvim",
-    event = "VeryLazy",
+    lazy = false,
     opts = {
       window_ignore_function = function(winid)
         local bufid = vim.api.nvim_win_get_buf(winid)

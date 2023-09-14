@@ -154,7 +154,9 @@ return {
 
   {
     "mhanberg/output-panel.nvim",
-    event = "VeryLazy",
+    keys = {
+      { "<leader>To", "<cmd>OutputPanel<cr>", desc = "Toggle output panel" },
+    },
     config = function()
       require("output_panel").setup()
     end,
@@ -162,7 +164,7 @@ return {
 
   {
     "linrongbin16/lsp-progress.nvim",
-    event = { "VimEnter" },
+    lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("lsp-progress").setup()
@@ -171,19 +173,14 @@ return {
 
   {
     "simrat39/symbols-outline.nvim",
+    keys = {
+      { "<leader>co", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" },
+    },
     config = true,
   },
 
   {
-    "lessthanseventy/otter.nvim",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-
-  {
     "jubnzv/virtual-types.nvim",
+    lazy = true,
   },
 }

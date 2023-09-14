@@ -1,7 +1,7 @@
 return {
   {
     "folke/edgy.nvim",
-    event = "VimEnter",
+    lazy = false,
     keys = {
       {
         "<leader>e",

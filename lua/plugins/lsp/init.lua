@@ -50,6 +50,9 @@ return {
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       local on_attach = function(client, bufnr)
         lsp.default_keymaps({ buffer = bufnr })
+        if client.supports_method("textDocument/codeLens") then
+          require("virtualtypes").on_attach()
+        end
 
         if client.supports_method("textDocument/formatting") then
           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
@@ -233,9 +236,7 @@ return {
         -- formatting
         builtins.formatting.black.with({ extra_args = { "--fast" } }),
         builtins.diagnostics.credo.with({ extra_args = { "--min-priority", "low" } }),
-        builtins.diagnostics.eslint_d,
         builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
-        builtins.diagnostics.markdownlint,
         builtins.diagnostics.tsc,
         builtins.formatting.fixjson,
         builtins.formatting.isort,

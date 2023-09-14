@@ -92,6 +92,7 @@ return {
   -- better marks on backtick
   {
     "chentoast/marks.nvim",
+    lazy = false,
     opts = {
       -- whether to map keybinds or not. default true
       default_mappings = true,
@@ -138,7 +139,7 @@ return {
 
   {
     "stevearc/resession.nvim",
-    event = "VimEnter",
+    lazy = false,
     config = true,
   },
 }
