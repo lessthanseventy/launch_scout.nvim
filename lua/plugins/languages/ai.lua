@@ -28,9 +28,16 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
     },
-    config = function()
-      require("chatgpt").setup()
-    end,
+    opts = {
+      openai_edit_params = {
+        -- model = "gpt-4",
+        frequency_penalty = 0,
+        presence_penalty = 0,
+        temperature = 0,
+        top_p = 1,
+        n = 1,
+      },
+    },
   },
 
   {
@@ -40,7 +47,7 @@ return {
     },
     keys = {
       {
-        "<leader>wtf",
+        "<leader>a?",
         mode = { "n" },
         function()
           require("wtf").ai()
@@ -49,7 +56,7 @@ return {
       },
       {
         mode = { "n" },
-        "<leader>wtF",
+        "<leader>a!",
         function()
           require("wtf").search()
         end,

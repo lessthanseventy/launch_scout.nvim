@@ -1,7 +1,11 @@
 return {
 
   --  better search highlighting
-  { "romainl/vim-cool" },
+  {
+    "nvimdev/hlsearch.nvim",
+    event = "BufRead",
+    config = true,
+  },
 
   -- respect camelCaswe and the like in w,e,b motions (get it, spider?)
   {
@@ -23,6 +27,17 @@ return {
 
   { "tpope/vim-repeat" },
 
+  --tips on startup
+  {
+    "TobinPalmer/Tip.nvim",
+    event = "VimEnter",
+    init = function()
+      require("tip").setup({
+        title = "Tip!",
+        url = "https://vtip.43z.one",
+      })
+    end,
+  },
   --deal with surrounding stuff
   {
     "kylechui/nvim-surround",

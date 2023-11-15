@@ -10,16 +10,20 @@ return {
   --Prettier csv files
   { "mechatroner/rainbow_csv" },
 
-  -- Screensaver
-  -- {
-  --   "lessthanseventy/zone.nvim",
-  --   config = function()
-  --     require("zone").setup({
-  --       style = "dvd",
-  --       after = 90, -- Idle timeout
-  --     })
-  --   end,
-  -- },
+  {
+    "Mr-LLLLL/interestingwords.nvim",
+    config = function()
+      require("interestingwords").setup({
+        colors = { "#aeee00", "#ff0000", "#0000ff", "#b88823", "#ffa724", "#ff2c4b" },
+        search_count = true,
+        navigation = true,
+        search_key = "<leader>m",
+        cancel_search_key = "<leader>M",
+        color_key = "<leader>k",
+        cancel_color_key = "<leader>K",
+      })
+    end,
+  },
 
   {
     "karb94/neoscroll.nvim",
@@ -43,6 +47,34 @@ return {
     opts = {
       hl_priority = 10000,
     },
+  },
+
+  -- Rainbow parens
+  {
+    url = "https://gitlab.com/HiPhish/rainbow-delimiters.nvim",
+    config = function()
+      local rainbow_delimiters = require("rainbow-delimiters")
+
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow",
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+      }
+    end,
   },
 
   -- Better looking quickfix menu
@@ -75,17 +107,14 @@ return {
     opts = {
       autowidth = {
         enable = true,
-        winwidth = 5, --		        |windows.winwidth|
-        filetype = { --	      |windows.autowidth.filetype|
-          calendar = 0.25,
-        },
+        winwidth = 10, --		        |windows.winwidth|
       },
       ignore = {
         buftype = { "quickfix" },
         filetype = { "NvimTree", "carbon.explorer", "neo-tree", "undotree", "gundo" },
       },
       animation = {
-        enable = false,
+        enable = true,
       },
     },
     config = function(_, opts)
@@ -93,21 +122,6 @@ return {
       vim.o.winminwidth = 10
       vim.o.equalalways = false
       require("windows").setup(opts)
-    end,
-  },
-
-  -- Change highlight group of current line
-  {
-    "yamatsum/nvim-cursorline",
-    config = function()
-      require("nvim-cursorline").setup({
-        cursorline = { enable = true },
-        cursorword = {
-          enable = true,
-          min_length = 3,
-          hl = { underline = true },
-        },
-      })
     end,
   },
 

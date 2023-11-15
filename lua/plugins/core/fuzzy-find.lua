@@ -10,7 +10,7 @@ return {
     },
     keys = {
       { "<leader>se", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
-      { "<leader>sp", "<cmd>lua require('telescope').extensions.projects.projects()<CR>", desc = "Projects" },
+      { "<leader>sp", "<cmd>lua require('telescope').extensions.workspaces.workspaces()<CR>", desc = "Projects" },
       { "<leader>sr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
       { "<leader>sS", "<cmd>Telescope luasnip<cr>", desc = "Snippets" },
       { "<leader>su", "<cmd>Telescope undo<cr>", desc = "Undo Tree" },

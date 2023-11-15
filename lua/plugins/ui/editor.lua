@@ -42,41 +42,42 @@ return {
   {
     "levouh/tint.nvim",
     lazy = false,
-    opts = {
-      window_ignore_function = function(winid)
-        local bufid = vim.api.nvim_win_get_buf(winid)
-        local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
-        local filetype = vim.api.nvim_buf_get_option(bufid, "filetype")
-        local is_floating = vim.api.nvim_win_get_config(winid).relative ~= ""
-        local is_excluded_filetype = filetype == "neo-tree"
-          or filetype == "edgy"
-          or filetype == "iron"
-          or filetype == "Trouble"
-          or filetype == "spectre_panel"
-          or filetype == "toggleterm"
-          or buftype == "nofile"
-
-        return is_excluded_filetype or is_floating
-      end,
-    },
+    config = true,
+    -- opts = {
+    --   window_ignore_function = function(winid)
+    --     local bufid = vim.api.nvim_win_get_buf(winid)
+    --     local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
+    --     local filetype = vim.api.nvim_buf_get_option(bufid, "filetype")
+    --     local is_floating = vim.api.nvim_win_get_config(winid).relative ~= ""
+    --     local is_excluded_filetype = filetype == "neo-tree"
+    --       or filetype == "edgy"
+    --       or filetype == "iron"
+    --       or filetype == "Trouble"
+    --       or filetype == "spectre_panel"
+    --       or filetype == "toggleterm"
+    --       or buftype == "nofile"
+    --
+    --     return is_excluded_filetype or is_floating
+    --   end,
+    -- },
   },
 
   -- Dim highlights of unused function arguments
-  -- {
-  --   "zbirenbaum/neodim",
-  --   event = "LspAttach",
-  --   branch = "v2",
-  --   config = function()
-  --     require("neodim").setup({
-  --       refresh_delay = 75, -- time in ms to wait after typing before refresh diagnostics
-  --       alpha = 0.75,
-  --       blend_color = "#000000",
-  --       hide = { underline = true, virtual_text = true, signs = true },
-  --       priority = 100, -- priority of dim highlights (increasing may interfere with semantic tokens!!)
-  --       disable = {}, -- table of filetypes to disable neodim
-  --     })
-  --   end,
-  -- },
+  {
+    "zbirenbaum/neodim",
+    event = "LspAttach",
+    branch = "v2",
+    config = function(thing)
+      require("neodim").setup({
+        refresh_delay = 75, -- time in ms to wait after typing before refresh diagnostics
+        alpha = 0.75,
+        blend_color = "#000000",
+        hide = { underline = true, virtual_text = true, signs = true },
+        priority = 100, -- priority of dim highlights (increasing may interfere with semantic tokens!!)
+        disable = {}, -- table of filetypes to disable neodim
+      })
+    end,
+  },
 
   -- Dim code you aren't currently editing
   {

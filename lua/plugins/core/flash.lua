@@ -4,6 +4,22 @@ return {
   {
     "folke/flash.nvim",
     event = "VeryLazy",
+    opts = {
+      search = {
+        multi_window = false,
+      },
+      jump = {
+        -- clear highlight after jump
+        nohlsearch = true,
+      },
+      label = {
+        rainbow = {
+          enabled = true,
+          -- number between 1 and 9
+          shade = 5,
+        },
+      },
+    },
     keys = {
       {
         "r",
@@ -20,17 +36,6 @@ return {
           require("flash").treesitter_search()
         end,
         desc = "Treesitter Search",
-      },
-    },
-    opts = {
-      multi_window = false,
-      nohlsearch = true,
-      label = {
-        rainbow = {
-          enabled = true,
-          -- number between 1 and 9
-          shade = 5,
-        },
       },
     },
   },

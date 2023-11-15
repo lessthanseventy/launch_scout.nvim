@@ -7,7 +7,7 @@ return {
       { "neovim/nvim-lspconfig" }, -- Required
       { "williamboman/mason.nvim" }, -- Optional
       { "williamboman/mason-lspconfig.nvim" }, -- Optional
-      { "jose-elias-alvarez/null-ls.nvim" },
+      { "nvimtools/none-ls.nvim" },
 
       -- Autocompletion
       { "L3MON4D3/LuaSnip" },
@@ -91,10 +91,6 @@ return {
         vim.keymap.set("n", "<space>cf", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("n", "<space>ct", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("v", "<space>ce", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-        lsp.default_keymaps({ buffer = bufnr })
-        if client.server_capabilities.documentSymbolProvider then
-          require("nvim-navic").attach(client, bufnr)
-        end
       end
 
       elixir.setup({
@@ -105,6 +101,7 @@ return {
         credo = { enable = true },
         elixirls = {
           enable = true,
+          tag = "v0.16.0",
           settings = elixirls.settings({
             dialyzerEnabled = true,
             enableTestLenses = false,

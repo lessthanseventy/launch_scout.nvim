@@ -1,9 +1,9 @@
 return {
-  -- discord rich presence adds what file/project you are editing to your status
-  {
-    "andweeb/presence.nvim",
-    config = true,
-  },
+  -- -- discord rich presence adds what file/project you are editing to your status
+  -- {
+  --   "andweeb/presence.nvim",
+  --   config = true,
+  -- },
 
   -- take pretty pictures of your code
   {

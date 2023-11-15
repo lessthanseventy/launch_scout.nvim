@@ -54,27 +54,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "WinClosed" }, {
-  group = vim.api.nvim_create_augroup("tint_clear", { clear = true }),
-  pattern = { "*" },
-  callback = function(_)
-    require("tint").untint(vim.api.nvim_get_current_win())
-  end,
-})
-
 -- Disable miniindent
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "alpha", "fzf", "qf", "terminal", "toggleterm", "neo-tree" },
   callback = function()
     vim.b.miniindentscope_disable = true
-  end,
-})
-
-vim.api.nvim_create_autocmd("DiffUpdated", {
-  group = vim.api.nvim_create_augroup("foo", { clear = true }),
-  pattern = { "*" },
-  callback = function(_)
-    require("tint").untint(vim.api.nvim_get_current_win())
   end,
 })
 

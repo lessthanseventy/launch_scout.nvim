@@ -53,7 +53,7 @@ return {
         end,
       },
       animate = {
-        enabled = true,
+        enabled = false,
         fps = 30, -- frames per second
         on_begin = function() end,
         on_end = function() end,
@@ -87,7 +87,6 @@ return {
         },
         { ft = "qf", size = { height = 0.25 }, title = "QuickFix" },
         { ft = "Trouble", size = { height = 0.25 }, title = " Trouble" },
-        { ft = "spectre_panel", size = { height = 0.35 } },
       },
       left = {
         {
@@ -105,6 +104,9 @@ return {
           open = "SymbolsOutline",
         },
         "neo-tree",
+      },
+      right = {
+        { ft = "spectre_panel" },
       },
       top = {
         {
@@ -131,6 +133,7 @@ return {
       },
       options = {
         left = { size = 45 },
+        right = { size = 45 },
       },
     },
   },

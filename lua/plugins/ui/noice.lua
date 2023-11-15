@@ -176,6 +176,11 @@ return {
         },
         {
           view = "notify",
+          filter = { find = "Pattern not found:" },
+          opts = { skip = true },
+        },
+        {
+          view = "notify",
           filter = { find = "Recording" },
           opts = { skip = true },
         },

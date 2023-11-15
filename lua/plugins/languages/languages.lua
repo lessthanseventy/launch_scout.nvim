@@ -8,25 +8,32 @@ return {
     },
   },
 
+  -- {
+  --   "jakewvincent/mkdnflow.nvim",
+  --   ft = { "markdown" },
+  --   opts = {
+  --     links = {
+  --       style = "wiki",
+  --       name_is_source = true,
+  --       conceal = true,
+  --       context = 0,
+  --       implicit_extension = nil,
+  --       transform_implicit = false,
+  --       transform_explicit = function(text)
+  --         text = text:gsub(" ", "-")
+  --         text = text:lower()
+  --         text = os.date("%Y-%m-%d_") .. text
+  --         return text
+  --       end,
+  --     },
+  --   },
+  -- },
+
   {
-    "jakewvincent/mkdnflow.nvim",
-    ft = { "markdown" },
-    opts = {
-      links = {
-        style = "wiki",
-        name_is_source = true,
-        conceal = true,
-        context = 0,
-        implicit_extension = nil,
-        transform_implicit = false,
-        transform_explicit = function(text)
-          text = text:gsub(" ", "-")
-          text = text:lower()
-          text = os.date("%Y-%m-%d_") .. text
-          return text
-        end,
-      },
-    },
+    "andrewferrier/wrapping.nvim",
+    config = function()
+      require("wrapping").setup()
+    end,
   },
 
   --Elixir
