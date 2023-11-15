@@ -22,13 +22,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end),
 })
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    if vim.fn.argc(-1) == 0 then
-      require("telescope").extensions.workspaces.workspaces()
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   callback = function()
+--     if vim.fn.argc(-1) == 0 then
+--       require("telescope").extensions.workspaces.workspaces()
+--     end
+--   end,
+-- })
 
 local resession = require("resession")
 
