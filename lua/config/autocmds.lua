@@ -22,25 +22,33 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end),
 })
 
--- vim.api.nvim_create_autocmd("VimEnter", {
---   callback = function()
---     if vim.fn.argc(-1) == 0 then
---       require("telescope").extensions.workspaces.workspaces()
---     end
---   end,
--- })
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "elixir" },
+  callback = function()
+    require("elixir-extras").setup_multiple_clause_gutter()
+
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "<leader>k",
+      "<cmd>lua require('elixir-extras').elixir_view_docs({})<CR>",
+      { desc = "Elixir Documentation" }
+    )
+    vim.api.nvim_buf_set_keymap(
+      0,
+      "n",
+      "<leader>K",
+      "<cmd>lua require('elixir-extras').elixir_view_docs({include_mix_libs=true})<CR>",
+      { desc = "Project Documentation" }
+    )
+  end,
+})
 
 local resession = require("resession")
 
 vim.api.nvim_create_autocmd("VimLeavePre", {
   callback = function()
     resession.save(vim.fn.getcwd(), { notify = false })
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "BufWritePost" }, {
-  callback = function()
-    require("neo-tree.events").fire_event("git_event")
   end,
 })
 
@@ -56,7 +64,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 -- Disable miniindent
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "alpha", "fzf", "qf", "terminal", "toggleterm", "neo-tree" },
+  pattern = { "alpha", "fzf", "qf", "terminal", "toggleterm", "drex" },
   callback = function()
     vim.b.miniindentscope_disable = true
   end,

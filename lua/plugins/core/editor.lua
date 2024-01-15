@@ -27,17 +27,6 @@ return {
 
   { "tpope/vim-repeat" },
 
-  --tips on startup
-  {
-    "TobinPalmer/Tip.nvim",
-    event = "VimEnter",
-    init = function()
-      require("tip").setup({
-        title = "Tip!",
-        url = "https://vtip.43z.one",
-      })
-    end,
-  },
   --deal with surrounding stuff
   {
     "kylechui/nvim-surround",
@@ -92,16 +81,7 @@ return {
   {
     "echasnovski/mini.comment",
     event = "VeryLazy",
-    opts = {
-      hooks = {
-        pre = function()
-          require("ts_context_commentstring.internal").update_commentstring({})
-        end,
-      },
-    },
-    config = function(_, opts)
-      require("mini.comment").setup(opts)
-    end,
+    config = true,
   },
 
   -- better marks on backtick

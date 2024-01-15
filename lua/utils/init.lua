@@ -22,9 +22,6 @@ local lazydocker = Terminal:new({
     vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-j>", "<C-j>", { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-k>", "<C-k>", { noremap = true, silent = true })
   end,
-  on_close = function(term)
-    require("neo-tree.events").fire_event("git_event")
-  end,
   cmd = "sleep 0.1 && lazydocker",
   hidden = true,
   direction = "horizontal",
@@ -40,9 +37,6 @@ local lazygit = Terminal:new({
     vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-j>", "<C-j>", { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(term.bufnr, "t", "<C-k>", "<C-k>", { noremap = true, silent = true })
   end,
-  on_close = function(term)
-    require("neo-tree.events").fire_event("git_event")
-  end,
   float_opts = {
     border = "double",
   },
@@ -54,7 +48,7 @@ function M.toggle_formatting()
 end
 
 function M.should_format()
-return formatting_active
+  return formatting_active
 end
 
 function M.leave_snippet()
@@ -76,9 +70,6 @@ function M.LAZYGIT_TOGGLE()
     lazygit = Terminal:new({
       cmd = "lazygit",
       direction = "float",
-      on_close = function()
-        require("neo-tree.events").fire_event("git_event")
-      end,
     })
   else
     lazygit:toggle()

@@ -41,14 +41,14 @@ keymap("n", "<leader>tl", "<cmd>lua require('utils').MIX_TEST_LIVE()<cr>", { des
 keymap(
   "n",
   "<leader>tL",
-  "<cmd>lua require('utils').MIX_TEST_LIVE(watch = true)<cr>",
+  "<cmd>lua require('utils').MIX_TEST_LIVE({watch=true})<cr>",
   { desc = "Run live tests (watch)" }
 )
 keymap("n", "<leader>tf", "<cmd>lua require('utils').MIX_TEST_FILE()<cr>", { desc = "Run tests for file" })
 keymap(
   "n",
   "<leader>tF",
-  "<cmd>lua require('utils').MIX_TEST_FILE(watch = true)<cr>",
+  "<cmd>lua require('utils').MIX_TEST_FILE({watch=true})<cr>",
   { desc = "Run tests for file (watch)" }
 )
 keymap("n", "<leader>trb", "<cmd>lua require('utils').BTOP_TOGGLE()<cr>", { desc = "Btop" })
@@ -57,7 +57,7 @@ keymap("n", "<leader>tt", "<cmd>lua require('utils').MIX_TEST_LINE()<cr>", { des
 keymap(
   "n",
   "<leader>tT",
-  "<cmd>lua require('utils').MIX_TEST_LINE(watch = true)<cr>",
+  "<cmd>lua require('utils').MIX_TEST_LINE({watch=true})<cr>",
   { desc = "Test current line (watch)" }
 )
 keymap("t", "<C-j><C-k>", "<C-\\><C-n>", opts)

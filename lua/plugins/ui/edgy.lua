@@ -90,23 +90,15 @@ return {
       },
       left = {
         {
-          title = "Neo-Tree Git",
-          ft = "neo-tree",
-          filter = function(buf)
-            return vim.b[buf].neo_tree_source == "git_status"
-          end,
+          title = "Drex",
+          ft = "drex",
           pinned = true,
           size = { height = 0.5 },
-          open = "Neotree position=right git_status",
+          open = "DrexDrawerOpen",
         },
-        {
-          ft = "Outline",
-          open = "SymbolsOutline",
-        },
-        "neo-tree",
       },
       right = {
-        { ft = "spectre_panel" },
+        { ft = "spectre_panel", size = { width = 0.4 } },
       },
       top = {
         {
@@ -133,7 +125,6 @@ return {
       },
       options = {
         left = { size = 45 },
-        right = { size = 45 },
       },
     },
   },

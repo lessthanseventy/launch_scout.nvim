@@ -7,7 +7,6 @@ return {
       starter.setup({
         evaluate_single = true,
         items = {
-          starter.sections.builtin_actions(),
           function()
             return function()
               return {
@@ -21,7 +20,8 @@ return {
               }
             end
           end,
-          starter.sections.recent_files(10, false),
+          starter.sections.builtin_actions(),
+          starter.sections.recent_files(5, false),
         },
         content_hooks = {
           starter.gen_hook.indexing("all", { "Builtin actions" }),

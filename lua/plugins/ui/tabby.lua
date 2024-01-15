@@ -1,7 +1,6 @@
 return {
   {
     "nanozuki/tabby.nvim",
-    after = "catppuccin",
     config = function()
       require("tabby.tabline").use_preset("active_wins_at_tail", {
         nerdfont = true, -- whether use nerdfont
