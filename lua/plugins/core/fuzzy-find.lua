@@ -7,6 +7,7 @@ return {
       "debugloop/telescope-undo.nvim",
       "nvim-telescope/telescope-symbols.nvim",
       "benfowler/telescope-luasnip.nvim",
+      "smilovanovic/telescope-search-dir-picker.nvim",
     },
     keys = {
       { "<leader>se", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
@@ -48,6 +49,7 @@ return {
       telescope.load_extension("projects")
       telescope.load_extension("luasnip")
       telescope.load_extension("workspaces")
+      telescope.load_extension("search_dir_picker")
     end,
   },
 

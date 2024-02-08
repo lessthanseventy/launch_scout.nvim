@@ -29,6 +29,14 @@ return {
           starter.gen_hook.aligning("center", "center"),
         },
       })
+
+      -- toggle comments on selection
+      local comment = require("mini.comment")
+      comment.setup({})
+
+      -- additional text objects
+      local ai = require("mini.ai")
+      ai.setup({})
     end,
   },
 }

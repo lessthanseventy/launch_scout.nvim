@@ -1,12 +1,14 @@
 return {
-  {
-    "HampusHauffman/block.nvim",
-    keys = {
-      { "<leader>Tb", "<cmd>Block<cr>", { desc = "Block Highlights" } },
-    },
-    opts = {
-      percent = 0.7,
-      depth = 6,
-    },
-  },
+  -- {
+  --   "HampusHauffman/block.nvim",
+  --   event = "VimEnter",
+  --   keys = {
+  --     { "<leader>Tb", "<cmd>Block<cr>", desc = "Block Highlights" },
+  --   },
+  --   opts = {
+  --     percent = 0.75,
+  --     depth = 6,
+  --     automatic = false,
+  --   },
+  -- },
 }

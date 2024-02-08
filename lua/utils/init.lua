@@ -149,4 +149,9 @@ function M.SPLIT()
   vim.cmd("split " .. bufname)
 end
 
+function M.disable_virtual_text()
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_option(bufnr, "virtualedit", "")
+end
+
 return M

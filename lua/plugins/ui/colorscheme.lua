@@ -16,8 +16,8 @@ return {
             red = "#ea7183",
             maroon = "#ea838c",
             peach = "#f39967",
-            yellow = "#eaca89",
-            green = "#96d382",
+            yellow = "#FFB000",
+            green = "#33FF00",
             teal = "#78cec1",
             sky = "#91d7e3",
             sapphire = "#68bae0",
@@ -32,7 +32,7 @@ return {
             surface2 = "#505469",
             surface1 = "#3e4255",
             surface0 = "#2c2f40",
-            base = "#1a1c2a",
+            base = "#080808",
             mantle = "#141620",
             crust = "#0e0f16",
           },
@@ -94,7 +94,41 @@ return {
       })
 
       -- setup must be called before loading
-      -- vim.cmd.colorscheme("catppuccin")
+      vim.cmd.colorscheme("catppuccin")
+    end,
+  },
+
+  {
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("cyberdream").setup({
+        -- Recommended - see "Configuring" below for more config options
+        transparent = false,
+        italic_comments = true,
+        hide_fillchars = true,
+        borderless_telescope = false,
+        theme = {
+          colors = {
+            bg = "#16181a",
+            bgAlt = "#1e2124",
+            bgHighlight = "#3c4048",
+            fg = "#ffffff",
+            grey = "#7b8496",
+            blue = "#5ea1ff",
+            cyan = "#5ef1ff",
+            red = "#ff6e5e",
+            magenta = "#ff5ef1",
+            pink = "#ff5ea0",
+            orange = "#ffbd5e",
+            purple = "#bd5eff",
+            yellow = "#FFB000",
+            green = "#33FF00",
+          },
+        },
+      })
+      -- vim.cmd("colorscheme cyberdream") -- set the colorscheme
     end,
   },
 
@@ -103,21 +137,20 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme("citruszest")
+      require("citruszest").setup({
+        option = {
+          transparent = false, -- Enable/Disable transparency
+          bold = false,
+          italic = true,
+        },
+        -- Override default highlight style in this table
+        -- E.g If you want to override `Constant` highlight style
+        style = {
+          -- This will change Constant foreground color and make it bold.
+          Cursor = { bg = "#FFD700", fg = "#000000", bold = true },
+        },
+      })
+      -- vim.cmd.colorscheme("citruszest")
     end,
   },
-
-  -- {
-  --   "maxmx03/fluoromachine.nvim",
-  --   config = function()
-  --     local fm = require("fluoromachine")
-  --
-  --     fm.setup({
-  --       glow = false,
-  --       theme = "delta",
-  --     })
-  --
-  --     vim.cmd.colorscheme("fluoromachine")
-  --   end,
-  -- },
 }

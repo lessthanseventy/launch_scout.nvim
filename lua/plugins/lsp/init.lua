@@ -7,16 +7,14 @@ return {
       { "neovim/nvim-lspconfig" }, -- Required
       { "williamboman/mason.nvim" }, -- Optional
       { "williamboman/mason-lspconfig.nvim" }, -- Optional
+      "jay-babu/mason-nvim-dap.nvim",
       { "nvimtools/none-ls.nvim" },
+      { "jubnzv/virtual-types.nvim" },
 
       -- Autocompletion
       { "L3MON4D3/LuaSnip" },
       { "onsails/lspkind.nvim" },
-      {
-        "hrsh7th/nvim-cmp",
-        --Codeium broken after this commit
-        commit = "c4e491a87eeacf0408902c32f031d802c7eafce8",
-      }, -- Required
+      { "hrsh7th/nvim-cmp" },
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
       { "L3MON4D3/LuaSnip" }, -- Required
       { "hrsh7th/cmp-cmdline" }, -- Optional
@@ -72,15 +70,11 @@ return {
             end,
           })
         end
-
-        if client.server_capabilities.documentSymbolProvider then
-          require("nvim-navic").attach(client, bufnr)
-        end
       end
 
       lsp.on_attach(on_attach)
 
-      lsp.skip_server_setup({ "elixir_ls" })
+      lsp.skip_server_setup({ "elixir_ls", "tsserver" })
 
       lsp.setup()
 
@@ -127,7 +121,7 @@ return {
         update_in_insert = false,
         underline = true,
         severity_sort = false,
-        virtual_text = true,
+        virtual_text = false,
       })
 
       local cmp = require("cmp")
@@ -234,7 +228,6 @@ return {
         builtins.formatting.black.with({ extra_args = { "--fast" } }),
         builtins.diagnostics.credo.with({ extra_args = { "--min-priority", "low" } }),
         builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
-        builtins.diagnostics.tsc,
         builtins.formatting.fixjson,
         builtins.formatting.isort,
         builtins.formatting.prettier.with({
@@ -253,6 +246,28 @@ return {
         sources = sources,
         on_attach = on_attach,
       })
+      require("mason").setup()
+      require("mason-nvim-dap").setup({
+        handlers = {
+          function(config)
+            -- all sources with no handler get passed here
+
+            -- Keep original functionality
+            require("mason-nvim-dap").default_setup(config)
+          end,
+          python = function(config)
+            config.adapters = {
+              type = "executable",
+              command = "/usr/bin/python3",
+              args = {
+                "-m",
+                "debugpy.adapter",
+              },
+            }
+            require("mason-nvim-dap").default_setup(config) -- don't forget this!
+          end,
+        },
+      })
     end,
   },
 
@@ -262,7 +277,11 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      require("codeium").setup({})
+      require("codeium").setup({
+        tools = {
+          language_server = "/usr/local/bin/codeium",
+        },
+      })
     end,
   },
 }

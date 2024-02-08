@@ -24,6 +24,8 @@ opt.foldcolumn = "0"
 opt.foldenable = false
 opt.foldlevelstart = 99
 opt.guifont = { "Cascadia Code PL", ":h12" }
+opt.guicursor =
+  "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,i:blinkwait700-blinkoff500-blinkon200,a:Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 opt.hlsearch = true -- highlight all matches on previous search pattern
 opt.laststatus = 3
 opt.list = true

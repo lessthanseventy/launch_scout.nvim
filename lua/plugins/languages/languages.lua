@@ -42,6 +42,33 @@ return {
     config = function() end,
   },
 
+  -- JavaScript/TypeScript
+
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    ft = { "javascript", "typescript", "javascriptreact", "typescriptreact", "jsx", "tsx" },
+    keys = {
+      { "<leader>lto", "<cmd>TSToolsOrganizeImports<cr>", desc = "Fix/Organize Imports" },
+      { "<leader>lta", "<cmd>TSToolsAddMissingImports<cr>", desc = "Add Missing Imports" },
+      { "<leader>ltr", "<cmd>TSToolsRenameFile<cr>", desc = "Rename File and Fix Imports" },
+      { "<leader>lf", "<cmd>TSToolsFileReferences<cr>", desc = "Find File References" },
+    },
+    opts = {
+      settings = {
+        tsserver_plugins = {
+          -- for TypeScript v4.9+
+          "@styled/typescript-styled-plugin",
+          -- or for older TypeScript versions
+          -- "typescript-styled-plugin",
+        },
+      },
+    },
+    config = function(_, opts)
+      require("typescript-tools").setup(opts)
+    end,
+  },
+
   {
     "emmanueltouzery/elixir-extras.nvim",
     ft = "elixir",
