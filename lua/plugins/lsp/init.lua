@@ -21,7 +21,6 @@ return {
       }, -- Required
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
       { "L3MON4D3/LuaSnip" }, -- Required
-      { "hrsh7th/cmp-cmdline" }, -- Optional
       { "hrsh7th/cmp-buffer" }, -- Optional
       { "hrsh7th/cmp-path" }, -- Optional
       { "tpope/vim-endwise" },
