@@ -1,5 +1,9 @@
 return {
   { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+  {
+    "soulis-1256/eagle.nvim",
+    config = true,
+  },
 
   {
     "dgagn/diagflow.nvim",

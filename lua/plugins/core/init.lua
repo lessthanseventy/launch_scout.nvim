@@ -2,21 +2,22 @@ return {
   { "nvim-lua/plenary.nvim", lazy = true },
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
-  {
-    "rcarriga/nvim-notify",
-    lazy = false,
-    opts = function()
-      local nonicons_extension = require("nvim-nonicons.extentions.nvim-notify")
-      return {
-        timeout = 3000,
-        render = "default",
-        stages = "fade_in_slide_out",
-        background_color = { bg = "#a6e3a1" },
-        icons = nonicons_extension.icons,
-        top_down = false,
-      }
-    end,
-  },
+
+  -- {
+  --   "rcarriga/nvim-notify",
+  --   lazy = false,
+  --   opts = function()
+  --     local nonicons_extension = require("nvim-nonicons.extentions.nvim-notify")
+  --     return {
+  --       timeout = 3000,
+  --       render = "default",
+  --       stages = "fade_in_slide_out",
+  --       background_color = { bg = "#a6e3a1" },
+  --       icons = nonicons_extension.icons,
+  --       top_down = false,
+  --     }
+  --   end,
+  -- },
 
   {
     "akinsho/toggleterm.nvim",

@@ -1,6 +1,6 @@
 return {
   {
-    "echasnovski/mini.nvim",
+    "echasnovski/mini.starter",
     version = false,
     config = function()
       local starter = require("mini.starter")
@@ -29,14 +29,74 @@ return {
           starter.gen_hook.aligning("center", "center"),
         },
       })
+    end,
+  },
 
+  {
+    "echasnovski/mini.comment",
+    version = false,
+    config = function()
       -- toggle comments on selection
       local comment = require("mini.comment")
       comment.setup({})
+    end,
+  },
 
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    config = function()
       -- additional text objects
       local ai = require("mini.ai")
       ai.setup({})
+    end,
+  },
+
+  {
+    "echasnovski/mini.notify",
+    version = false,
+    config = function()
+      -- additional text objects
+      local notify = require("mini.notify")
+      notify.setup({
+        -- Content management
+        content = {
+          -- Function which formats the notification message
+          -- By default prepends message with notification time
+          format = nil,
+
+          -- Function which orders notification array from most to least important
+          -- By default orders first by level and then by update timestamp
+          sort = nil,
+        },
+
+        -- Notifications about LSP progress
+        lsp_progress = {
+          -- Whether to enable showing
+          enable = true,
+
+          -- Duration (in ms) of how long last message should be shown
+          duration_last = 1000,
+        },
+
+        -- Window options
+        window = {
+          -- Floating window config
+          config = {
+            border = "rounded",
+            style = "minimal",
+          },
+
+          -- Maximum window width as share (between 0 and 1) of available columns
+          max_width_share = 0.382,
+
+          -- Value of 'winblend' option
+          winblend = 15,
+        },
+      })
+      -- Change duration for errors to show them longer
+      local opts = { ERROR = { duration = 10000 } }
+      vim.notify = require("mini.notify").make_notify(opts)
     end,
   },
 }

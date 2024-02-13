@@ -14,7 +14,11 @@ return {
       -- Autocompletion
       { "L3MON4D3/LuaSnip" },
       { "onsails/lspkind.nvim" },
-      { "hrsh7th/nvim-cmp" },
+      {
+        "hrsh7th/nvim-cmp",
+        --Codeium broken after this commit
+        -- commit = "c4e491a87eeacf0408902c32f031d802c7eafce8",
+      }, -- Required
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
       { "L3MON4D3/LuaSnip" }, -- Required
       { "hrsh7th/cmp-cmdline" }, -- Optional
@@ -277,11 +281,7 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      require("codeium").setup({
-        tools = {
-          language_server = "/usr/local/bin/codeium",
-        },
-      })
+      require("codeium").setup({})
     end,
   },
 }
