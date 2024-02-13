@@ -2,59 +2,20 @@ return {
   {
     "folke/edgy.nvim",
     lazy = false,
-    keys = {
-      {
-        "<leader>e",
-        "<cmd>lua require('edgy').toggle('left')<cr>",
-        desc = "Toggle Sidebar",
-      },
-    },
     opts = {
       keys = {
-        -- close sidebar
+        -- hide sidebar
         ["q"] = function(win)
-          if win.view.edgebar.pos == "left" then
-            win.view.edgebar:close()
-          else
-            win:close()
-          end
+          win:hide()
         end,
         -- close sidebar
         ["Q"] = function(win)
-          if win.view.edgebar.pos == "left" then
-            win.view.edgebar:close()
-          else
-            win:close()
-          end
-        end,
-        -- hide window
-        ["<C-q>"] = function(win)
-          if win.view.edgebar.pos == "bottom" then
-            win.view.edgebar:close()
-          else
-            win:hide()
-          end
-        end,
-        -- next loaded window
-        ["<C-j>"] = function(win)
-          if win.view.edgebar.pos == "left" then
-            win:next({ focus = true })
-          else
-            require("edgy.editor").goto_main()
-          end
-        end,
-        -- prev loaded window
-        ["<C-k>"] = function(win)
-          if win.view.edgebar.pos == "left" then
-            win:prev({ focus = true })
-          else
-            require("edgy.editor").goto_main()
-          end
+          win:close()
         end,
       },
       animate = {
         enabled = false,
-        fps = 30, -- frames per second
+        fps = 60, -- frames per second
         on_begin = function() end,
         on_end = function() end,
         -- Spinner for pinned views that are loading.
@@ -62,7 +23,7 @@ return {
         -- spinner = require("noice.util.spinners").spinners.circleFull,
         spinner = {
           frames = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
-          interval = 80,
+          interval = 40,
         },
       },
       wo = {
@@ -72,7 +33,7 @@ return {
         winbar = true,
         winfixwidth = true,
         winfixheight = false,
-        winhighlight = "WinBar:EdgyWinBar,Normal:EdgyNormal",
+        winhighlight = "",
         spell = false,
         signcolumn = "no",
       },
@@ -81,6 +42,7 @@ return {
           ft = "toggleterm",
           size = { height = 0.3 },
           -- exclude floating windows
+          title = " Toggleterm",
           filter = function(buf, win)
             return vim.api.nvim_win_get_config(win).relative == ""
           end,
@@ -90,15 +52,12 @@ return {
       },
       left = {
         {
-          title = "Drex",
           ft = "drex",
-          pinned = true,
-          size = { height = 0.5 },
-          open = "DrexDrawerOpen",
+          size = { width = 0.15 },
         },
       },
       right = {
-        { ft = "spectre_panel", size = { width = 0.4 } },
+        { ft = "spectre_panel", size = { width = 0.5 } },
       },
       top = {
         {

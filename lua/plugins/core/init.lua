@@ -22,7 +22,6 @@ return {
   {
     "akinsho/toggleterm.nvim",
     lazy = false,
-    dependencies = "folke/edgy.nvim",
     opts = {
       open_mapping = [[<c-\>]],
       hide_numbers = true,
@@ -35,7 +34,7 @@ return {
       close_on_exit = true,
       autochdir = true,
       shell = vim.o.shell,
-      winbar = { enabled = false },
+      winbar = { enabled = true },
     },
   },
 

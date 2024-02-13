@@ -41,24 +41,33 @@ return {
   {
     "levouh/tint.nvim",
     lazy = false,
-    config = true,
-    -- opts = {
-    --   window_ignore_function = function(winid)
-    --     local bufid = vim.api.nvim_win_get_buf(winid)
-    --     local buftype = vim.api.nvim_buf_get_option(bufid, "buftype")
-    --     local filetype = vim.api.nvim_buf_get_option(bufid, "filetype")
-    --     local is_floating = vim.api.nvim_win_get_config(winid).relative ~= ""
-    --     local is_excluded_filetype = filetype == "neo-tree"
-    --       or filetype == "edgy"
-    --       or filetype == "iron"
-    --       or filetype == "Trouble"
-    --       or filetype == "spectre_panel"
-    --       or filetype == "toggleterm"
-    --       or buftype == "nofile"
-    --
-    --     return is_excluded_filetype or is_floating
-    --   end,
-    -- },
+    opts = function()
+      local function window_ignore_function(winid)
+        local bufid = vim.api.nvim_win_get_buf(winid)
+        local filetype = vim.bo[bufid].ft
+        local buftype = vim.bo[bufid].buftype
+        local win_config = vim.api.nvim_win_get_config(winid)
+        local is_floating = win_config.relative ~= ""
+
+        -- Define a set for excluded filetypes for faster lookup
+        local excluded_filetypes = {
+          ["neo-tree"] = true,
+          ["edgy"] = true,
+          ["iron"] = true,
+          ["Trouble"] = true,
+          ["spectre_panel"] = true,
+          ["toggleterm"] = true,
+        }
+
+        local is_excluded_filetype = excluded_filetypes[filetype] or buftype == "nofile"
+
+        return is_excluded_filetype or is_floating
+      end
+
+      return {
+        window_ignore_function = window_ignore_function,
+      }
+    end,
   },
 
   -- Dim highlights of unused function arguments
