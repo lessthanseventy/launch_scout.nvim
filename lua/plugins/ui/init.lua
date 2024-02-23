@@ -156,4 +156,15 @@ return {
       buftypes = {},
     },
   },
+
+  {
+    "DanilaMihailov/beacon.nvim",
+    config = function()
+      vim.g.beacon_enable = 1
+      vim.g.beacon_size = 45
+      vim.g.beacon_minimal_jump = 5
+      vim.g.beacon_ignore_filetypes = { "starter" }
+      vim.cmd("highlight Beacon guibg=#FFB000 guifg=black")
+    end,
+  },
 }

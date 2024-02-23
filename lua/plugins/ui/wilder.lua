@@ -84,10 +84,10 @@ return {
         -- 'single', 'double', 'rounded' or 'solid'
         -- can also be a list of 8 characters, see :h wilder#popupmenu_palette_theme() for more details
         border = "rounded",
-        max_height = "35%", -- max height of the palette
+        max_height = "25%", -- max height of the palette
         min_height = 0, -- set to the same as 'max_height' for a fixed height window
-        max_width = "40%",
-        pumblend = 0,
+        max_width = "25%",
+        pumblend = 15,
         prompt_position = "top", -- 'top' or 'bottom' to set the location of the prompt
         reverse = 0, -- set to 1 to reverse the order of the list, use in combination with 'prompt_position'
         empty_message = wilder.popupmenu_empty_message_with_spinner(),
@@ -112,7 +112,7 @@ return {
         },
       }))
 
-      local wildmenu_renderer = wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
+      local wildmenu_renderer = wilder.popupmenu_renderer(wilder.popupmenu_palette_theme({
         highlights = {
           border = "Structure", -- highlight to use for the border
           gradient = gradient, -- must be set
@@ -120,7 +120,11 @@ return {
         highlighter = wilder.highlighter_with_gradient({
           wilder.lua_fzy_highlighter(),
         }),
-        pumblend = 0,
+        pumblend = 15,
+        min_width = "25%",
+        max_width = "25%",
+        max_height = "25%",
+        min_height = 0,
         border = "double",
       }))
 

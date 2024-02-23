@@ -8,6 +8,7 @@ return {
       "nvim-telescope/telescope-symbols.nvim",
       "benfowler/telescope-luasnip.nvim",
       "smilovanovic/telescope-search-dir-picker.nvim",
+      "yamatsum/nvim-nonicons",
     },
     keys = {
       { "<leader>se", "<cmd>Telescope symbols<cr>", desc = "Emojis" },
