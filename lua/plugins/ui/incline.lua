@@ -7,6 +7,21 @@ return {
       local helpers = require("incline.helpers")
       local navic = require("nvim-navic")
       require("incline").setup({
+        hide = {
+          cursorline = true,
+          focused_win = false,
+          only_win = false,
+        },
+        window = {
+          margin = {
+            horizontal = 5,
+            vertical = 1,
+          },
+          placement = {
+            horizontal = "left",
+            vertical = "top",
+          },
+        },
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
           if filename == "" then
@@ -27,23 +42,24 @@ return {
               end
             end
             if #labels > 0 then
-              table.insert(labels, { "┊ " })
+              table.insert(labels, { "┊" })
             end
             return labels
           end
 
           local dified = vim.bo[props.buf].modified
           local res = {
-            { get_git_diff() },
             ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
             " ",
-            { filename, gui = modified and "bold,italic" or "bold" },
+            { filename, gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
             guibg = "#44406e",
+            " | ",
+            { get_git_diff() },
           }
           if props.focused then
             for _, item in ipairs(navic.get_data(props.buf) or {}) do
               table.insert(res, {
-                { " > ", group = "NavicSeparator" },
+                { " ჻ ", group = "NavicSeparator" },
                 { item.icon, group = "NavicIcons" .. item.type },
                 { item.name, group = "NavicText" },
               })
