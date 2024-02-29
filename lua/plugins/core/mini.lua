@@ -58,6 +58,12 @@ return {
     config = function()
       -- additional text objects
       local notify = require("mini.notify")
+      local ui = vim.api.nvim_list_uis()[1]
+      local row = ui.height - 7
+
+      -- Define the floating window's width and height
+
+      -- Calculate the position to place the window at the bottom right
       notify.setup({
         -- Content management
         content = {
@@ -83,6 +89,7 @@ return {
         window = {
           -- Floating window config
           config = {
+            row = row,
             border = "rounded",
             style = "minimal",
           },

@@ -27,6 +27,7 @@ return {
     },
     config = function()
       local keymap = vim.keymap.set
+      local navic = require("nvim-navic")
 
       keymap("n", "<leader>Tf", "<cmd>lua require('utils').toggle_formatting()<cr>", { desc = "Autoformat" })
       local lsp = require("lsp-zero").preset({
@@ -51,8 +52,13 @@ return {
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       local on_attach = function(client, bufnr)
         lsp.default_keymaps({ buffer = bufnr })
+
         if client.supports_method("textDocument/codeLens") then
           require("virtualtypes").on_attach()
+        end
+
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
         end
 
         if client.supports_method("textDocument/formatting") then
@@ -85,6 +91,9 @@ return {
       local elixirls = require("elixir.elixirls")
 
       local elixir_attach = function(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
+        end
         vim.keymap.set("n", "<space>cf", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("n", "<space>ct", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("v", "<space>ce", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
@@ -230,8 +239,6 @@ return {
         -- formatting
         builtins.formatting.black.with({ extra_args = { "--fast" } }),
         builtins.diagnostics.credo.with({ extra_args = { "--min-priority", "low" } }),
-        builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length=120" } }),
-        builtins.formatting.fixjson,
         builtins.formatting.isort,
         builtins.formatting.prettier.with({
           disabled_filetypes = { "markdown" },
