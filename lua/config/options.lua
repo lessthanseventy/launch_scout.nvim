@@ -63,6 +63,7 @@ vim.g.loaded_perl_provider = 0
 vim.g.do_filetype_lua = 1
 vim.g.db_ui_auto_execute_table_helpers = 1
 vim.g.db_ui_use_nerd_fonts = 1
+vim.g.update_tabby = true
 --
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

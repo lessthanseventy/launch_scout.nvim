@@ -101,25 +101,6 @@ return {
         end,
       }
 
-      basic.git = {
-        name = "git",
-        hl_colors = {
-          green = { "green", "black" },
-          red = { "red", "black" },
-          blue = { "blue", "black" },
-        },
-        text = function(bufnr)
-          if git_comps.is_git(bufnr) then
-            return {
-              { git_comps.diff_added({ format = "  %s", show_zero = true }), "green" },
-              { git_comps.diff_removed({ format = "  %s", show_zero = true }), "red" },
-              { git_comps.diff_changed({ format = " 柳%s", show_zero = true }), "blue" },
-            }
-          end
-          return ""
-        end,
-      }
-
       basic.lsp_name = {
         name = "lsp_name",
         hl_colors = {
@@ -134,25 +115,6 @@ return {
           return {
             { b_components.cache_file_type({ icon = true }), "magenta" },
           }
-        end,
-      }
-
-      basic.lsp_diagnos = {
-        name = "diagnostic",
-        hl_colors = {
-          red = { "red", "black" },
-          yellow = { "yellow", "black" },
-          blue = { "blue", "black" },
-        },
-        text = function(bufnr)
-          if lsp_comps.check_lsp(bufnr) then
-            return {
-              { lsp_comps.lsp_error({ format = "  %s", show_zero = true }), "red" },
-              { lsp_comps.lsp_warning({ format = "  %s", show_zero = true }), "yellow" },
-              { lsp_comps.lsp_hint({ format = "  %s", show_zero = true }), "blue" },
-            }
-          end
-          return ""
         end,
       }
 
@@ -219,7 +181,7 @@ return {
         active = {
           basic.vi_mode,
           basic.file_name,
-          basic.lsp_diagnos,
+          basic.lsp_name,
           basic.lsp_status,
           basic.divider,
           basic.recorder_status,
@@ -227,7 +189,6 @@ return {
           { " ", hl_list.Black },
           basic.file_pos,
           { " ", hl_list.Black },
-          basic.git,
           { git_comps.git_branch(), { "magenta", "black" } },
           { " ", hl_list.Black },
         },

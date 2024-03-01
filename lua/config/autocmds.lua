@@ -62,6 +62,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+--Update tabby on cursor move
+vim.api.nvim_create_autocmd({ "CursorMoved" }, {
+  pattern = "*",
+  callback = function()
+    if vim.g.update_tabby then
+      require("tabby").update()
+    end
+  end,
+})
+
 -- Disable miniindent
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "alpha", "fzf", "qf", "terminal", "toggleterm", "drex" },
