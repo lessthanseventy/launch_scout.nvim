@@ -22,10 +22,27 @@ return {
             vertical = "top",
           },
         },
+        ignore = {
+          buftypes = "special",
+          filetypes = { "sql" },
+          floating_wins = true,
+          unlisted_buffers = true,
+          wintypes = "special",
+        },
         render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          if filename == "" then
+          -- local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          -- if filename == "" then
+          --   filename = "[No Name]"
+          -- end
+          local fullPath = vim.api.nvim_buf_get_name(props.buf)
+          local filename = vim.fn.fnamemodify(fullPath, ":t") -- Extracts the filename
+          local directoryPath = vim.fn.fnamemodify(fullPath, ":h") -- Extracts the full directory path
+          local immediateDir = vim.fn.fnamemodify(directoryPath, ":t") -- Extracts the immediate directory name
+
+          if fullPath == "" then
             filename = "[No Name]"
+          else
+            filename = immediateDir .. "/" .. filename -- Concatenates the immediate directory and filename
           end
           local ft_icon, ft_color = devicons.get_icon_color(filename)
 

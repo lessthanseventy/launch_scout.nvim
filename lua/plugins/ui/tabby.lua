@@ -39,7 +39,7 @@ return {
               line.sep("", hl, theme.fill),
               tab.is_current() and "" or "󰆣",
               tab.number(),
-              tab.name(),
+              -- tab.name(),
               tab.close_btn(""),
               line.sep("", hl, theme.fill),
               hl = hl,
@@ -49,19 +49,19 @@ return {
           " ",
           get_navic(line),
           line.spacer(),
-          line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
-            return {
-              line.sep("", theme.win, theme.fill),
-              win.is_current() and "" or "",
-              win.buf_name(),
-              line.sep("", theme.win, theme.fill),
-              hl = theme.win,
-              margin = " ",
-            }
-          end),
+          -- line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+          --   return {
+          --     line.sep("", theme.win, theme.fill),
+          --     win.is_current() and "" or "",
+          --     win.buf_name(),
+          --     line.sep("", theme.win, theme.fill),
+          --     hl = theme.win,
+          --     margin = " ",
+          --   }
+          -- end),
           {
             line.sep("", theme.tail, theme.fill),
-            { "  ", hl = theme.tail },
+            { " 󱓞  ", hl = theme.tail },
           },
           hl = theme.fill,
         }

@@ -109,7 +109,7 @@ return {
       threshold = 3, -- Animate only if cursor moves more than this many lines
       disable_float_win = true, -- Disable in floating windows
       enabled_filetypes = nil, -- Enable only for specific file types, e.g., { "lua", "vim" }
-      disabled_filetypes = nil, -- Disable for these file types, ignored if enabled_filetypes is set. e.g., { "TelescopePrompt", "NvimTree" }
+      disabled_filetypes = { "qf", "starter", "sql", "dbui" }, -- Disable for these file types, ignored if enabled_filetypes is set. e.g., { "TelescopePrompt", "NvimTree" }
       -- Show the position of the latest input mode positions.
       -- A value of "enter" means the position will be updated when entering the mode.
       -- A value of "leave" means the position will be updated when leaving the mode.
@@ -170,9 +170,23 @@ return {
     },
   },
 
+  -- Session saving
   {
     "stevearc/resession.nvim",
     lazy = false,
     config = true,
+  },
+
+  -- Yazi file manager
+  {
+    "DreamMaoMao/yazi.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+
+    keys = {
+      { "<leader>ty", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
+    },
   },
 }

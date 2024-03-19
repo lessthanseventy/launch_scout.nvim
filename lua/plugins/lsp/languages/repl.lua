@@ -5,32 +5,32 @@ return {
     keys = function()
       return {
         {
-          "<leader>rs",
+          "<leader>Rs",
           "<cmd>IronRepl<cr>",
           desc = "Start Repl",
         },
         {
-          "<leader>rS",
+          "<leader>RS",
           "<cmd>IronReplHere<cr>",
           desc = "Start Repl Here",
         },
         {
-          "<leader>rr",
+          "<leader>Rr",
           "<cmd>IronFocus<cr>",
           desc = "Focus Repl",
         },
         {
-          "<leader>rh",
+          "<leader>Rh",
           "<cmd>IronHide<cr>",
           desc = "Hide Repl",
         },
         {
-          "<leader>rR",
+          "<leader>RR",
           "<cmd>IronRestart<cr>",
           desc = "Restart Repl",
         },
         {
-          "<leader>rm",
+          "<leader>Rm",
           function()
             require("iron.core").mark_visual()
           end,
@@ -38,14 +38,14 @@ return {
           desc = "Mark Selection",
         },
         {
-          "<leader>rc",
+          "<leader>Rc",
           function()
             require("iron.core").send_mark()
           end,
           desc = "Send Marked Chunk",
         },
         {
-          "<leader>rl",
+          "<leader>Rl",
           function()
             require("iron.core").send_line()
           end,

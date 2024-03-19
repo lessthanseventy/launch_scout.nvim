@@ -12,6 +12,7 @@ keymap(
   { desc = "Edit neovim configuration" }
 )
 keymap("n", "<leader>nl", "<cmd>Lazy<cr>", { desc = "Lazy" })
+keymap("n", "<leader>ns", "<cmd>Telescope lazy_plugins<cr>", { desc = "Search plugins" })
 -- Move to window using the <ctrl> hjkl keys
 keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
@@ -31,6 +32,13 @@ keymap("n", "<leader>yp", ":Cprelpath<cr>", { desc = "Copy relative path to curr
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
+
+-- Better macro handling
+-- Make q do nothing
+vim.api.nvim_set_keymap("n", "q", "<Nop>", { noremap = true, silent = true })
+
+-- Map qq to the original q functionality
+vim.api.nvim_set_keymap("n", "qq", "q", { noremap = true, silent = true })
 
 -- Toggles
 keymap("n", "<leader>Tz", "<cmd>ZenMode<cr>", { desc = "Zen mode" })
@@ -64,7 +72,7 @@ keymap(
 )
 keymap("t", "<C-j><C-k>", "<C-\\><C-n>", opts)
 
-keymap("n", "<leader>gg", "<cmd>lua require('utils').LAZYGIT_TOGGLE()<cr>", { desc = "LazyGit" })
+-- keymap("n", "<leader>gg", "<cmd>lua require('utils').LAZYGIT_TOGGLE()<cr>", { desc = "LazyGit" })
 keymap("n", "<leader>gbf", "<cmd>LazyGitFilterCurrentFile<cr>", { desc = "LazyGit current file" })
 
 --Window management

@@ -19,7 +19,7 @@ require("lazy").setup({
     { import = "plugins.core" },
     { import = "plugins.ui" },
     { import = "plugins.lsp" },
-    { import = "plugins.languages" },
+    { import = "plugins.lsp.languages" },
   },
   defaults = {
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.

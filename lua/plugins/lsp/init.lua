@@ -4,9 +4,9 @@ return {
     branch = "v2.x",
     dependencies = {
       -- LSP Support
-      { "neovim/nvim-lspconfig" }, -- Required
-      { "williamboman/mason.nvim" }, -- Optional
-      { "williamboman/mason-lspconfig.nvim" }, -- Optional
+      { "neovim/nvim-lspconfig" },
+      { "williamboman/mason.nvim" },
+      { "williamboman/mason-lspconfig.nvim" },
       "jay-babu/mason-nvim-dap.nvim",
       { "nvimtools/none-ls.nvim" },
       { "jubnzv/virtual-types.nvim" },
@@ -14,15 +14,12 @@ return {
       -- Autocompletion
       { "L3MON4D3/LuaSnip" },
       { "onsails/lspkind.nvim" },
-      {
-        "hrsh7th/nvim-cmp",
-        --Codeium broken after this commit
-        -- commit = "c4e491a87eeacf0408902c32f031d802c7eafce8",
-      }, -- Required
-      { "hrsh7th/cmp-nvim-lsp" }, -- Required
-      { "L3MON4D3/LuaSnip" }, -- Required
-      { "hrsh7th/cmp-buffer" }, -- Optional
-      { "hrsh7th/cmp-path" }, -- Optional
+      { "hrsh7th/nvim-cmp" },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "L3MON4D3/LuaSnip" },
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "tpope/vim-endwise" },
     },
     config = function()
@@ -162,10 +159,24 @@ return {
       }
 
       local cmp_sources = {
+        { name = "nvim_lsp_signature_help", group_index = 1 },
         { name = "path", group_index = 1 },
         { name = "codeium", max_item_count = 2, group_index = 2 },
         { name = "nvim_lsp", group_index = 2 },
-        { name = "buffer", keyword_length = 3, group_index = 3 },
+        {
+          name = "buffer",
+          keyword_length = 3,
+          group_index = 3,
+          option = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end,
+          },
+        },
         { name = "luasnip", max_item_count = 3, keyword_length = 2, group_index = 3 },
       }
 

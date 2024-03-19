@@ -5,6 +5,8 @@ return {
     config = function()
       local recorder = require("recorder")
       local windline = require("windline")
+      local cache_utils = require("windline.cache_utils")
+      local fn = vim.fn
       local cava_component = require("windline.components.cava")
       cava_component.is_stop = false
       local helper = require("windline.helpers")
@@ -69,19 +71,45 @@ return {
         end,
       }
 
+      local function get_buf_name(modify, shorten)
+        return function(bufnr)
+          local bufname = fn.bufname(bufnr)
+          bufname = fn.fnamemodify(bufname, modify)
+          if shorten then
+            return fn.pathshorten(bufname)
+          end
+          return bufname
+        end
+      end
+
+      local file_name = function(default, modify)
+        default = default or "[No Name]"
+        local fnc_name = get_buf_name("%:p", false)
+        return function(bufnr)
+          local name = fnc_name(bufnr)
+          if name == "" then
+            name = default
+          end
+          return " " .. name .. " "
+        end
+      end
+
+      local cache_file_name = function(default, modify)
+        return cache_utils.cache_on_buffer("BufEnter", "WL_filename", file_name(default, modify))
+      end
+
       basic.file_name = {
         name = "file_name",
         hl_colors = {
           default = hl_list.Black,
           white = { "white", "black" },
           magenta = { "magenta", "black" },
+          yellow_light = { "black", "yellow_light" },
         },
         text = function(_, _, _)
           return {
-            { " ", "" },
-            { b_components.cache_file_name("[No Name]", "unique"), "magenta" },
-            { " ", "" },
-            { b_components.file_modified(" "), "magenta" },
+            { cache_file_name("[No Name]", "full"), "yellow_light" },
+            { b_components.file_modified(" "), "yellow_light" },
           }
         end,
       }
@@ -90,11 +118,11 @@ return {
         name = "file_pos",
         hl_colors = {
           default = hl_list.Black,
-          white = { "white", "black" },
+          green = { "green", "black" },
         },
         text = function(_, _, _)
           return {
-            { b_components.line_col_lua, "white" },
+            { b_components.line_col_lua, "green" },
             { b_components.progress_lua, "" },
             { " ", "" },
           }
@@ -180,7 +208,10 @@ return {
         filetypes = { "default" },
         active = {
           basic.vi_mode,
+          { "", { "black", "yellow_light" } },
           basic.file_name,
+          { "", { "black", "yellow_light" } },
+          { " ", hl_list.Black },
           basic.lsp_name,
           basic.lsp_status,
           basic.divider,
@@ -189,7 +220,10 @@ return {
           { " ", hl_list.Black },
           basic.file_pos,
           { " ", hl_list.Black },
-          { git_comps.git_branch(), { "magenta", "black" } },
+          { "", { "white_light", "black" } },
+          { git_comps.git_branch(), { "black", "white_light" } },
+          { " ", { "black", "white_light" } },
+          { "", { "white_light", "black" } },
           { " ", hl_list.Black },
         },
         inactive = {},
@@ -197,10 +231,35 @@ return {
 
       windline.setup({
         colors_name = function(colors)
-          -- print(vim.inspect(colors))
-          -- ADD MORE COLOR HERE ----
+          colors.StatusFg = colors.ActiveFg
+          colors.StatusBg = colors.ActiveBg
           return colors
         end,
+        theme = {
+          black = "#080808",
+          white = "#b5c1f1",
+          red = "#ea7183",
+          green = "#33FF00",
+          blue = "#739df2",
+          yellow = "#FFB000",
+          cyan = "#68bae0",
+          magenta = "#efc9c2",
+          black_light = "#2c2f40",
+          white_light = "#959ec2",
+          red_light = "#f39967",
+          yellow_light = "#fabd2f",
+          blue_light = "#517f8d",
+          magenta_light = "#a6b0d8",
+          green_light = "#78cec1",
+          cyan_light = "#91d7e3",
+
+          NormalFg = "#b5c1f1",
+          NormalBg = "#080808",
+          InactiveFg = "#b5c1f1",
+          InactiveBg = "#080808",
+          ActiveFg = "#b5c1f1",
+          ActiveBg = "#080808",
+        },
         statuslines = {
           default,
           quickfix,

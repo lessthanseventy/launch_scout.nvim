@@ -115,7 +115,7 @@ return {
       },
       ignore = {
         buftype = { "quickfix" },
-        filetype = { "NvimTree", "carbon.explorer", "drex", "undotree", "gundo" },
+        filetype = { "NvimTree", "carbon.explorer", "drex", "undotree", "gundo", "sql", "dbui" },
       },
       animation = {
         enable = true,
@@ -167,7 +167,7 @@ return {
       vim.g.beacon_enable = 1
       vim.g.beacon_size = 45
       vim.g.beacon_minimal_jump = 5
-      vim.g.beacon_ignore_filetypes = { "starter" }
+      vim.g.beacon_ignore_filetypes = { "starter", "qf" }
       vim.cmd("highlight Beacon guibg=#FFB000 guifg=black")
     end,
   },

@@ -8,6 +8,10 @@ return {
       "kristijanhusak/vim-dadbod-completion",
       "abenz1267/nvim-databasehelper",
     },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
     config = function()
       local function db_completion()
         require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
@@ -35,23 +39,5 @@ return {
       "DBUIRenameBuffer",
       "DBUILastQueryInfo",
     },
-  },
-
-  {
-    "nanotee/sqls.nvim",
-    cmd = {
-      "SqlsExecuteQuery",
-      "SqlsExecuteQueryVertical",
-      "SqlsShowDatabases",
-      "SqlsShowSchemas",
-      "SqlsShowConnections",
-      "SqlsSwitchDatabase",
-      "SqlsSwitchConnection",
-    },
-  },
-
-  {
-    "dinhhuy258/vim-database",
-    cmd = { "VDToggleDatabase", "VDToggleQuery", "VimDatabaseListTablesFzf" },
   },
 }

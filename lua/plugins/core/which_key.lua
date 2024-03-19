@@ -25,7 +25,7 @@ return {
         ["<leader>lt"] = { name = "+typescript" },
         ["<leader>n"] = { name = "+neovim" },
         ["<leader>q"] = { name = "+quit/session" },
-        ["<leader>r"] = { name = "+repl" },
+        ["<leader>R"] = { name = "+repl" },
         ["<leader>s"] = { name = "+search" },
         ["<leader>t"] = { name = "+terminal" },
         ["<leader>tr"] = { name = "+run" },
