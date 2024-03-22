@@ -58,6 +58,7 @@ return {
       },
       right = {
         { ft = "spectre_panel", size = { width = 0.5 } },
+        { ft = "codecompanion", title = "Code Companion Chat", size = { width = 0.45 } },
       },
       top = {
         {

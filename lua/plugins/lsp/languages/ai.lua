@@ -72,12 +72,13 @@ return {
   },
 
   {
-    "Robitx/gp.nvim",
-    keys = {
-      { "<leader>at", mode = { "n", "v" }, "<cmd>split | set ft=gpt | GpChatNew<cr>", desc = "Toggle GPT Buffer" },
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-telescope/telescope.nvim", -- Optional
+      "stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
     },
-    config = function()
-      require("gp").setup()
-    end,
+    config = true,
   },
 }
