@@ -127,8 +127,8 @@ return {
 
   {
     "mangelozzi/rgflow.nvim",
-    lazy = false,
-    config = function()
+    opts = function()
+      local colors = require("catppuccin.palettes").get_palette("mocha")
       return {
         -- Set the default rip grep flags and options for when running a search via
         -- RgFlow. Once changed via the UI, the previous search flags are used for
@@ -148,13 +148,13 @@ return {
           ---- UI
           -- Recommend not setting a BG so it uses the current lines BG
           RgFlowHead = nil, -- The header colors for FLAGS / PATTERN / PATH blocks
-          RgFlowHeadLine = nil, -- The line along the top of the header
+          RgFlowHeadLine = { fg = colors.blue, bg = colors.base }, -- The line along the top of the header
           -- Even though just a background, add the foreground or else when
           -- appending cant see the insert cursor
-          RgFlowInputBg = nil, -- The Input lines
-          RgFlowInputFlags = nil, -- The flag input line
-          RgFlowInputPattern = nil, -- The pattern input line
-          RgFlowInputPath = nil, -- The path input line
+          RgFlowInputBg = { fg = colors.text, bg = colors.base }, -- The Input lines
+          RgFlowInputFlags = { fg = colors.text, bg = colors.base }, -- The flag input line
+          RgFlowInputPattern = { fg = colors.text, bg = colors.base }, -- The pattern input line
+          RgFlowInputPath = { fg = colors.text, bg = colors.base }, -- The path input line
           ---- Quickfix
           RgFlowQfPattern = nil, -- The highlighting of the pattern in the quickfix results
         },
