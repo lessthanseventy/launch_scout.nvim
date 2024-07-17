@@ -5,32 +5,32 @@ return {
     keys = function()
       return {
         {
-          "<leader>Rs",
+          "<leader>Is",
           "<cmd>IronRepl<cr>",
           desc = "Start Repl",
         },
         {
-          "<leader>RS",
+          "<leader>IS",
           "<cmd>IronReplHere<cr>",
           desc = "Start Repl Here",
         },
         {
-          "<leader>Rr",
+          "<leader>Ir",
           "<cmd>IronFocus<cr>",
           desc = "Focus Repl",
         },
         {
-          "<leader>Rh",
+          "<leader>Ih",
           "<cmd>IronHide<cr>",
           desc = "Hide Repl",
         },
         {
-          "<leader>RR",
+          "<leader>IR",
           "<cmd>IronRestart<cr>",
           desc = "Restart Repl",
         },
         {
-          "<leader>Rm",
+          "<leader>Im",
           function()
             require("iron.core").mark_visual()
           end,
@@ -38,14 +38,14 @@ return {
           desc = "Mark Selection",
         },
         {
-          "<leader>Rc",
+          "<leader>Ic",
           function()
             require("iron.core").send_mark()
           end,
           desc = "Send Marked Chunk",
         },
         {
-          "<leader>Rl",
+          "<leader>Il",
           function()
             require("iron.core").send_line()
           end,
@@ -60,7 +60,7 @@ return {
           repl_definition = {
             -- custom repl that loads the current file
             elixir = {
-              command = { "iex", "-S", "mix", "phx.server" },
+              command = { "iex", "-S", "mix" },
             },
             sh = { command = { "zsh" } },
           },

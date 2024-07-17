@@ -8,6 +8,10 @@ return {
         -- timer refresh rate
         interval = 30,
         event = { "WinNew" },
+        hi = {
+          bg = "#16161E",
+          fg = "#ffb000",
+        },
         -- This plugin will not be activated for filetype in the following table.
         no_exec_files = {
           "TelescopePrompt",

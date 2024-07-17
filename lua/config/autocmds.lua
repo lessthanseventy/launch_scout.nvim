@@ -44,13 +44,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-local resession = require("resession")
-
-vim.api.nvim_create_autocmd("VimLeavePre", {
-  callback = function()
-    resession.save(vim.fn.getcwd(), { notify = false })
-  end,
-})
+-- local resession = require("resession")
+--
+-- vim.api.nvim_create_autocmd("VimLeavePre", {
+--   callback = function()
+--     resession.save(vim.fn.getcwd(), { notify = false })
+--   end,
+-- })
 
 -- Set wrap and spell in markdown and gitcommit
 vim.api.nvim_create_autocmd({ "FileType" }, {

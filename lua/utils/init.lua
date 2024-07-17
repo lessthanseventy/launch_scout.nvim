@@ -42,6 +42,19 @@ local lazygit = Terminal:new({
   },
 })
 
+local lazysql = Terminal:new({
+  cmd = "lazysql",
+  hidden = true,
+  dir = "git_dir",
+  direction = "float",
+  on_open = function(term)
+    vim.cmd("startinsert!")
+  end,
+  float_opts = {
+    border = "double",
+  },
+})
+
 local formatting_active = true
 function M.toggle_formatting()
   formatting_active = not formatting_active
@@ -78,6 +91,10 @@ end
 
 function M.BTOP_TOGGLE()
   btop:toggle()
+end
+
+function M.LAZYSQL_TOGGLE()
+  lazysql:toggle()
 end
 
 function M.LAZYDOCKER_TOGGLE()

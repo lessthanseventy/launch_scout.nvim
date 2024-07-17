@@ -16,17 +16,23 @@ return {
       }
 
       local navic = require("nvim-navic")
+
       local function get_navic(line)
         local current_buffer = vim.api.nvim_get_current_buf()
 
-        return {
-          line.sep("", theme.current_tab, theme.fill),
-          navic.get_location({}, current_buffer),
-          line.sep("", theme.current_tab, theme.fill),
-          hl = theme.current_tab,
-          margin = " ",
-        }
+        if vim.bo.ft ~= "heex" then
+          return {
+            line.sep("", theme.current_tab, theme.fill),
+            navic.get_location({}, current_buffer),
+            line.sep("", theme.current_tab, theme.fill),
+            hl = theme.current_tab,
+            margin = " ",
+          }
+        else
+          return {}
+        end
       end
+
       require("tabby.tabline").set(function(line)
         local tabline = {
           {

@@ -1,4 +1,17 @@
 return {
+  {
+    "rachartier/tiny-devicons-auto-colors.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    event = "VeryLazy",
+    config = function()
+      local theme_colors = require("catppuccin.palettes").get_palette("macchiato")
+      require("tiny-devicons-auto-colors").setup({
+        colors = theme_colors,
+      })
+    end,
+  },
 
   {
     "catppuccin/nvim",
@@ -43,7 +56,7 @@ return {
         },
         transparent_background = false, -- disables setting the background color.
         show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-        term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        term_colors = true, -- sets terminal colors (e.g. `g:terminal_color_0`)
         dim_inactive = {
           enabled = false, -- dims the background color of inactive window
           shade = "dark",
@@ -66,7 +79,11 @@ return {
           types = {},
           operators = {},
         },
-        custom_highlights = {},
+        custom_highlights = function(colors)
+          return {
+            WinSeparator = { fg = colors.overlay1, bg = colors.base },
+          }
+        end,
         integrations = {
           cmp = true,
           dropbar = {
@@ -113,62 +130,6 @@ return {
 
       -- setup must be called before loading
       vim.cmd.colorscheme("catppuccin")
-    end,
-  },
-
-  {
-    "scottmckendry/cyberdream.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("cyberdream").setup({
-        -- Recommended - see "Configuring" below for more config options
-        transparent = false,
-        italic_comments = true,
-        hide_fillchars = true,
-        borderless_telescope = false,
-        theme = {
-          colors = {
-            bg = "#16181a",
-            bgAlt = "#1e2124",
-            bgHighlight = "#3c4048",
-            fg = "#ffffff",
-            grey = "#7b8496",
-            blue = "#5ea1ff",
-            cyan = "#5ef1ff",
-            red = "#ff6e5e",
-            magenta = "#ff5ef1",
-            pink = "#ff5ea0",
-            orange = "#ffbd5e",
-            purple = "#bd5eff",
-            yellow = "#FFB000",
-            green = "#33FF00",
-          },
-        },
-      })
-      -- vim.cmd("colorscheme cyberdream") -- set the colorscheme
-    end,
-  },
-
-  {
-    "zootedb0t/citruszest.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("citruszest").setup({
-        option = {
-          transparent = false, -- Enable/Disable transparency
-          bold = false,
-          italic = true,
-        },
-        -- Override default highlight style in this table
-        -- E.g If you want to override `Constant` highlight style
-        style = {
-          -- This will change Constant foreground color and make it bold.
-          Cursor = { bg = "#FFD700", fg = "#000000", bold = true },
-        },
-      })
-      -- vim.cmd.colorscheme("citruszest")
     end,
   },
 }

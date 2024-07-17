@@ -3,14 +3,14 @@ return {
     "mfussenegger/nvim-dap",
     lazy = true,
     dependencies = {
-      "rcarriga/nvim-dap-ui",
+      {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+          "nvim-neotest/nvim-nio",
+        },
+      },
       "mxsdev/nvim-dap-vscode-js",
       "firefox-devtools/vscode-firefox-debug",
-      {
-        "microsoft/vscode-js-debug",
-        version = "1.x",
-        build = "npm i && npm run compile vsDebugServerBundle && mv dist out",
-      },
     },
     keys = {
       {

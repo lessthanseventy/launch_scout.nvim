@@ -45,14 +45,7 @@ return {
   -- map <jk> to escape to enter normal mode more easily
   {
     "max397574/better-escape.nvim",
-    config = function()
-      require("better_escape").setup({
-        mapping = { "jk" }, -- a table with mappings to use
-        timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
-        clear_empty_lines = false, -- clear line after escaping if there is only whitespace
-        keys = "<esc>",
-      })
-    end,
+    config = true,
   },
 
   -- copy/paste like yank behavior
@@ -162,7 +155,7 @@ return {
 
   -- better search and replace
   {
-    "windwp/nvim-spectre",
+    "nvim-pack/nvim-spectre",
     dependencies = "nvim-lua/plenary.nvim",
     -- stylua: ignore
     keys = {

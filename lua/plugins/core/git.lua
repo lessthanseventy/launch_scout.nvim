@@ -58,21 +58,6 @@ return {
   },
 
   {
-    "NeogitOrg/neogit",
-    keys = {
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-
-      -- Only one of these is needed, not both.
-      "ibhagwan/fzf-lua", -- optional
-    },
-    config = true,
-  },
-
-  {
     "tanvirtin/vgit.nvim",
     keys = {
       { "<leader>ghr", "<cmd>lua require('vgit').buffer_hunk_reset()<cr>", desc = "Reset Hunk" },

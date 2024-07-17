@@ -1,9 +1,9 @@
 return {
   { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
-  {
-    "soulis-1256/eagle.nvim",
-    config = true,
-  },
+  -- {
+  --   "soulis-1256/eagle.nvim",
+  --   config = true,
+  -- },
 
   {
     "dgagn/diagflow.nvim",
@@ -41,10 +41,5 @@ return {
       { "<leader>co", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" },
     },
     config = true,
-  },
-
-  {
-    "jubnzv/virtual-types.nvim",
-    lazy = true,
   },
 }

@@ -68,6 +68,8 @@ vim.g.update_tabby = true
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
 
+vim.g.navic_silence = true
+
 vim.cmd([[
 if has('nvim') && executable('nvr')
   let $GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"

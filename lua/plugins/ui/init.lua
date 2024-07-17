@@ -148,7 +148,7 @@ return {
         mode = "background", -- Set the display mode.
         -- Available methods are false / true / "normal" / "lsp" / "both"
         -- True is same as normal
-        tailwind = true, -- Enable tailwind colors
+        tailwind = false, -- Enable tailwind colors
         -- parsers can contain values used in |user_default_options|
         sass = { enable = true, parsers = { "css" } }, -- Enable sass colors
         virtualtext = "■",
@@ -161,14 +161,5 @@ return {
     },
   },
 
-  {
-    "DanilaMihailov/beacon.nvim",
-    config = function()
-      vim.g.beacon_enable = 1
-      vim.g.beacon_size = 45
-      vim.g.beacon_minimal_jump = 5
-      vim.g.beacon_ignore_filetypes = { "starter", "qf" }
-      vim.cmd("highlight Beacon guibg=#FFB000 guifg=black")
-    end,
-  },
+  { "danilamihailov/beacon.nvim" },
 }

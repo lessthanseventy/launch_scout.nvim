@@ -43,14 +43,6 @@ return {
                 query = "@function.inner",
                 desc = "Select inner part of a function region",
               },
-              ["ac"] = {
-                query = "@class.outer",
-                desc = "Select outer part of a class region",
-              },
-              ["ic"] = {
-                query = "@class.inner",
-                desc = "Select inner part of a class region",
-              },
               ["ab"] = {
                 query = "@block.outer",
                 desc = "Select outer part of a block",
@@ -77,31 +69,6 @@ return {
         },
         -- endwise
         endwise = { enable = true },
-        -- autotag
-        autotag = {
-          enable = true,
-          filetypes = {
-            "html",
-            "javascript",
-            "typescript",
-            "javascriptreact",
-            "typescriptreact",
-            "svelte",
-            "vue",
-            "tsx",
-            "jsx",
-            "rescript",
-            "html-heex",
-            "elixir",
-            "heex",
-            "xml",
-            "php",
-            "markdown",
-            "glimmer",
-            "handlebars",
-            "hbs",
-          },
-        },
         context_commentstring = { enable = true, enable_autocmd = false },
         -- indent
         -- yati = { enable = true },
@@ -110,7 +77,6 @@ return {
     dependencies = {
       "nvim-treesitter/playground",
       "nvim-treesitter/nvim-treesitter-refactor",
-      "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "RRethy/nvim-treesitter-textsubjects",
       "RRethy/nvim-treesitter-endwise",
@@ -153,7 +119,19 @@ return {
       },
       {
         "windwp/nvim-ts-autotag",
-        config = true,
+        config = function()
+          require("nvim-ts-autotag").setup({
+            opts = {
+              -- Defaults
+              enable_close = true, -- Auto close tags
+              enable_rename = true, -- Auto rename pairs of tags
+              enable_close_on_slash = true, -- Auto close on trailing </
+            },
+            -- Also override individual filetype configs, these take priority.
+            -- Empty by default, useful if one of the "opts" global settings
+            -- doesn't work well in a specific filetype
+          })
+        end,
       },
     },
     config = function(_, opts)

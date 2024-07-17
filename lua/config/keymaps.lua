@@ -19,12 +19,6 @@ keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
--- Center screen after common actions
-keymap("n", "n", "n:Beacon<cr>", opts)
-keymap("n", "N", "N:Beacon<cr>", opts)
-keymap("n", "*", "*:Beacon<cr>", opts)
-keymap("n", "#", "#:Beacon<cr>", opts)
-
 -- Copy current file path to clipboard
 keymap("n", "<leader>yP", ":Cppath<cr>", { desc = "Copy absolute path to current file" })
 keymap("n", "<leader>yp", ":Cprelpath<cr>", { desc = "Copy relative path to current file" })
@@ -72,7 +66,8 @@ keymap(
 )
 keymap("t", "<C-j><C-k>", "<C-\\><C-n>", opts)
 
--- keymap("n", "<leader>gg", "<cmd>lua require('utils').LAZYGIT_TOGGLE()<cr>", { desc = "LazyGit" })
+keymap("n", "<leader>gg", "<cmd>lua require('utils').LAZYGIT_TOGGLE()<cr>", { desc = "LazyGit" })
+keymap("n", "<leader>ts", "<cmd>lua require('utils').LAZYSQL_TOGGLE()<cr>", { desc = "LazySQL" })
 keymap("n", "<leader>gbf", "<cmd>LazyGitFilterCurrentFile<cr>", { desc = "LazyGit current file" })
 
 --Window management

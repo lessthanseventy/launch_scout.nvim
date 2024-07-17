@@ -1,1 +1,1 @@
-[{"url": "postgresql://postgres:postgres@localhost:5432/app_count_dev", "name": "app_count_dev"}]
+[{"url": "postgresql://postgres:postgres@localhost:5432/app_count_dev", "name": "app_count_dev"}, {"url": "postgresql://postgres:postgres@localhost:5432/funl_development", "name": "funl_development"}, {"url": "postgresql://postgres:postgres@localhost:5432/ex_alpaca_dev", "name": "ex_alpaca_dev"}]

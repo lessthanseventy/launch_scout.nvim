@@ -16,11 +16,19 @@ return {
       { "onsails/lspkind.nvim" },
       { "hrsh7th/nvim-cmp" },
       { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-cmdline" },
       { "L3MON4D3/LuaSnip" },
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-path" },
-      { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "tpope/vim-endwise" },
+      {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {},
+        config = function(_, opts)
+          require("lsp_signature").setup(opts)
+        end,
+      },
     },
     config = function()
       local keymap = vim.keymap.set
@@ -50,13 +58,16 @@ return {
       local on_attach = function(client, bufnr)
         lsp.default_keymaps({ buffer = bufnr })
 
-        if client.supports_method("textDocument/codeLens") then
-          require("virtualtypes").on_attach()
-        end
-
         if client.server_capabilities.documentSymbolProvider then
           navic.attach(client, bufnr)
         end
+
+        require("lsp_signature").setup({
+          bind = true, -- This is mandatory, otherwise border config won't get registered.
+          handler_opts = {
+            border = "rounded",
+          },
+        })
 
         if client.supports_method("textDocument/formatting") then
           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
@@ -89,7 +100,9 @@ return {
 
       local elixir_attach = function(client, bufnr)
         if client.server_capabilities.documentSymbolProvider then
-          navic.attach(client, bufnr)
+          if client.supports_method("textDocument/codeLens") then
+            navic.attach(client, bufnr)
+          end
         end
         vim.keymap.set("n", "<space>cf", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("n", "<space>ct", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
@@ -104,7 +117,6 @@ return {
         credo = { enable = true },
         elixirls = {
           enable = true,
-          tag = "v0.16.0",
           settings = elixirls.settings({
             dialyzerEnabled = true,
             enableTestLenses = false,
@@ -248,14 +260,10 @@ return {
 
       local sources = {
         -- formatting
-        builtins.formatting.black.with({ extra_args = { "--fast" } }),
         builtins.diagnostics.credo.with({ extra_args = { "--min-priority", "low" } }),
-        builtins.formatting.isort,
         builtins.formatting.prettier.with({
           disabled_filetypes = { "markdown" },
-          extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--prose-wrap='always'" },
         }),
-
         builtins.formatting.mix.with({ filetypes = { "elixir", "eelixir", "heex" } }),
         builtins.formatting.shellharden,
         builtins.formatting.shfmt,
